@@ -84,5 +84,10 @@ namespace HardAdmin
                 MessageBox.Show($"Modificando usuario: {usuario}");
             }
         }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

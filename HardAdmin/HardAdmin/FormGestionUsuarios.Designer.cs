@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAgregarUsuario = new System.Windows.Forms.Button();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
@@ -99,8 +99,8 @@
             // 
             // colUsuario
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colUsuario.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colUsuario.DefaultCellStyle = dataGridViewCellStyle1;
             this.colUsuario.HeaderText = "Usuario";
             this.colUsuario.Name = "colUsuario";
             this.colUsuario.ReadOnly = true;
@@ -171,6 +171,7 @@
             this.btnSalir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // btnConfiguración
             // 
