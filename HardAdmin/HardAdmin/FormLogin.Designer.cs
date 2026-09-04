@@ -30,25 +30,25 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textUsuario = new System.Windows.Forms.TextBox();
-            this.textContrasena = new System.Windows.Forms.TextBox();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
+            this.txtContrasena = new System.Windows.Forms.TextBox();
             this.btnIniciarSesion = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
-            this.picLogo = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 18);
+            this.label1.Location = new System.Drawing.Point(25, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Usuario:";
             // 
@@ -56,29 +56,29 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 68);
+            this.label2.Location = new System.Drawing.Point(15, 68);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
+            this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Contraseña:";
             // 
-            // textUsuario
+            // txtUsuario
             // 
-            this.textUsuario.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textUsuario.Location = new System.Drawing.Point(103, 15);
-            this.textUsuario.Name = "textUsuario";
-            this.textUsuario.Size = new System.Drawing.Size(94, 20);
-            this.textUsuario.TabIndex = 0;
+            this.txtUsuario.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtUsuario.Location = new System.Drawing.Point(103, 14);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.Size = new System.Drawing.Size(94, 22);
+            this.txtUsuario.TabIndex = 0;
             // 
-            // textContrasena
+            // txtContrasena
             // 
-            this.textContrasena.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textContrasena.Location = new System.Drawing.Point(103, 65);
-            this.textContrasena.Name = "textContrasena";
-            this.textContrasena.PasswordChar = '*';
-            this.textContrasena.Size = new System.Drawing.Size(94, 20);
-            this.textContrasena.TabIndex = 1;
-            this.textContrasena.UseSystemPasswordChar = true;
+            this.txtContrasena.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtContrasena.Location = new System.Drawing.Point(103, 64);
+            this.txtContrasena.Name = "txtContrasena";
+            this.txtContrasena.PasswordChar = '*';
+            this.txtContrasena.Size = new System.Drawing.Size(94, 22);
+            this.txtContrasena.TabIndex = 1;
+            this.txtContrasena.UseSystemPasswordChar = true;
             // 
             // btnIniciarSesion
             // 
@@ -89,9 +89,11 @@
             this.btnIniciarSesion.TabIndex = 2;
             this.btnIniciarSesion.Text = "Iniciar Sesión";
             this.btnIniciarSesion.UseVisualStyleBackColor = true;
+            this.btnIniciarSesion.Click += new System.EventHandler(this.btnIniciarSesion_Click);
             // 
             // btnSalir
             // 
+            this.btnSalir.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSalir.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSalir.Location = new System.Drawing.Point(3, 41);
             this.btnSalir.Name = "btnSalir";
@@ -101,16 +103,6 @@
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
-            // picLogo
-            // 
-            this.picLogo.Image = global::HardAdmin.Properties.Resources.logo_hardadmin;
-            this.picLogo.Location = new System.Drawing.Point(-4, -2);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(253, 301);
-            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLogo.TabIndex = 4;
-            this.picLogo.TabStop = false;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -118,8 +110,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textContrasena, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textUsuario, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.txtContrasena, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtUsuario, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(267, 46);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -142,6 +134,16 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(103, 76);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
+            // picLogo
+            // 
+            this.picLogo.Image = global::HardAdmin.Properties.Resources.logo_hardadmin;
+            this.picLogo.Location = new System.Drawing.Point(-4, -2);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(253, 301);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLogo.TabIndex = 4;
+            this.picLogo.TabStop = false;
+            // 
             // FormLogin
             // 
             this.AcceptButton = this.btnIniciarSesion;
@@ -152,16 +154,17 @@
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.picLogo);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Iniciar Sesión";
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -170,8 +173,8 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textUsuario;
-        private System.Windows.Forms.TextBox textContrasena;
+        private System.Windows.Forms.TextBox txtUsuario;
+        private System.Windows.Forms.TextBox txtContrasena;
         private System.Windows.Forms.Button btnIniciarSesion;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.PictureBox picLogo;
