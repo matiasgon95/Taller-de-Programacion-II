@@ -86,6 +86,7 @@
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUsuarios.Size = new System.Drawing.Size(733, 354);
             this.dgvUsuarios.TabIndex = 3;
+            this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellDoubleClick);
             this.dgvUsuarios.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvUsuarios_Scroll);
             this.dgvUsuarios.SelectionChanged += new System.EventHandler(this.dgvUsuarios_SelectionChanged);
             // 
@@ -98,6 +99,7 @@
             this.btnModificarFila.Text = "Modificar";
             this.btnModificarFila.UseVisualStyleBackColor = true;
             this.btnModificarFila.Visible = false;
+            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
             // 
             // colUsuario
             // 

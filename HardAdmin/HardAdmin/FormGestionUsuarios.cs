@@ -53,6 +53,16 @@ namespace HardAdmin
             PosicionarBotonAccion();
         }
 
+        //Evento CellDoubleClick del DataGridView
+        private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificamos que no haya hecho doble clic en el encabezado de la columna (fila -1)
+            if (e.RowIndex >= 0)
+            {
+                AbrirModificarUsuario();
+            }
+        }
+
         private void PosicionarBotonAccion()
         {
             if (dgvUsuarios.CurrentRow == null || dgvUsuarios.CurrentRow.Index < 0)
@@ -85,9 +95,30 @@ namespace HardAdmin
         {
             if (dgvUsuarios.CurrentRow != null)
             {
-                string usuario = dgvUsuarios.CurrentRow.Cells["colUsuario"].Value.ToString();
+                AbrirModificarUsuario();
+            }
+        }
 
-                MessageBox.Show($"Modificando usuario: {usuario}");
+        // Método común para abrir la edición
+        private void AbrirModificarUsuario()
+        {
+            if (dgvUsuarios.CurrentRow == null || dgvUsuarios.CurrentRow.Index < 0)
+            {
+                MessageBox.Show("Seleccioná un usuario de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Obtenemos la fila de datos subyacente (DataRowView) del DataTable
+            DataRowView filaSeleccionada = (DataRowView)dgvUsuarios.CurrentRow.DataBoundItem;
+            int idUsuario = Convert.ToInt32(filaSeleccionada["id_usuario"]);
+
+            using (FormModificarUsuario frm = new FormModificarUsuario(idUsuario))
+            {
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // Recargamos la grilla para reflejar los cambios
+                    CargarGrillaUsuarios();
+                }
             }
         }
 
