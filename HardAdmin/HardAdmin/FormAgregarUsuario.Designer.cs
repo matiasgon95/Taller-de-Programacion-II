@@ -30,14 +30,14 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.grpDatosUsuario = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtNombreUsuario = new System.Windows.Forms.TextBox();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.txtContrasena = new System.Windows.Forms.TextBox();
             this.cmbRol = new System.Windows.Forms.ComboBox();
+            this.txtContrasena = new System.Windows.Forms.TextBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.txtNombreUsuario = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.grpDatosUsuario.SuspendLayout();
@@ -71,15 +71,54 @@
             this.grpDatosUsuario.TabStop = false;
             this.grpDatosUsuario.Text = "Datos del Usuario";
             // 
-            // label2
+            // cmbRol
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(31, 49);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 15);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Nombre de usuario:";
+            this.cmbRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRol.FormattingEnabled = true;
+            this.cmbRol.Location = new System.Drawing.Point(159, 177);
+            this.cmbRol.Name = "cmbRol";
+            this.cmbRol.Size = new System.Drawing.Size(196, 23);
+            this.cmbRol.TabIndex = 7;
+            // 
+            // txtContrasena
+            // 
+            this.txtContrasena.Location = new System.Drawing.Point(159, 130);
+            this.txtContrasena.Name = "txtContrasena";
+            this.txtContrasena.Size = new System.Drawing.Size(196, 23);
+            this.txtContrasena.TabIndex = 6;
+            this.txtContrasena.UseSystemPasswordChar = true;
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(159, 85);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(196, 23);
+            this.txtEmail.TabIndex = 5;
+            // 
+            // txtNombreUsuario
+            // 
+            this.txtNombreUsuario.Location = new System.Drawing.Point(159, 41);
+            this.txtNombreUsuario.Name = "txtNombreUsuario";
+            this.txtNombreUsuario.Size = new System.Drawing.Size(196, 23);
+            this.txtNombreUsuario.TabIndex = 4;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(31, 185);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(27, 15);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Rol:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(31, 138);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 15);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Contraseña:";
             // 
             // label3
             // 
@@ -91,54 +130,15 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Email:";
             // 
-            // label4
+            // label2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(31, 138);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 15);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Contraseña:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(31, 185);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(27, 15);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Rol:";
-            // 
-            // txtNombreUsuario
-            // 
-            this.txtNombreUsuario.Location = new System.Drawing.Point(159, 41);
-            this.txtNombreUsuario.Name = "txtNombreUsuario";
-            this.txtNombreUsuario.Size = new System.Drawing.Size(196, 23);
-            this.txtNombreUsuario.TabIndex = 4;
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.Location = new System.Drawing.Point(159, 85);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(196, 23);
-            this.txtEmail.TabIndex = 5;
-            // 
-            // txtContrasena
-            // 
-            this.txtContrasena.Location = new System.Drawing.Point(159, 130);
-            this.txtContrasena.Name = "txtContrasena";
-            this.txtContrasena.Size = new System.Drawing.Size(196, 23);
-            this.txtContrasena.TabIndex = 6;
-            this.txtContrasena.UseSystemPasswordChar = true;
-            // 
-            // cmbRol
-            // 
-            this.cmbRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbRol.FormattingEnabled = true;
-            this.cmbRol.Location = new System.Drawing.Point(159, 177);
-            this.cmbRol.Name = "cmbRol";
-            this.cmbRol.Size = new System.Drawing.Size(196, 23);
-            this.cmbRol.TabIndex = 7;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(31, 49);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(112, 15);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Nombre de usuario:";
             // 
             // btnGuardar
             // 
@@ -152,6 +152,7 @@
             // 
             // btnCancelar
             // 
+            this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancelar.Location = new System.Drawing.Point(339, 351);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
@@ -162,8 +163,10 @@
             // 
             // FormAgregarUsuario
             // 
+            this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(444, 401);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);

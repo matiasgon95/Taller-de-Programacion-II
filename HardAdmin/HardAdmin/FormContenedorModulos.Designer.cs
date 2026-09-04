@@ -211,7 +211,7 @@
             this.Controls.Add(this.pnlInferior);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "FormContenedorModulos";
-            this.Text = "FormContenedorModulos";
+            this.Text = "HardAdmin";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormContenedorModulos_Load);
             this.pnlInferior.ResumeLayout(false);

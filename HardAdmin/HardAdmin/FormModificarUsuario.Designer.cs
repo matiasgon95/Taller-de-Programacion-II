@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.grpDatosUsuario = new System.Windows.Forms.GroupBox();
+            this.rbActivoNo = new System.Windows.Forms.RadioButton();
+            this.rbActivoSi = new System.Windows.Forms.RadioButton();
+            this.label6 = new System.Windows.Forms.Label();
             this.cmbRol = new System.Windows.Forms.ComboBox();
             this.txtContrasena = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -40,9 +43,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.rbActivoSi = new System.Windows.Forms.RadioButton();
-            this.rbActivoNo = new System.Windows.Forms.RadioButton();
             this.grpDatosUsuario.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,6 +66,37 @@
             this.grpDatosUsuario.TabIndex = 5;
             this.grpDatosUsuario.TabStop = false;
             this.grpDatosUsuario.Text = "Datos del Usuario";
+            // 
+            // rbActivoNo
+            // 
+            this.rbActivoNo.AutoSize = true;
+            this.rbActivoNo.Location = new System.Drawing.Point(219, 231);
+            this.rbActivoNo.Name = "rbActivoNo";
+            this.rbActivoNo.Size = new System.Drawing.Size(41, 19);
+            this.rbActivoNo.TabIndex = 10;
+            this.rbActivoNo.TabStop = true;
+            this.rbActivoNo.Text = "No";
+            this.rbActivoNo.UseVisualStyleBackColor = true;
+            // 
+            // rbActivoSi
+            // 
+            this.rbActivoSi.AutoSize = true;
+            this.rbActivoSi.Location = new System.Drawing.Point(159, 231);
+            this.rbActivoSi.Name = "rbActivoSi";
+            this.rbActivoSi.Size = new System.Drawing.Size(34, 19);
+            this.rbActivoSi.TabIndex = 9;
+            this.rbActivoSi.TabStop = true;
+            this.rbActivoSi.Text = "Sí";
+            this.rbActivoSi.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(31, 231);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 15);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "Activo:";
             // 
             // cmbRol
             // 
@@ -164,43 +195,14 @@
             this.btnGuardar.TabIndex = 6;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(31, 231);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 15);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "Activo:";
-            // 
-            // rbActivoSi
-            // 
-            this.rbActivoSi.AutoSize = true;
-            this.rbActivoSi.Location = new System.Drawing.Point(159, 231);
-            this.rbActivoSi.Name = "rbActivoSi";
-            this.rbActivoSi.Size = new System.Drawing.Size(34, 19);
-            this.rbActivoSi.TabIndex = 9;
-            this.rbActivoSi.TabStop = true;
-            this.rbActivoSi.Text = "Sí";
-            this.rbActivoSi.UseVisualStyleBackColor = true;
-            // 
-            // rbActivoNo
-            // 
-            this.rbActivoNo.AutoSize = true;
-            this.rbActivoNo.Location = new System.Drawing.Point(219, 231);
-            this.rbActivoNo.Name = "rbActivoNo";
-            this.rbActivoNo.Size = new System.Drawing.Size(41, 19);
-            this.rbActivoNo.TabIndex = 10;
-            this.rbActivoNo.TabStop = true;
-            this.rbActivoNo.Text = "No";
-            this.rbActivoNo.UseVisualStyleBackColor = true;
+            this.btnGuardar.Enter += new System.EventHandler(this.btnGuardar_Click);
             // 
             // FormModificarUsuario
             // 
+            this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(444, 401);
             this.Controls.Add(this.grpDatosUsuario);
             this.Controls.Add(this.label1);

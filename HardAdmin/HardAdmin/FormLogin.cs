@@ -28,8 +28,15 @@ namespace HardAdmin
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-        // Consulta buscando que coincidan los datos y que el usuario no esté dado de baja
-        string query = "SELECT id_usuario, id_rol FROM Usuario WHERE nombre_usuario = @usuario AND contrasena = @contrasena AND baja = 0";
+            // Hash de la contraseña ingresada
+            string contrasenaIngresadaHash = Seguridad.HashearContrasena(txtContrasena.Text);
+            // Consulta buscando que coincidan los datos y que el usuario no esté dado de baja
+            string query = "SELECT id_usuario, " +
+                       "id_rol " +
+                       "FROM Usuario " +
+                       "WHERE nombre_usuario = @usuario " +
+                       "AND contrasena = @contrasena " +
+                       "AND baja = 0";
 
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
@@ -37,7 +44,7 @@ namespace HardAdmin
                 {
                     // Parámetros para evitar inyección SQL
                     comando.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
-                    comando.Parameters.AddWithValue("@contrasena", txtContrasena.Text.Trim());
+                    comando.Parameters.AddWithValue("@contrasena", contrasenaIngresadaHash);
 
                     try
                     {

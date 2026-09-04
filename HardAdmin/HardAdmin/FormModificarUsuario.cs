@@ -56,7 +56,12 @@ namespace HardAdmin
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT nombre_usuario, email, id_rol, baja FROM Usuario WHERE id_usuario = @id";
+                    string query = "SELECT nombre_usuario, " +
+                                   "email, " +
+                                   "id_rol, " +
+                                   "baja " +
+                                   "FROM Usuario " +
+                                   "WHERE id_usuario = @id";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", this.idUsuario);
@@ -100,27 +105,34 @@ namespace HardAdmin
             }
 
             int baja = rbActivoSi.Checked ? 0 : 1;
+            bool cambiaContrasena = !string.IsNullOrWhiteSpace(txtContrasena.Text);
+
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    // Actualiza datos sin tocar la contraseña (a menos que quieras permitir cambiarla)
-                    string query = @"UPDATE Usuario
-                                     SET nombre_usuario = @usuario, 
-                                         email = @email, 
-                                         contrasena = @contrasena,
-                                         baja = @baja,
-                                         id_rol = @idRol 
-                                     WHERE id_usuario = @id";
+                    string query = @"UPDATE Usuario 
+                             SET nombre_usuario = @usuario, 
+                                 email = @email, 
+                                 id_rol = @idRol,
+                                 baja = @baja"
+                             + (cambiaContrasena ? ", contrasena = @pass" : "")
+                             + " WHERE id_usuario = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@usuario", txtNombreUsuario.Text.Trim());
                         cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
-                        cmd.Parameters.AddWithValue("@contrasena", txtContrasena.Text);
                         cmd.Parameters.AddWithValue("@idRol", (int)cmbRol.SelectedValue);
                         cmd.Parameters.AddWithValue("@baja", baja);
                         cmd.Parameters.AddWithValue("@id", this.idUsuario);
+
+                        if (cambiaContrasena)
+                        {
+                            // Hasheamos la nueva contraseña antes de persistir
+                            string nuevaContrasenaHash = Seguridad.HashearContrasena(txtContrasena.Text);
+                            cmd.Parameters.AddWithValue("@pass", nuevaContrasenaHash);
+                        }
 
                         con.Open();
                         cmd.ExecuteNonQuery();

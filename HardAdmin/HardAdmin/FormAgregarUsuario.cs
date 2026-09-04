@@ -95,9 +95,12 @@ namespace HardAdmin
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
+                        // Hasheamos la contraseña antes de guardarla en la base de datos
+                        string contrasenaHasheada = Seguridad.HashearContrasena(txtContrasena.Text);
+
                         cmd.Parameters.AddWithValue("@usuario", txtNombreUsuario.Text.Trim());
                         cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
-                        cmd.Parameters.AddWithValue("@contrasena", txtContrasena.Text);
+                        cmd.Parameters.AddWithValue("@contrasena", contrasenaHasheada);
                         cmd.Parameters.AddWithValue("@idRol", (int)cmbRol.SelectedValue);
 
                         con.Open();

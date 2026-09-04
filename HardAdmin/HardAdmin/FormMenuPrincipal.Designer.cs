@@ -30,6 +30,7 @@
         {
             this.pnlSuperior = new System.Windows.Forms.Panel();
             this.lblBienvenida = new System.Windows.Forms.Label();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblFecha = new System.Windows.Forms.Label();
             this.lblUsuarioLogueado = new System.Windows.Forms.Label();
@@ -40,11 +41,10 @@
             this.btnVentas = new System.Windows.Forms.Button();
             this.btnProductos = new System.Windows.Forms.Button();
             this.btnUsuarios = new System.Windows.Forms.Button();
-            this.picLogo = new System.Windows.Forms.PictureBox();
             this.pnlSuperior.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.panel1.SuspendLayout();
             this.tlbMenuBotones.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlSuperior
@@ -66,6 +66,16 @@
             this.lblBienvenida.Size = new System.Drawing.Size(197, 25);
             this.lblBienvenida.TabIndex = 1;
             this.lblBienvenida.Text = "Bienvenido, Usuario!";
+            // 
+            // picLogo
+            // 
+            this.picLogo.Image = global::HardAdmin.Properties.Resources.logo_hardadmin;
+            this.picLogo.Location = new System.Drawing.Point(15, 15);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(60, 60);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picLogo.TabIndex = 0;
+            this.picLogo.TabStop = false;
             // 
             // panel1
             // 
@@ -122,6 +132,7 @@
             // 
             // btnSalir
             // 
+            this.btnSalir.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSalir.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSalir.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -228,20 +239,11 @@
             this.btnUsuarios.UseVisualStyleBackColor = true;
             this.btnUsuarios.Click += new System.EventHandler(this.btnUsuarios_Click);
             // 
-            // picLogo
-            // 
-            this.picLogo.Image = global::HardAdmin.Properties.Resources.logo_hardadmin;
-            this.picLogo.Location = new System.Drawing.Point(15, 15);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(60, 60);
-            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picLogo.TabIndex = 0;
-            this.picLogo.TabStop = false;
-            // 
             // FormMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnSalir;
             this.ClientSize = new System.Drawing.Size(506, 323);
             this.Controls.Add(this.tlbMenuBotones);
             this.Controls.Add(this.panel1);
@@ -255,10 +257,10 @@
             this.Shown += new System.EventHandler(this.FormMenuPrincipal_Shown);
             this.pnlSuperior.ResumeLayout(false);
             this.pnlSuperior.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tlbMenuBotones.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
