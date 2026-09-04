@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAgregarUsuario = new System.Windows.Forms.Button();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
+            this.btnModificarFila = new System.Windows.Forms.Button();
             this.colUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnModificarFila = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,6 +60,7 @@
             this.btnAgregarUsuario.TabIndex = 2;
             this.btnAgregarUsuario.Text = "Agregar Usuario";
             this.btnAgregarUsuario.UseVisualStyleBackColor = true;
+            this.btnAgregarUsuario.Click += new System.EventHandler(this.btnAgregarUsuario_Click);
             // 
             // dgvUsuarios
             // 
@@ -89,28 +89,40 @@
             this.dgvUsuarios.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvUsuarios_Scroll);
             this.dgvUsuarios.SelectionChanged += new System.EventHandler(this.dgvUsuarios_SelectionChanged);
             // 
+            // btnModificarFila
+            // 
+            this.btnModificarFila.Location = new System.Drawing.Point(669, 103);
+            this.btnModificarFila.Name = "btnModificarFila";
+            this.btnModificarFila.Size = new System.Drawing.Size(75, 23);
+            this.btnModificarFila.TabIndex = 4;
+            this.btnModificarFila.Text = "Modificar";
+            this.btnModificarFila.UseVisualStyleBackColor = true;
+            this.btnModificarFila.Visible = false;
+            // 
             // colUsuario
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colUsuario.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colUsuario.DataPropertyName = "nombre_usuario";
             this.colUsuario.HeaderText = "Usuario";
             this.colUsuario.Name = "colUsuario";
             this.colUsuario.ReadOnly = true;
             // 
             // colEmail
             // 
+            this.colEmail.DataPropertyName = "email";
             this.colEmail.HeaderText = "Email";
             this.colEmail.Name = "colEmail";
             this.colEmail.ReadOnly = true;
             // 
             // colRol
             // 
+            this.colRol.DataPropertyName = "nombre_rol";
             this.colRol.HeaderText = "Rol";
             this.colRol.Name = "colRol";
             this.colRol.ReadOnly = true;
             // 
             // colActivo
             // 
+            this.colActivo.DataPropertyName = "activo";
             this.colActivo.HeaderText = "Activo";
             this.colActivo.Name = "colActivo";
             this.colActivo.ReadOnly = true;
@@ -123,16 +135,6 @@
             this.colAccion.Name = "colAccion";
             this.colAccion.ReadOnly = true;
             this.colAccion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // btnModificarFila
-            // 
-            this.btnModificarFila.Location = new System.Drawing.Point(669, 103);
-            this.btnModificarFila.Name = "btnModificarFila";
-            this.btnModificarFila.Size = new System.Drawing.Size(75, 23);
-            this.btnModificarFila.TabIndex = 4;
-            this.btnModificarFila.Text = "Modificar";
-            this.btnModificarFila.UseVisualStyleBackColor = true;
-            this.btnModificarFila.Visible = false;
             // 
             // FormGestionUsuarios
             // 

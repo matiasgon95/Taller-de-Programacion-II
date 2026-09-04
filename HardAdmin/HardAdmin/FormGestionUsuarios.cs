@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace HardAdmin
 {
     public partial class FormGestionUsuarios : Form
     {
+        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
         public FormGestionUsuarios()
         {
             InitializeComponent();
@@ -21,18 +24,21 @@ namespace HardAdmin
         {
             dgvUsuarios.Controls.Add(btnModificarFila);
 
-            // Limpiar filas por si acaso
-            dgvUsuarios.Rows.Clear();
-
-            // dgvUsuarios.Rows.Add(colUsuario, colEmail, colRol, colActivo, colAccion);
-            dgvUsuarios.Rows.Add("admin", "admin@hardadmin.com", "Administrador", "Sí", "");
-            dgvUsuarios.Rows.Add("operador_stock", "operador@hardadmin.com", "Operador", "Sí", "");
-            dgvUsuarios.Rows.Add("vendedor_centro", "vendedor1@hardadmin.com", "Vendedor", "No", "");
-            dgvUsuarios.Rows.Add("matias_g", "matias@hardadmin.com", "Administrador", "Sí", "");
+            // Cargar los usuarios desde la base de datos
+            CargarGrillaUsuarios();
 
             // Deseleccionar cualquier fila por defecto
             dgvUsuarios.ClearSelection();
             btnModificarFila.Visible = false;
+
+            // Centrar los textos de los encabezados (títulos de las columnas)
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Alinear por defecto todos los datos de las celdas a la izquierda (centrados verticalmente)
+            dgvUsuarios.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            // Centrar solo el texto "Sí" / "No" de la columna Activo
+            dgvUsuarios.Columns["colActivo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         // Evento que se dispara al cambiar la fila seleccionada
@@ -88,6 +94,52 @@ namespace HardAdmin
         private void btnSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void CargarGrillaUsuarios()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    // CASE para transformar el bit de baja a 'Sí' / 'No' en la columna activo
+                    string query = @"SELECT 
+                                u.id_usuario, 
+                                u.nombre_usuario, 
+                                u.email, 
+                                r.nombre_rol, 
+                                CASE WHEN u.baja = 0 THEN 'Sí' ELSE 'No' END AS activo
+                             FROM Usuario u
+                             INNER JOIN Rol r ON u.id_rol = r.id_rol";
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(query, con))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        // Evita que el DataGridView genere columnas automáticas extras
+                        dgvUsuarios.AutoGenerateColumns = false;
+
+                        dgvUsuarios.DataSource = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar la grilla de usuarios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnAgregarUsuario_Click(object sender, EventArgs e)
+        {
+            using (FormAgregarUsuario frm = new FormAgregarUsuario())
+            {
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // Recargar la grilla para que aparezca el nuevo usuario
+                    CargarGrillaUsuarios();
+                }
+            }
         }
     }
 }

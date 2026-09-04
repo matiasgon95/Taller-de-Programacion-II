@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace HardAdmin
 {
     public partial class FormLogin : Form
     {
+        // Conexión al servidor SQL Server
+        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
         public FormLogin()
         {
             InitializeComponent();
@@ -25,11 +28,8 @@ namespace HardAdmin
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            // 1. Conexión al servidor SQL Server
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=HardAdmin;Integrated Security=True";
-
-            // 2. Consulta buscando que coincidan los datos y que el usuario no esté dado de baja
-            string query = "SELECT id_usuario, id_rol FROM Usuario WHERE nombre_usuario = @usuario AND contrasena = @contrasena AND baja = 0";
+        // Consulta buscando que coincidan los datos y que el usuario no esté dado de baja
+        string query = "SELECT id_usuario, id_rol FROM Usuario WHERE nombre_usuario = @usuario AND contrasena = @contrasena AND baja = 0";
 
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
@@ -60,7 +60,7 @@ namespace HardAdmin
                         }
                         else
                         {
-                            MessageBox.Show("Usuario o contraseña incorrectos, o el usuario está inactivo.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Credenciales incorrectas o el usuario está inactivo.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     catch (Exception ex)
