@@ -24,3 +24,8 @@ project.lock.json
 ## Carpetas de diagnóstico y pruebas
 TestResults/
 .vsidx/
+
+## Archivos de base de datos
+*.mdf
+*.ldf
+*.sdf
