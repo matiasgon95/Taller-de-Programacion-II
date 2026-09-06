@@ -47,6 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormModificarProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormModificarProducto.Designer.cs">
+      <DependentUpon>FormModificarProducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAgregarProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAgregarProducto.Designer.cs">
+      <DependentUpon>FormAgregarProducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGestionProductos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGestionProductos.Designer.cs">
+      <DependentUpon>FormGestionProductos.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAgregarUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +104,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad.cs" />
+    <EmbeddedResource Include="FormAgregarProducto.resx">
+      <DependentUpon>FormAgregarProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGestionProductos.resx">
+      <DependentUpon>FormGestionProductos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAgregarUsuario.resx">
       <DependentUpon>FormAgregarUsuario.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMenuPrincipal.resx">
       <DependentUpon>FormMenuPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormModificarProducto.resx">
+      <DependentUpon>FormModificarProducto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormModificarUsuario.resx">
       <DependentUpon>FormModificarUsuario.cs</DependentUpon>
