@@ -42,6 +42,12 @@ namespace HardAdmin
             MessageBox.Show("Módulo Productos en desarrollo.");
         }
 
+        private void btnClientes_Click(object sender, EventArgs e)
+        {
+            // Próximo formulario a implementar
+            MessageBox.Show("Módulo Clientes en desarrollo.");
+        }
+
         private void btnVentas_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Módulo Ventas en desarrollo.");

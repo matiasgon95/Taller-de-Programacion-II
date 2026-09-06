@@ -67,9 +67,12 @@ namespace HardAdmin
                     AbrirFormularioEnPanel(new FormGestionUsuarios());
                     break;
                 case "Productos":
-                 
                     //AbrirFormularioEnPanel(new FormGestionProductos());
                     MessageBox.Show("Módulo Productos en desarrollo.");
+                    break;
+                case "Clientes":
+                    //AbrirFormularioEnPanel(new FormGestionClientes());
+                    MessageBox.Show("Módulo Clientes en desarrollo.");
                     break;
                 case "Ventas":
                     //AbrirFormularioEnPanel(new FormGestionVentas());
@@ -98,6 +101,11 @@ namespace HardAdmin
         private void btnProductos_Click(object sender, EventArgs e)
         {
             AbrirModulo("Productos");
+        }
+
+        private void btnClientes_Click(object sender, EventArgs e)
+        {
+            AbrirModulo("Clientes");
         }
 
         private void btnVentas_Click(object sender, EventArgs e)

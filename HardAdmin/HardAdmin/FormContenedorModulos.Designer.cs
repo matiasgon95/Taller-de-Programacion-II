@@ -39,6 +39,7 @@
             this.btnProductos = new System.Windows.Forms.Button();
             this.btnUsuarios = new System.Windows.Forms.Button();
             this.pnlContenedor = new System.Windows.Forms.Panel();
+            this.btnClientes = new System.Windows.Forms.Button();
             this.pnlInferior.SuspendLayout();
             this.pnlLateral.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +50,7 @@
             this.pnlInferior.Controls.Add(this.lblFecha);
             this.pnlInferior.Controls.Add(this.lblUsuarioLogueado);
             this.pnlInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlInferior.Location = new System.Drawing.Point(0, 495);
+            this.pnlInferior.Location = new System.Drawing.Point(0, 574);
             this.pnlInferior.Name = "pnlInferior";
             this.pnlInferior.Size = new System.Drawing.Size(800, 35);
             this.pnlInferior.TabIndex = 0;
@@ -81,6 +82,7 @@
             this.pnlLateral.Controls.Add(this.btnConfiguración);
             this.pnlLateral.Controls.Add(this.btnReportes);
             this.pnlLateral.Controls.Add(this.btnVentas);
+            this.pnlLateral.Controls.Add(this.btnClientes);
             this.pnlLateral.Controls.Add(this.btnProductos);
             this.pnlLateral.Controls.Add(this.btnUsuarios);
             this.pnlLateral.Dock = System.Windows.Forms.DockStyle.Left;
@@ -88,7 +90,7 @@
             this.pnlLateral.Location = new System.Drawing.Point(0, 0);
             this.pnlLateral.Name = "pnlLateral";
             this.pnlLateral.Padding = new System.Windows.Forms.Padding(0, 8, 0, 8);
-            this.pnlLateral.Size = new System.Drawing.Size(110, 495);
+            this.pnlLateral.Size = new System.Drawing.Size(110, 574);
             this.pnlLateral.TabIndex = 1;
             // 
             // btnSalir
@@ -98,7 +100,7 @@
             this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSalir.Image = global::HardAdmin.Properties.Resources.salir;
             this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSalir.Location = new System.Drawing.Point(0, 407);
+            this.btnSalir.Location = new System.Drawing.Point(0, 486);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(110, 80);
             this.btnSalir.TabIndex = 17;
@@ -115,7 +117,7 @@
             this.btnConfiguración.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConfiguración.Image = global::HardAdmin.Properties.Resources.configuracion;
             this.btnConfiguración.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnConfiguración.Location = new System.Drawing.Point(0, 328);
+            this.btnConfiguración.Location = new System.Drawing.Point(0, 408);
             this.btnConfiguración.Name = "btnConfiguración";
             this.btnConfiguración.Size = new System.Drawing.Size(110, 80);
             this.btnConfiguración.TabIndex = 16;
@@ -132,7 +134,7 @@
             this.btnReportes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReportes.Image = global::HardAdmin.Properties.Resources.reportes;
             this.btnReportes.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnReportes.Location = new System.Drawing.Point(0, 248);
+            this.btnReportes.Location = new System.Drawing.Point(0, 328);
             this.btnReportes.Name = "btnReportes";
             this.btnReportes.Size = new System.Drawing.Size(110, 80);
             this.btnReportes.TabIndex = 15;
@@ -149,7 +151,7 @@
             this.btnVentas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVentas.Image = global::HardAdmin.Properties.Resources.ventas;
             this.btnVentas.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVentas.Location = new System.Drawing.Point(0, 168);
+            this.btnVentas.Location = new System.Drawing.Point(0, 248);
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(110, 80);
             this.btnVentas.TabIndex = 14;
@@ -198,14 +200,31 @@
             this.pnlContenedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContenedor.Location = new System.Drawing.Point(110, 0);
             this.pnlContenedor.Name = "pnlContenedor";
-            this.pnlContenedor.Size = new System.Drawing.Size(690, 495);
+            this.pnlContenedor.Size = new System.Drawing.Size(690, 574);
             this.pnlContenedor.TabIndex = 2;
+            // 
+            // btnClientes
+            // 
+            this.btnClientes.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnClientes.FlatAppearance.BorderSize = 0;
+            this.btnClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClientes.Image = global::HardAdmin.Properties.Resources.clientes;
+            this.btnClientes.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnClientes.Location = new System.Drawing.Point(0, 168);
+            this.btnClientes.Name = "btnClientes";
+            this.btnClientes.Size = new System.Drawing.Size(110, 80);
+            this.btnClientes.TabIndex = 18;
+            this.btnClientes.Text = "Clientes";
+            this.btnClientes.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnClientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnClientes.UseVisualStyleBackColor = true;
+            this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
             // 
             // FormContenedorModulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 530);
+            this.ClientSize = new System.Drawing.Size(800, 609);
             this.Controls.Add(this.pnlContenedor);
             this.Controls.Add(this.pnlLateral);
             this.Controls.Add(this.pnlInferior);
@@ -234,5 +253,6 @@
         private System.Windows.Forms.Button btnVentas;
         private System.Windows.Forms.Button btnProductos;
         private System.Windows.Forms.Button btnUsuarios;
+        private System.Windows.Forms.Button btnClientes;
     }
 }

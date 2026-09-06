@@ -35,12 +35,13 @@
             this.lblFecha = new System.Windows.Forms.Label();
             this.lblUsuarioLogueado = new System.Windows.Forms.Label();
             this.tlbMenuBotones = new System.Windows.Forms.TableLayoutPanel();
-            this.btnSalir = new System.Windows.Forms.Button();
             this.btnConfiguracion = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnVentas = new System.Windows.Forms.Button();
             this.btnProductos = new System.Windows.Forms.Button();
             this.btnUsuarios = new System.Windows.Forms.Button();
+            this.btnSalir = new System.Windows.Forms.Button();
+            this.btnClientes = new System.Windows.Forms.Button();
             this.pnlSuperior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.panel1.SuspendLayout();
@@ -83,7 +84,7 @@
             this.panel1.Controls.Add(this.lblFecha);
             this.panel1.Controls.Add(this.lblUsuarioLogueado);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 288);
+            this.panel1.Location = new System.Drawing.Point(0, 347);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(506, 35);
             this.panel1.TabIndex = 1;
@@ -114,40 +115,21 @@
             this.tlbMenuBotones.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlbMenuBotones.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlbMenuBotones.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlbMenuBotones.Controls.Add(this.btnSalir, 2, 1);
             this.tlbMenuBotones.Controls.Add(this.btnConfiguracion, 1, 1);
             this.tlbMenuBotones.Controls.Add(this.btnReportes, 0, 1);
             this.tlbMenuBotones.Controls.Add(this.btnVentas, 2, 0);
+            this.tlbMenuBotones.Controls.Add(this.btnClientes, 2, 0);
             this.tlbMenuBotones.Controls.Add(this.btnProductos, 1, 0);
             this.tlbMenuBotones.Controls.Add(this.btnUsuarios, 0, 0);
-            this.tlbMenuBotones.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlbMenuBotones.Location = new System.Drawing.Point(0, 80);
             this.tlbMenuBotones.Name = "tlbMenuBotones";
             this.tlbMenuBotones.Padding = new System.Windows.Forms.Padding(20);
-            this.tlbMenuBotones.RowCount = 2;
+            this.tlbMenuBotones.RowCount = 3;
             this.tlbMenuBotones.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlbMenuBotones.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlbMenuBotones.Size = new System.Drawing.Size(506, 208);
+            this.tlbMenuBotones.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlbMenuBotones.Size = new System.Drawing.Size(506, 226);
             this.tlbMenuBotones.TabIndex = 2;
-            // 
-            // btnSalir
-            // 
-            this.btnSalir.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnSalir.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalir.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSalir.Image = global::HardAdmin.Properties.Resources.salir;
-            this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSalir.Location = new System.Drawing.Point(338, 112);
-            this.btnSalir.Margin = new System.Windows.Forms.Padding(8);
-            this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(140, 68);
-            this.btnSalir.TabIndex = 12;
-            this.btnSalir.Text = "Salir";
-            this.btnSalir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSalir.UseVisualStyleBackColor = true;
-            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // btnConfiguracion
             // 
@@ -156,12 +138,12 @@
             this.btnConfiguracion.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConfiguracion.Image = global::HardAdmin.Properties.Resources.configuracion;
             this.btnConfiguracion.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnConfiguracion.Location = new System.Drawing.Point(183, 112);
+            this.btnConfiguracion.Location = new System.Drawing.Point(338, 111);
             this.btnConfiguracion.Margin = new System.Windows.Forms.Padding(8);
             this.btnConfiguracion.Name = "btnConfiguracion";
-            this.btnConfiguracion.Size = new System.Drawing.Size(139, 68);
+            this.btnConfiguracion.Size = new System.Drawing.Size(140, 67);
             this.btnConfiguracion.TabIndex = 11;
-            this.btnConfiguracion.Text = "Configuracion";
+            this.btnConfiguracion.Text = "Configuración";
             this.btnConfiguracion.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnConfiguracion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnConfiguracion.UseVisualStyleBackColor = true;
@@ -174,10 +156,10 @@
             this.btnReportes.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReportes.Image = global::HardAdmin.Properties.Resources.reportes;
             this.btnReportes.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnReportes.Location = new System.Drawing.Point(28, 112);
+            this.btnReportes.Location = new System.Drawing.Point(183, 111);
             this.btnReportes.Margin = new System.Windows.Forms.Padding(8);
             this.btnReportes.Name = "btnReportes";
-            this.btnReportes.Size = new System.Drawing.Size(139, 68);
+            this.btnReportes.Size = new System.Drawing.Size(139, 67);
             this.btnReportes.TabIndex = 10;
             this.btnReportes.Text = "Reportes";
             this.btnReportes.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -192,10 +174,10 @@
             this.btnVentas.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVentas.Image = global::HardAdmin.Properties.Resources.ventas;
             this.btnVentas.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVentas.Location = new System.Drawing.Point(338, 28);
+            this.btnVentas.Location = new System.Drawing.Point(28, 111);
             this.btnVentas.Margin = new System.Windows.Forms.Padding(8);
             this.btnVentas.Name = "btnVentas";
-            this.btnVentas.Size = new System.Drawing.Size(140, 68);
+            this.btnVentas.Size = new System.Drawing.Size(139, 67);
             this.btnVentas.TabIndex = 9;
             this.btnVentas.Text = "Ventas";
             this.btnVentas.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -213,7 +195,7 @@
             this.btnProductos.Location = new System.Drawing.Point(183, 28);
             this.btnProductos.Margin = new System.Windows.Forms.Padding(8);
             this.btnProductos.Name = "btnProductos";
-            this.btnProductos.Size = new System.Drawing.Size(139, 68);
+            this.btnProductos.Size = new System.Drawing.Size(139, 67);
             this.btnProductos.TabIndex = 8;
             this.btnProductos.Text = "Productos";
             this.btnProductos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -231,7 +213,7 @@
             this.btnUsuarios.Location = new System.Drawing.Point(28, 28);
             this.btnUsuarios.Margin = new System.Windows.Forms.Padding(8);
             this.btnUsuarios.Name = "btnUsuarios";
-            this.btnUsuarios.Size = new System.Drawing.Size(139, 68);
+            this.btnUsuarios.Size = new System.Drawing.Size(139, 67);
             this.btnUsuarios.TabIndex = 7;
             this.btnUsuarios.Text = "Usuarios";
             this.btnUsuarios.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -239,12 +221,48 @@
             this.btnUsuarios.UseVisualStyleBackColor = true;
             this.btnUsuarios.Click += new System.EventHandler(this.btnUsuarios_Click);
             // 
+            // btnSalir
+            // 
+            this.btnSalir.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalir.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalir.Image = global::HardAdmin.Properties.Resources.salir;
+            this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnSalir.Location = new System.Drawing.Point(222, 274);
+            this.btnSalir.Margin = new System.Windows.Forms.Padding(8);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(64, 66);
+            this.btnSalir.TabIndex = 14;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSalir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
+            // 
+            // btnClientes
+            // 
+            this.btnClientes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClientes.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClientes.Image = global::HardAdmin.Properties.Resources.clientes;
+            this.btnClientes.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnClientes.Location = new System.Drawing.Point(338, 28);
+            this.btnClientes.Margin = new System.Windows.Forms.Padding(8);
+            this.btnClientes.Name = "btnClientes";
+            this.btnClientes.Size = new System.Drawing.Size(140, 67);
+            this.btnClientes.TabIndex = 12;
+            this.btnClientes.Text = "Clientes";
+            this.btnClientes.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnClientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnClientes.UseVisualStyleBackColor = true;
+            this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
+            // 
             // FormMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnSalir;
-            this.ClientSize = new System.Drawing.Size(506, 323);
+            this.ClientSize = new System.Drawing.Size(506, 382);
+            this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.tlbMenuBotones);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlSuperior);
@@ -275,10 +293,11 @@
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.TableLayoutPanel tlbMenuBotones;
         private System.Windows.Forms.Button btnUsuarios;
-        private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.Button btnConfiguracion;
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.Button btnVentas;
         private System.Windows.Forms.Button btnProductos;
+        private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.Button btnClientes;
     }
 }
