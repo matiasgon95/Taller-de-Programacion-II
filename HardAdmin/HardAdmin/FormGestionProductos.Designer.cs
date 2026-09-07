@@ -29,113 +29,62 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.LB_titulo = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.CL_Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CL_Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CL_Categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CL_Stock = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CL_Stock_Minimo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CL_Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CL_Activo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CL_Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.CL_Eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.dgvProductos = new System.Windows.Forms.DataGridView();
             this.btnAgregarProducto = new System.Windows.Forms.Button();
             this.btnMovimientos = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStockMinimo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrecio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAccion = new System.Windows.Forms.DataGridViewButtonColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             this.SuspendLayout();
             // 
-            // LB_titulo
+            // lblTitulo
             // 
-            this.LB_titulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LB_titulo.Location = new System.Drawing.Point(231, 9);
-            this.LB_titulo.Name = "LB_titulo";
-            this.LB_titulo.Size = new System.Drawing.Size(305, 31);
-            this.LB_titulo.TabIndex = 1;
-            this.LB_titulo.Text = "Listado de Productos";
-            this.LB_titulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(231, 9);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(305, 31);
+            this.lblTitulo.TabIndex = 1;
+            this.lblTitulo.Text = "Listado de Productos";
+            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // dataGridView1
+            // dgvProductos
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CL_Codigo,
-            this.CL_Nombre,
-            this.CL_Categoria,
-            this.CL_Stock,
-            this.CL_Stock_Minimo,
-            this.CL_Precio,
-            this.CL_Activo,
-            this.CL_Modificar,
-            this.CL_Eliminar});
-            this.dataGridView1.Location = new System.Drawing.Point(28, 56);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(744, 316);
-            this.dataGridView1.TabIndex = 2;
-            // 
-            // CL_Codigo
-            // 
-            this.CL_Codigo.HeaderText = "Codigo";
-            this.CL_Codigo.Name = "CL_Codigo";
-            // 
-            // CL_Nombre
-            // 
-            this.CL_Nombre.HeaderText = "Nombre";
-            this.CL_Nombre.Name = "CL_Nombre";
-            // 
-            // CL_Categoria
-            // 
-            this.CL_Categoria.HeaderText = "Categoria";
-            this.CL_Categoria.Name = "CL_Categoria";
-            // 
-            // CL_Stock
-            // 
-            this.CL_Stock.HeaderText = "Stock";
-            this.CL_Stock.Name = "CL_Stock";
-            // 
-            // CL_Stock_Minimo
-            // 
-            this.CL_Stock_Minimo.HeaderText = "Stock Minimo";
-            this.CL_Stock_Minimo.Name = "CL_Stock_Minimo";
-            // 
-            // CL_Precio
-            // 
-            this.CL_Precio.HeaderText = "Precio";
-            this.CL_Precio.Name = "CL_Precio";
-            // 
-            // CL_Activo
-            // 
-            this.CL_Activo.HeaderText = "Activo";
-            this.CL_Activo.Name = "CL_Activo";
-            // 
-            // CL_Modificar
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.CL_Modificar.DefaultCellStyle = dataGridViewCellStyle1;
-            this.CL_Modificar.HeaderText = "Modificar Producto";
-            this.CL_Modificar.Name = "CL_Modificar";
-            this.CL_Modificar.Text = "Modificar";
-            this.CL_Modificar.UseColumnTextForButtonValue = true;
-            this.CL_Modificar.Width = 92;
-            // 
-            // CL_Eliminar
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.CL_Eliminar.DefaultCellStyle = dataGridViewCellStyle2;
-            this.CL_Eliminar.HeaderText = "Eliminar Producto";
-            this.CL_Eliminar.Name = "CL_Eliminar";
-            this.CL_Eliminar.Text = "Eliminar";
-            this.CL_Eliminar.UseColumnTextForButtonValue = true;
+            this.dgvProductos.AllowUserToAddRows = false;
+            this.dgvProductos.AllowUserToDeleteRows = false;
+            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProductos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colCodigo,
+            this.colNombre,
+            this.colCategoria,
+            this.colStock,
+            this.colStockMinimo,
+            this.colPrecio,
+            this.colActivo,
+            this.colAccion});
+            this.dgvProductos.Location = new System.Drawing.Point(28, 56);
+            this.dgvProductos.MultiSelect = false;
+            this.dgvProductos.Name = "dgvProductos";
+            this.dgvProductos.ReadOnly = true;
+            this.dgvProductos.RowHeadersVisible = false;
+            this.dgvProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvProductos.Size = new System.Drawing.Size(744, 316);
+            this.dgvProductos.TabIndex = 2;
             // 
             // btnAgregarProducto
             // 
+            this.btnAgregarProducto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAgregarProducto.Location = new System.Drawing.Point(28, 389);
             this.btnAgregarProducto.Name = "btnAgregarProducto";
             this.btnAgregarProducto.Size = new System.Drawing.Size(119, 49);
@@ -146,12 +95,68 @@
             // 
             // btnMovimientos
             // 
+            this.btnMovimientos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMovimientos.Location = new System.Drawing.Point(643, 389);
             this.btnMovimientos.Name = "btnMovimientos";
             this.btnMovimientos.Size = new System.Drawing.Size(129, 49);
             this.btnMovimientos.TabIndex = 4;
             this.btnMovimientos.Text = "Movimientos de Stock";
             this.btnMovimientos.UseVisualStyleBackColor = true;
+            // 
+            // colCodigo
+            // 
+            this.colCodigo.HeaderText = "Código";
+            this.colCodigo.Name = "colCodigo";
+            this.colCodigo.ReadOnly = true;
+            // 
+            // colNombre
+            // 
+            this.colNombre.HeaderText = "Nombre";
+            this.colNombre.Name = "colNombre";
+            this.colNombre.ReadOnly = true;
+            // 
+            // colCategoria
+            // 
+            this.colCategoria.HeaderText = "Categoría";
+            this.colCategoria.Name = "colCategoria";
+            this.colCategoria.ReadOnly = true;
+            // 
+            // colStock
+            // 
+            this.colStock.HeaderText = "Stock";
+            this.colStock.Name = "colStock";
+            this.colStock.ReadOnly = true;
+            // 
+            // colStockMinimo
+            // 
+            this.colStockMinimo.HeaderText = "Stock Mínimo";
+            this.colStockMinimo.Name = "colStockMinimo";
+            this.colStockMinimo.ReadOnly = true;
+            // 
+            // colPrecio
+            // 
+            this.colPrecio.HeaderText = "Precio";
+            this.colPrecio.Name = "colPrecio";
+            this.colPrecio.ReadOnly = true;
+            // 
+            // colActivo
+            // 
+            this.colActivo.HeaderText = "Activo";
+            this.colActivo.Name = "colActivo";
+            this.colActivo.ReadOnly = true;
+            // 
+            // colAccion
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.colAccion.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colAccion.HeaderText = "Acción";
+            this.colAccion.Name = "colAccion";
+            this.colAccion.ReadOnly = true;
+            this.colAccion.Text = "Modificar";
+            this.colAccion.UseColumnTextForButtonValue = true;
             // 
             // FormGestionProductos
             // 
@@ -160,29 +165,29 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnMovimientos);
             this.Controls.Add(this.btnAgregarProducto);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.LB_titulo);
+            this.Controls.Add(this.dgvProductos);
+            this.Controls.Add(this.lblTitulo);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "FormGestionProductos";
-            this.Text = "HardAdmin -Gestion de Productos";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Text = "HardAdmin - Gestion de Productos";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label LB_titulo;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.DataGridView dgvProductos;
         private System.Windows.Forms.Button btnAgregarProducto;
         private System.Windows.Forms.Button btnMovimientos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Codigo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Nombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Categoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Stock;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Stock_Minimo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Precio;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Activo;
-        private System.Windows.Forms.DataGridViewButtonColumn CL_Modificar;
-        private System.Windows.Forms.DataGridViewButtonColumn CL_Eliminar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCodigo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStock;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStockMinimo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPrecio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colActivo;
+        private System.Windows.Forms.DataGridViewButtonColumn colAccion;
     }
 }

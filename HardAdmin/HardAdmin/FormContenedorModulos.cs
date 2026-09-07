@@ -68,7 +68,6 @@ namespace HardAdmin
                     break;
                 case "Productos":
                     AbrirFormularioEnPanel(new FormGestionProductos());
-                    MessageBox.Show("Módulo Productos en desarrollo.");
                     break;
                 case "Clientes":
                     //AbrirFormularioEnPanel(new FormGestionClientes());
