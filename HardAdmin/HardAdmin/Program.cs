@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Mail; // Permite el uso de MailAdress, para comprobaciones de email.
 
 namespace HardAdmin
 {

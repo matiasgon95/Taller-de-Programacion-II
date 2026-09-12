@@ -45,8 +45,9 @@ namespace HardAdmin
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            // Próximo formulario a implementar
-            MessageBox.Show("Módulo Clientes en desarrollo.");
+            FormContenedorModulos contenedor = new FormContenedorModulos(this.usuarioActual, "Clientes");
+            contenedor.Show();
+            this.Hide();
         }
 
         private void btnVentas_Click(object sender, EventArgs e)

@@ -70,8 +70,7 @@ namespace HardAdmin
                     AbrirFormularioEnPanel(new FormGestionProductos());
                     break;
                 case "Clientes":
-                    //AbrirFormularioEnPanel(new FormGestionClientes());
-                    MessageBox.Show("Módulo Clientes en desarrollo.");
+                    AbrirFormularioEnPanel(new FormGestionClientes());
                     break;
                 case "Ventas":
                     //AbrirFormularioEnPanel(new FormGestionVentas());

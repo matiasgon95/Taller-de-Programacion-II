@@ -35,9 +35,9 @@
             this.nupStockMinimo = new System.Windows.Forms.NumericUpDown();
             this.nupPrecio = new System.Windows.Forms.NumericUpDown();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
-            this.tbDescripcion = new System.Windows.Forms.TextBox();
-            this.tbCodigo = new System.Windows.Forms.TextBox();
-            this.tbNombre = new System.Windows.Forms.TextBox();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.txtCodigo = new System.Windows.Forms.TextBox();
+            this.txtNombre = new System.Windows.Forms.TextBox();
             this.LB_imagen = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -74,9 +74,9 @@
             this.panel1.Controls.Add(this.nupStockMinimo);
             this.panel1.Controls.Add(this.nupPrecio);
             this.panel1.Controls.Add(this.cmbCategoria);
-            this.panel1.Controls.Add(this.tbDescripcion);
-            this.panel1.Controls.Add(this.tbCodigo);
-            this.panel1.Controls.Add(this.tbNombre);
+            this.panel1.Controls.Add(this.txtDescripcion);
+            this.panel1.Controls.Add(this.txtCodigo);
+            this.panel1.Controls.Add(this.txtNombre);
             this.panel1.Controls.Add(this.LB_imagen);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
@@ -134,27 +134,32 @@
             this.cmbCategoria.Size = new System.Drawing.Size(195, 21);
             this.cmbCategoria.TabIndex = 11;
             // 
-            // tbDescripcion
+            // txtDescripcion
             // 
-            this.tbDescripcion.Location = new System.Drawing.Point(196, 93);
-            this.tbDescripcion.Multiline = true;
-            this.tbDescripcion.Name = "tbDescripcion";
-            this.tbDescripcion.Size = new System.Drawing.Size(195, 60);
-            this.tbDescripcion.TabIndex = 10;
+            this.txtDescripcion.Location = new System.Drawing.Point(196, 93);
+            this.txtDescripcion.MaxLength = 300;
+            this.txtDescripcion.Multiline = true;
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(195, 60);
+            this.txtDescripcion.TabIndex = 10;
             // 
-            // tbCodigo
+            // txtCodigo
             // 
-            this.tbCodigo.Location = new System.Drawing.Point(196, 60);
-            this.tbCodigo.Name = "tbCodigo";
-            this.tbCodigo.Size = new System.Drawing.Size(195, 20);
-            this.tbCodigo.TabIndex = 9;
+            this.txtCodigo.Location = new System.Drawing.Point(196, 60);
+            this.txtCodigo.MaxLength = 50;
+            this.txtCodigo.Name = "txtCodigo";
+            this.txtCodigo.Size = new System.Drawing.Size(195, 20);
+            this.txtCodigo.TabIndex = 9;
+            this.txtCodigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
             // 
-            // tbNombre
+            // txtNombre
             // 
-            this.tbNombre.Location = new System.Drawing.Point(196, 23);
-            this.tbNombre.Name = "tbNombre";
-            this.tbNombre.Size = new System.Drawing.Size(195, 20);
-            this.tbNombre.TabIndex = 8;
+            this.txtNombre.Location = new System.Drawing.Point(196, 23);
+            this.txtNombre.MaxLength = 30;
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(195, 20);
+            this.txtNombre.TabIndex = 8;
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // LB_imagen
             // 
@@ -260,6 +265,7 @@
             this.btnGuardar.TabIndex = 2;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnCancelar
             // 
@@ -269,6 +275,7 @@
             this.btnCancelar.TabIndex = 3;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // lb_encabezado
             // 
@@ -315,9 +322,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label LB_Categoria;
-        private System.Windows.Forms.TextBox tbDescripcion;
-        private System.Windows.Forms.TextBox tbCodigo;
-        private System.Windows.Forms.TextBox tbNombre;
+        private System.Windows.Forms.TextBox txtDescripcion;
+        private System.Windows.Forms.TextBox txtCodigo;
+        private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.ComboBox cmbCategoria;
         private System.Windows.Forms.NumericUpDown nupStockActual;
         private System.Windows.Forms.NumericUpDown nupStockMinimo;
