@@ -98,5 +98,20 @@ namespace HardAdmin
             lblVendedor.Visible = SesionActual.EsAdmin;
 
         }
+
+        private void btnNuevaVenta_Click(object sender, EventArgs e)
+        {
+            using (FormNuevaVenta formNueva = new FormNuevaVenta())
+            {
+                // Se abre como diálogo modal bloqueando la ventana de fondo
+                DialogResult resultado = formNueva.ShowDialog();
+
+                // Si la venta se guardó correctamente, refrescamos la grilla de ventas
+                if (resultado == DialogResult.OK)
+                {
+                    CargarVentas();
+                }
+            }
+        }
     }
 }
