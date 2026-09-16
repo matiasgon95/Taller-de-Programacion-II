@@ -52,7 +52,9 @@ namespace HardAdmin
 
         private void btnVentas_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Módulo Ventas en desarrollo.");
+            FormContenedorModulos contenedor = new FormContenedorModulos(this.usuarioActual, "Ventas");
+            contenedor.Show();
+            this.Hide();
         }
 
         private void btnReportes_Click(object sender, EventArgs e)

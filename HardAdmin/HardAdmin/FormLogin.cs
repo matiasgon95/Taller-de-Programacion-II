@@ -30,19 +30,19 @@ namespace HardAdmin
         {
             // Hash de la contraseña ingresada
             string contrasenaIngresadaHash = Seguridad.HashearContrasena(txtContrasena.Text);
-            // Consulta buscando que coincidan los datos y que el usuario no esté dado de baja
-            string query = "SELECT id_usuario, " +
-                       "id_rol " +
-                       "FROM Usuario " +
-                       "WHERE nombre_usuario = @usuario " +
-                       "AND contrasena = @contrasena " +
-                       "AND baja = 0";
+
+            // Consulta con JOIN a Rol para traer el nombre del rol además de los IDs
+            string query = @"SELECT u.id_usuario, u.id_rol, r.nombre_rol 
+                     FROM Usuario u 
+                     INNER JOIN Rol r ON u.id_rol = r.id_rol 
+                     WHERE u.nombre_usuario = @usuario 
+                       AND u.contrasena = @contrasena 
+                       AND u.baja = 0";
 
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
                 using (SqlCommand comando = new SqlCommand(query, conexion))
                 {
-                    // Parámetros para evitar inyección SQL
                     comando.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
                     comando.Parameters.AddWithValue("@contrasena", contrasenaIngresadaHash);
 
@@ -55,8 +55,10 @@ namespace HardAdmin
                         {
                             reader.Read();
 
-                            // Se guarda el id del usuario y el rol en variables si es necesario
-                            int idRol = Convert.ToInt32(reader["id_rol"]);
+                            // Guardamos la información en la clase estática
+                            SesionActual.IdUsuario = Convert.ToInt32(reader["id_usuario"]);
+                            SesionActual.NombreUsuario = txtUsuario.Text.Trim();
+                            SesionActual.Rol = reader["nombre_rol"].ToString();
 
                             // Abrir el sistema
                             FormMenuPrincipal formMenu = new FormMenuPrincipal(txtUsuario.Text.Trim());
