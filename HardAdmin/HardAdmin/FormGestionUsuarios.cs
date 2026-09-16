@@ -23,7 +23,7 @@ namespace HardAdmin
         private void FormGestionUsuarios_Load(object sender, EventArgs e)
         {
             dgvUsuarios.Controls.Add(btnModificarFila);
-
+           
             // Cargar los usuarios desde la base de datos
             CargarGrillaUsuarios();
 

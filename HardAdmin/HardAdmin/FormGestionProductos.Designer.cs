@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.dgvProductos = new System.Windows.Forms.DataGridView();
             this.btnAgregarProducto = new System.Windows.Forms.Button();
             this.btnMovimientos = new System.Windows.Forms.Button();
+            this.btnModificarFila = new System.Windows.Forms.Button();
             this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,7 +41,7 @@
             this.colStockMinimo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPrecio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAccion = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,6 +82,9 @@
             this.dgvProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProductos.Size = new System.Drawing.Size(744, 316);
             this.dgvProductos.TabIndex = 2;
+            this.dgvProductos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductos_CellDoubleClick);
+            this.dgvProductos.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvProductos_Scroll);
+            this.dgvProductos.SelectionChanged += new System.EventHandler(this.dgvProductos_SelectionChanged);
             // 
             // btnAgregarProducto
             // 
@@ -103,66 +107,84 @@
             this.btnMovimientos.Text = "Movimientos de Stock";
             this.btnMovimientos.UseVisualStyleBackColor = true;
             // 
+            // btnModificarFila
+            // 
+            this.btnModificarFila.Location = new System.Drawing.Point(683, 93);
+            this.btnModificarFila.Name = "btnModificarFila";
+            this.btnModificarFila.Size = new System.Drawing.Size(78, 30);
+            this.btnModificarFila.TabIndex = 4;
+            this.btnModificarFila.Text = "Modificar";
+            this.btnModificarFila.UseVisualStyleBackColor = true;
+            this.btnModificarFila.Visible = false;
+            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
+            // 
             // colCodigo
             // 
+            this.colCodigo.DataPropertyName = "codigo";
             this.colCodigo.HeaderText = "Código";
             this.colCodigo.Name = "colCodigo";
             this.colCodigo.ReadOnly = true;
             // 
             // colNombre
             // 
+            this.colNombre.DataPropertyName = "nombre_producto";
             this.colNombre.HeaderText = "Nombre";
             this.colNombre.Name = "colNombre";
             this.colNombre.ReadOnly = true;
             // 
             // colCategoria
             // 
+            this.colCategoria.DataPropertyName = "nombre_categoria";
             this.colCategoria.HeaderText = "Categoría";
             this.colCategoria.Name = "colCategoria";
             this.colCategoria.ReadOnly = true;
             // 
             // colStock
             // 
+            this.colStock.DataPropertyName = "stock";
             this.colStock.HeaderText = "Stock";
             this.colStock.Name = "colStock";
             this.colStock.ReadOnly = true;
             // 
             // colStockMinimo
             // 
+            this.colStockMinimo.DataPropertyName = "stock_minimo";
             this.colStockMinimo.HeaderText = "Stock Mínimo";
             this.colStockMinimo.Name = "colStockMinimo";
             this.colStockMinimo.ReadOnly = true;
             // 
             // colPrecio
             // 
+            this.colPrecio.DataPropertyName = "precio";
             this.colPrecio.HeaderText = "Precio";
             this.colPrecio.Name = "colPrecio";
             this.colPrecio.ReadOnly = true;
             // 
             // colActivo
             // 
+            this.colActivo.DataPropertyName = "activo";
             this.colActivo.HeaderText = "Activo";
             this.colActivo.Name = "colActivo";
             this.colActivo.ReadOnly = true;
             // 
             // colAccion
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.colAccion.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            this.colAccion.DefaultCellStyle = dataGridViewCellStyle4;
             this.colAccion.HeaderText = "Acción";
             this.colAccion.Name = "colAccion";
             this.colAccion.ReadOnly = true;
-            this.colAccion.Text = "Modificar";
-            this.colAccion.UseColumnTextForButtonValue = true;
+            this.colAccion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAccion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // FormGestionProductos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnModificarFila);
             this.Controls.Add(this.btnMovimientos);
             this.Controls.Add(this.btnAgregarProducto);
             this.Controls.Add(this.dgvProductos);
@@ -170,6 +192,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "FormGestionProductos";
             this.Text = "HardAdmin - Gestion de Productos";
+            this.Load += new System.EventHandler(this.FormGestionProductos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
             this.ResumeLayout(false);
 
@@ -181,6 +204,7 @@
         private System.Windows.Forms.DataGridView dgvProductos;
         private System.Windows.Forms.Button btnAgregarProducto;
         private System.Windows.Forms.Button btnMovimientos;
+        private System.Windows.Forms.Button btnModificarFila;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
@@ -188,6 +212,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colStockMinimo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPrecio;
         private System.Windows.Forms.DataGridViewTextBoxColumn colActivo;
-        private System.Windows.Forms.DataGridViewButtonColumn colAccion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAccion;
     }
 }
