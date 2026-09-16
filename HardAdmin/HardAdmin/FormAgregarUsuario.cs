@@ -55,27 +55,60 @@ namespace HardAdmin
             }
         }
 
+        private void ActualizarDireccionCompleta(object sender, EventArgs e)
+        {
+            string calle = txtCalle.Text.Trim();
+            string altura = txtAltura.Text.Trim();
+            string dpto = txtDpto.Text.Trim();
+            string localidad = txtLocalidad.Text.Trim();
+
+            // Armamos la primera parte (Calle y Altura)
+            string direccion = $"{calle} {altura}".Trim();
+
+            // Si hay departamento, lo sumamos
+            if (!string.IsNullOrWhiteSpace(dpto))
+            {
+                direccion += $" Dpto {dpto}";
+            }
+
+            // Agregamos la localidad si existe, separada por una coma
+            if (!string.IsNullOrWhiteSpace(localidad))
+            {
+                // Si no se cargó calle ni altura antes, evitamos que arranque con una coma
+                if (direccion.Length > 0)
+                {
+                    direccion += $", {localidad}";
+                }
+                else
+                {
+                    direccion = $"{localidad}";
+                }
+            }
+
+            txtDireccionCompleta.Text = direccion;
+        }
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             // Validaciones básicas de campos vacíos
-            if (string.IsNullOrWhiteSpace(txtNombreUsuario.Text))
+            if (string.IsNullOrWhiteSpace(txtCalle.Text))
             {
                 MessageBox.Show("Debe ingresar un nombre de usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombreUsuario.Focus();
+                txtCalle.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            if (string.IsNullOrWhiteSpace(txtAltura.Text))
             {
                 MessageBox.Show("Debe ingresar un email.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmail.Focus();
+                txtAltura.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtContrasena.Text))
+            if (string.IsNullOrWhiteSpace(txtDpto.Text))
             {
                 MessageBox.Show("Debe ingresar una contraseña.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtContrasena.Focus();
+                txtDpto.Focus();
                 return;
             }
 
@@ -96,10 +129,10 @@ namespace HardAdmin
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         // Hasheamos la contraseña antes de guardarla en la base de datos
-                        string contrasenaHasheada = Seguridad.HashearContrasena(txtContrasena.Text);
+                        string contrasenaHasheada = Seguridad.HashearContrasena(txtDpto.Text);
 
-                        cmd.Parameters.AddWithValue("@usuario", txtNombreUsuario.Text.Trim());
-                        cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                        cmd.Parameters.AddWithValue("@usuario", txtCalle.Text.Trim());
+                        cmd.Parameters.AddWithValue("@email", txtAltura.Text.Trim());
                         cmd.Parameters.AddWithValue("@contrasena", contrasenaHasheada);
                         cmd.Parameters.AddWithValue("@idRol", (int)cmbRol.SelectedValue);
 
