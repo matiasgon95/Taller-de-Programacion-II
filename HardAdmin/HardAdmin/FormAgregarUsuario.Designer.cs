@@ -30,7 +30,9 @@
         {
             this.lblTitulo = new System.Windows.Forms.Label();
             this.grpDireccion = new System.Windows.Forms.GroupBox();
-            this.cmbRol = new System.Windows.Forms.ComboBox();
+            this.txtDireccionCompleta = new System.Windows.Forms.TextBox();
+            this.lblDireccion = new System.Windows.Forms.Label();
+            this.txtLocalidad = new System.Windows.Forms.TextBox();
             this.txtDpto = new System.Windows.Forms.TextBox();
             this.txtAltura = new System.Windows.Forms.TextBox();
             this.txtCalle = new System.Windows.Forms.TextBox();
@@ -38,9 +40,11 @@
             this.lblDpto = new System.Windows.Forms.Label();
             this.lblAltura = new System.Windows.Forms.Label();
             this.lblCalle = new System.Windows.Forms.Label();
+            this.cmbRol = new System.Windows.Forms.ComboBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.gbDatosPersonales = new System.Windows.Forms.GroupBox();
+            this.dtpFechaNacimiento = new System.Windows.Forms.DateTimePicker();
             this.txtDni = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -50,6 +54,9 @@
             this.lblNombre = new System.Windows.Forms.Label();
             this.pnlTitulo = new System.Windows.Forms.Panel();
             this.gbCredenciales = new System.Windows.Forms.GroupBox();
+            this.txtConfirmarContrasena = new System.Windows.Forms.TextBox();
+            this.chkVerClave = new System.Windows.Forms.CheckBox();
+            this.lblConfirmar = new System.Windows.Forms.Label();
             this.txtContrasena = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
@@ -57,13 +64,6 @@
             this.lblContrasena = new System.Windows.Forms.Label();
             this.lblEmail = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
-            this.dtpNacimiento = new System.Windows.Forms.DateTimePicker();
-            this.txtLocalidad = new System.Windows.Forms.TextBox();
-            this.lblConfirmar = new System.Windows.Forms.Label();
-            this.chkVerClave = new System.Windows.Forms.CheckBox();
-            this.txtConfirmarContrasena = new System.Windows.Forms.TextBox();
-            this.lblDireccion = new System.Windows.Forms.Label();
-            this.txtDireccionCompleta = new System.Windows.Forms.TextBox();
             this.grpDireccion.SuspendLayout();
             this.gbDatosPersonales.SuspendLayout();
             this.pnlTitulo.SuspendLayout();
@@ -100,14 +100,30 @@
             this.grpDireccion.TabStop = false;
             this.grpDireccion.Text = "Dirección";
             // 
-            // cmbRol
+            // txtDireccionCompleta
             // 
-            this.cmbRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbRol.FormattingEnabled = true;
-            this.cmbRol.Location = new System.Drawing.Point(345, 30);
-            this.cmbRol.Name = "cmbRol";
-            this.cmbRol.Size = new System.Drawing.Size(160, 23);
-            this.cmbRol.TabIndex = 12;
+            this.txtDireccionCompleta.Location = new System.Drawing.Point(85, 110);
+            this.txtDireccionCompleta.Name = "txtDireccionCompleta";
+            this.txtDireccionCompleta.ReadOnly = true;
+            this.txtDireccionCompleta.Size = new System.Drawing.Size(420, 23);
+            this.txtDireccionCompleta.TabIndex = 4;
+            this.txtDireccionCompleta.TabStop = false;
+            // 
+            // lblDireccion
+            // 
+            this.lblDireccion.AutoSize = true;
+            this.lblDireccion.Location = new System.Drawing.Point(15, 113);
+            this.lblDireccion.Name = "lblDireccion";
+            this.lblDireccion.Size = new System.Drawing.Size(60, 15);
+            this.lblDireccion.TabIndex = 4;
+            this.lblDireccion.Text = "Dirección:";
+            // 
+            // txtLocalidad
+            // 
+            this.txtLocalidad.Location = new System.Drawing.Point(85, 70);
+            this.txtLocalidad.Name = "txtLocalidad";
+            this.txtLocalidad.Size = new System.Drawing.Size(220, 23);
+            this.txtLocalidad.TabIndex = 7;
             // 
             // txtDpto
             // 
@@ -168,12 +184,21 @@
             this.lblCalle.TabIndex = 0;
             this.lblCalle.Text = "Calle:";
             // 
+            // cmbRol
+            // 
+            this.cmbRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRol.FormattingEnabled = true;
+            this.cmbRol.Location = new System.Drawing.Point(355, 30);
+            this.cmbRol.Name = "cmbRol";
+            this.cmbRol.Size = new System.Drawing.Size(160, 23);
+            this.cmbRol.TabIndex = 9;
+            // 
             // btnGuardar
             // 
             this.btnGuardar.Location = new System.Drawing.Point(340, 565);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(95, 35);
-            this.btnGuardar.TabIndex = 2;
+            this.btnGuardar.TabIndex = 14;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
@@ -184,14 +209,14 @@
             this.btnCancelar.Location = new System.Drawing.Point(450, 565);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(95, 35);
-            this.btnCancelar.TabIndex = 3;
+            this.btnCancelar.TabIndex = 15;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // gbDatosPersonales
             // 
-            this.gbDatosPersonales.Controls.Add(this.dtpNacimiento);
+            this.gbDatosPersonales.Controls.Add(this.dtpFechaNacimiento);
             this.gbDatosPersonales.Controls.Add(this.txtDni);
             this.gbDatosPersonales.Controls.Add(this.txtApellido);
             this.gbDatosPersonales.Controls.Add(this.txtNombre);
@@ -203,9 +228,17 @@
             this.gbDatosPersonales.Location = new System.Drawing.Point(15, 75);
             this.gbDatosPersonales.Name = "gbDatosPersonales";
             this.gbDatosPersonales.Size = new System.Drawing.Size(530, 115);
-            this.gbDatosPersonales.TabIndex = 8;
+            this.gbDatosPersonales.TabIndex = 0;
             this.gbDatosPersonales.TabStop = false;
             this.gbDatosPersonales.Text = "Datos Personales";
+            // 
+            // dtpFechaNacimiento
+            // 
+            this.dtpFechaNacimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaNacimiento.Location = new System.Drawing.Point(340, 70);
+            this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
+            this.dtpFechaNacimiento.Size = new System.Drawing.Size(165, 23);
+            this.dtpFechaNacimiento.TabIndex = 3;
             // 
             // txtDni
             // 
@@ -243,7 +276,7 @@
             this.lblDni.Location = new System.Drawing.Point(15, 33);
             this.lblDni.Name = "lblDni";
             this.lblDni.Size = new System.Drawing.Size(30, 15);
-            this.lblDni.TabIndex = 2;
+            this.lblDni.TabIndex = 0;
             this.lblDni.Text = "DNI:";
             // 
             // lblApellido
@@ -263,7 +296,7 @@
             this.lblNombre.Location = new System.Drawing.Point(15, 73);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(54, 15);
-            this.lblNombre.TabIndex = 0;
+            this.lblNombre.TabIndex = 2;
             this.lblNombre.Text = "Nombre:";
             // 
             // pnlTitulo
@@ -292,16 +325,43 @@
             this.gbCredenciales.Location = new System.Drawing.Point(15, 370);
             this.gbCredenciales.Name = "gbCredenciales";
             this.gbCredenciales.Size = new System.Drawing.Size(530, 175);
-            this.gbCredenciales.TabIndex = 8;
+            this.gbCredenciales.TabIndex = 2;
             this.gbCredenciales.TabStop = false;
             this.gbCredenciales.Text = "Credenciales de Acceso";
+            // 
+            // txtConfirmarContrasena
+            // 
+            this.txtConfirmarContrasena.Location = new System.Drawing.Point(355, 110);
+            this.txtConfirmarContrasena.Name = "txtConfirmarContrasena";
+            this.txtConfirmarContrasena.Size = new System.Drawing.Size(150, 23);
+            this.txtConfirmarContrasena.TabIndex = 12;
+            this.txtConfirmarContrasena.UseSystemPasswordChar = true;
+            // 
+            // chkVerClave
+            // 
+            this.chkVerClave.AutoSize = true;
+            this.chkVerClave.Location = new System.Drawing.Point(355, 140);
+            this.chkVerClave.Name = "chkVerClave";
+            this.chkVerClave.Size = new System.Drawing.Size(135, 19);
+            this.chkVerClave.TabIndex = 13;
+            this.chkVerClave.Text = "Mostrar Contraseñas";
+            this.chkVerClave.UseVisualStyleBackColor = true;
+            // 
+            // lblConfirmar
+            // 
+            this.lblConfirmar.AutoSize = true;
+            this.lblConfirmar.Location = new System.Drawing.Point(305, 113);
+            this.lblConfirmar.Name = "lblConfirmar";
+            this.lblConfirmar.Size = new System.Drawing.Size(47, 15);
+            this.lblConfirmar.TabIndex = 4;
+            this.lblConfirmar.Text = "Repetir:";
             // 
             // txtContrasena
             // 
             this.txtContrasena.Location = new System.Drawing.Point(135, 110);
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.Size = new System.Drawing.Size(150, 23);
-            this.txtContrasena.TabIndex = 10;
+            this.txtContrasena.TabIndex = 11;
             this.txtContrasena.UseSystemPasswordChar = true;
             // 
             // txtEmail
@@ -309,7 +369,7 @@
             this.txtEmail.Location = new System.Drawing.Point(135, 70);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(370, 23);
-            this.txtEmail.TabIndex = 9;
+            this.txtEmail.TabIndex = 10;
             // 
             // txtUsuario
             // 
@@ -324,7 +384,7 @@
             this.lblRol.Location = new System.Drawing.Point(305, 33);
             this.lblRol.Name = "lblRol";
             this.lblRol.Size = new System.Drawing.Size(27, 15);
-            this.lblRol.TabIndex = 3;
+            this.lblRol.TabIndex = 1;
             this.lblRol.Text = "Rol:";
             // 
             // lblContrasena
@@ -333,7 +393,7 @@
             this.lblContrasena.Location = new System.Drawing.Point(15, 113);
             this.lblContrasena.Name = "lblContrasena";
             this.lblContrasena.Size = new System.Drawing.Size(70, 15);
-            this.lblContrasena.TabIndex = 2;
+            this.lblContrasena.TabIndex = 3;
             this.lblContrasena.Text = "Contraseña:";
             // 
             // lblEmail
@@ -343,7 +403,7 @@
             this.lblEmail.Location = new System.Drawing.Point(15, 73);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(39, 15);
-            this.lblEmail.TabIndex = 1;
+            this.lblEmail.TabIndex = 2;
             this.lblEmail.Text = "Email:";
             // 
             // lblUsuario
@@ -355,67 +415,6 @@
             this.lblUsuario.Size = new System.Drawing.Size(50, 15);
             this.lblUsuario.TabIndex = 0;
             this.lblUsuario.Text = "Usuario:";
-            // 
-            // dtpNacimiento
-            // 
-            this.dtpNacimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNacimiento.Location = new System.Drawing.Point(340, 70);
-            this.dtpNacimiento.Name = "dtpNacimiento";
-            this.dtpNacimiento.Size = new System.Drawing.Size(165, 23);
-            this.dtpNacimiento.TabIndex = 3;
-            // 
-            // txtLocalidad
-            // 
-            this.txtLocalidad.Location = new System.Drawing.Point(85, 70);
-            this.txtLocalidad.Name = "txtLocalidad";
-            this.txtLocalidad.Size = new System.Drawing.Size(220, 23);
-            this.txtLocalidad.TabIndex = 7;
-            this.txtLocalidad.UseSystemPasswordChar = true;
-            // 
-            // lblConfirmar
-            // 
-            this.lblConfirmar.AutoSize = true;
-            this.lblConfirmar.Location = new System.Drawing.Point(295, 113);
-            this.lblConfirmar.Name = "lblConfirmar";
-            this.lblConfirmar.Size = new System.Drawing.Size(47, 15);
-            this.lblConfirmar.TabIndex = 8;
-            this.lblConfirmar.Text = "Repetir:";
-            // 
-            // chkVerClave
-            // 
-            this.chkVerClave.AutoSize = true;
-            this.chkVerClave.Location = new System.Drawing.Point(355, 140);
-            this.chkVerClave.Name = "chkVerClave";
-            this.chkVerClave.Size = new System.Drawing.Size(135, 19);
-            this.chkVerClave.TabIndex = 9;
-            this.chkVerClave.Text = "Mostrar Contraseñas";
-            this.chkVerClave.UseVisualStyleBackColor = true;
-            // 
-            // txtConfirmarContrasena
-            // 
-            this.txtConfirmarContrasena.Location = new System.Drawing.Point(355, 110);
-            this.txtConfirmarContrasena.Name = "txtConfirmarContrasena";
-            this.txtConfirmarContrasena.Size = new System.Drawing.Size(150, 23);
-            this.txtConfirmarContrasena.TabIndex = 11;
-            this.txtConfirmarContrasena.UseSystemPasswordChar = true;
-            // 
-            // lblDireccion
-            // 
-            this.lblDireccion.AutoSize = true;
-            this.lblDireccion.Location = new System.Drawing.Point(15, 113);
-            this.lblDireccion.Name = "lblDireccion";
-            this.lblDireccion.Size = new System.Drawing.Size(60, 15);
-            this.lblDireccion.TabIndex = 8;
-            this.lblDireccion.Text = "Dirección:";
-            // 
-            // txtDireccionCompleta
-            // 
-            this.txtDireccionCompleta.Location = new System.Drawing.Point(85, 110);
-            this.txtDireccionCompleta.Name = "txtDireccionCompleta";
-            this.txtDireccionCompleta.ReadOnly = true;
-            this.txtDireccionCompleta.Size = new System.Drawing.Size(420, 23);
-            this.txtDireccionCompleta.TabIndex = 9;
-            this.txtDireccionCompleta.UseSystemPasswordChar = true;
             // 
             // FormAgregarUsuario
             // 
@@ -481,7 +480,7 @@
         private System.Windows.Forms.Label lblContrasena;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.Label lblUsuario;
-        private System.Windows.Forms.DateTimePicker dtpNacimiento;
+        private System.Windows.Forms.DateTimePicker dtpFechaNacimiento;
         private System.Windows.Forms.TextBox txtLocalidad;
         private System.Windows.Forms.Label lblConfirmar;
         private System.Windows.Forms.CheckBox chkVerClave;
