@@ -52,11 +52,6 @@ namespace HardAdmin
 
             formularioHijo.BringToFront();
             formularioHijo.Show();
-
-            // Líneas necesarias para forzar el cálculo de los Anchors de inmediato:
-            formularioHijo.Size = pnlContenedor.ClientSize;
-            formularioHijo.PerformLayout();
-            pnlContenedor.PerformLayout();
         }
 
         private void AbrirModulo(string modulo)

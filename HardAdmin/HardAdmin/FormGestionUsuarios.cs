@@ -47,10 +47,14 @@ namespace HardAdmin
             PosicionarBotonAccion();
         }
 
-        // Eventos para actualizar la posición si el usuario hace scroll
+        // Evento para actualizar la posición si el usuario hace scroll
         private void dgvUsuarios_Scroll(object sender, ScrollEventArgs e)
         {
             PosicionarBotonAccion();
+
+            // Esta línea es la magia: fuerza a la grilla a redibujarse 
+            // y borra cualquier rastro fantasma que haya dejado el botón
+            dgvUsuarios.Invalidate();
         }
 
         //Evento CellDoubleClick del DataGridView
@@ -65,14 +69,16 @@ namespace HardAdmin
 
         private void PosicionarBotonAccion()
         {
+            // 1. Ocultamos el botón PRIMERO para que no deje rastro al moverse
+            btnModificarFila.Visible = false;
+
             if (dgvUsuarios.CurrentRow == null || dgvUsuarios.CurrentRow.Index < 0)
             {
-                btnModificarFila.Visible = false;
-                return;
+                return; // Queda oculto y salimos
             }
 
             int rowIndex = dgvUsuarios.CurrentRow.Index;
-            int columnIndex = dgvUsuarios.Columns["colAccion"].Index; // Nombre de la columna reservada
+            int columnIndex = dgvUsuarios.Columns["colAccion"].Index;
 
             // Obtener las coordenadas en pantalla de la celda de esa fila
             Rectangle cellRectangle = dgvUsuarios.GetCellDisplayRectangle(columnIndex, rowIndex, false);
@@ -82,11 +88,9 @@ namespace HardAdmin
             {
                 btnModificarFila.Size = new Size(cellRectangle.Width - 4, cellRectangle.Height - 4);
                 btnModificarFila.Location = new Point(cellRectangle.X + 2, cellRectangle.Y + 2);
+
+                // 2. Lo volvemos a mostrar recién cuando ya está en sus coordenadas nuevas
                 btnModificarFila.Visible = true;
-            }
-            else
-            {
-                btnModificarFila.Visible = false;
             }
         }
 
@@ -133,12 +137,17 @@ namespace HardAdmin
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    // CASE para transformar el bit de baja a 'Sí' / 'No' en la columna activo
+                    // Usamos AS para asignarles el alias exacto que pusimos en el DataPropertyName de la grilla.
+                    // Concatenamos Apellido/Nombre y la Dirección completa directo desde el motor SQL.
                     string query = @"SELECT 
                                 u.id_usuario, 
+                                u.dni AS dni,
+                                u.apellido + ', ' + u.nombre AS nombre_completo,
                                 u.nombre_usuario, 
                                 u.email, 
                                 r.nombre_rol, 
+                                u.fecha_nacimiento AS fecha_nac,
+                                u.calle + ' ' + u.altura + ISNULL(' Dpto ' + u.dpto, '') + ', ' + u.localidad AS direccion,
                                 CASE WHEN u.baja = 0 THEN 'Sí' ELSE 'No' END AS activo
                              FROM Usuario u
                              INNER JOIN Rol r ON u.id_rol = r.id_rol";

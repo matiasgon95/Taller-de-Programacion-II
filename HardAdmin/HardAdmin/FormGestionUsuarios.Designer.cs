@@ -32,9 +32,13 @@
             this.btnAgregarUsuario = new System.Windows.Forms.Button();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.btnModificarFila = new System.Windows.Forms.Button();
+            this.colDni = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNombreCompleto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFechaNac = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
@@ -66,15 +70,20 @@
             // 
             this.dgvUsuarios.AllowUserToAddRows = false;
             this.dgvUsuarios.AllowUserToDeleteRows = false;
+            this.dgvUsuarios.AllowUserToResizeRows = false;
             this.dgvUsuarios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUsuarios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colDni,
+            this.colNombreCompleto,
             this.colUsuario,
             this.colEmail,
             this.colRol,
+            this.colFechaNac,
+            this.colDireccion,
             this.colActivo,
             this.colAccion});
             this.dgvUsuarios.Location = new System.Drawing.Point(35, 68);
@@ -92,7 +101,7 @@
             // 
             // btnModificarFila
             // 
-            this.btnModificarFila.Location = new System.Drawing.Point(669, 103);
+            this.btnModificarFila.Location = new System.Drawing.Point(690, 110);
             this.btnModificarFila.Name = "btnModificarFila";
             this.btnModificarFila.Size = new System.Drawing.Size(75, 23);
             this.btnModificarFila.TabIndex = 4;
@@ -100,6 +109,20 @@
             this.btnModificarFila.UseVisualStyleBackColor = true;
             this.btnModificarFila.Visible = false;
             this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
+            // 
+            // colDni
+            // 
+            this.colDni.DataPropertyName = "dni";
+            this.colDni.HeaderText = "DNI";
+            this.colDni.Name = "colDni";
+            this.colDni.ReadOnly = true;
+            // 
+            // colNombreCompleto
+            // 
+            this.colNombreCompleto.DataPropertyName = "nombre_completo";
+            this.colNombreCompleto.HeaderText = "Nombre y Apellido";
+            this.colNombreCompleto.Name = "colNombreCompleto";
+            this.colNombreCompleto.ReadOnly = true;
             // 
             // colUsuario
             // 
@@ -121,6 +144,21 @@
             this.colRol.HeaderText = "Rol";
             this.colRol.Name = "colRol";
             this.colRol.ReadOnly = true;
+            // 
+            // colFechaNac
+            // 
+            this.colFechaNac.DataPropertyName = "fecha_nac";
+            this.colFechaNac.HeaderText = "Fecha Nac.";
+            this.colFechaNac.Name = "colFechaNac";
+            this.colFechaNac.ReadOnly = true;
+            // 
+            // colDireccion
+            // 
+            this.colDireccion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDireccion.DataPropertyName = "direccion";
+            this.colDireccion.HeaderText = "Dirección";
+            this.colDireccion.Name = "colDireccion";
+            this.colDireccion.ReadOnly = true;
             // 
             // colActivo
             // 
@@ -164,9 +202,13 @@
         private System.Windows.Forms.Button btnAgregarUsuario;
         private System.Windows.Forms.DataGridView dgvUsuarios;
         private System.Windows.Forms.Button btnModificarFila;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDni;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNombreCompleto;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUsuario;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEmail;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFechaNac;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colActivo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAccion;
     }
