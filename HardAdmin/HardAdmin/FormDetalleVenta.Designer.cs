@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlTitulo = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.gbDatosVenta = new System.Windows.Forms.GroupBox();
-            this.lblComprobante = new System.Windows.Forms.Label();
-            this.lblFecha = new System.Windows.Forms.Label();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.lblCliente = new System.Windows.Forms.Label();
-            this.lblDni = new System.Windows.Forms.Label();
-            this.lblDireccion = new System.Windows.Forms.Label();
-            this.lblVendedor = new System.Windows.Forms.Label();
             this.lblMetodoPago = new System.Windows.Forms.Label();
+            this.lblVendedor = new System.Windows.Forms.Label();
+            this.lblDireccion = new System.Windows.Forms.Label();
+            this.lblDni = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.lblEstado = new System.Windows.Forms.Label();
+            this.lblFecha = new System.Windows.Forms.Label();
+            this.lblComprobante = new System.Windows.Forms.Label();
             this.gbDetalle = new System.Windows.Forms.GroupBox();
             this.dgvDetalleVenta = new System.Windows.Forms.DataGridView();
             this.colIdProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -97,23 +97,50 @@
             this.gbDatosVenta.TabStop = false;
             this.gbDatosVenta.Text = "Datos del comprobante";
             // 
-            // lblComprobante
+            // lblMetodoPago
             // 
-            this.lblComprobante.AutoSize = true;
-            this.lblComprobante.Location = new System.Drawing.Point(15, 30);
-            this.lblComprobante.Name = "lblComprobante";
-            this.lblComprobante.Size = new System.Drawing.Size(118, 13);
-            this.lblComprobante.TabIndex = 0;
-            this.lblComprobante.Text = "Comprobante: F-0001";
+            this.lblMetodoPago.AutoSize = true;
+            this.lblMetodoPago.Location = new System.Drawing.Point(300, 120);
+            this.lblMetodoPago.Name = "lblMetodoPago";
+            this.lblMetodoPago.Size = new System.Drawing.Size(166, 13);
+            this.lblMetodoPago.TabIndex = 7;
+            this.lblMetodoPago.Text = "Método de Pago: Transferencia";
             // 
-            // lblFecha
+            // lblVendedor
             // 
-            this.lblFecha.AutoSize = true;
-            this.lblFecha.Location = new System.Drawing.Point(300, 30);
-            this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(129, 13);
-            this.lblFecha.TabIndex = 1;
-            this.lblFecha.Text = "Fecha: 15/08/2026 14:30";
+            this.lblVendedor.AutoSize = true;
+            this.lblVendedor.Location = new System.Drawing.Point(15, 120);
+            this.lblVendedor.Name = "lblVendedor";
+            this.lblVendedor.Size = new System.Drawing.Size(118, 13);
+            this.lblVendedor.TabIndex = 6;
+            this.lblVendedor.Text = "Vendedor: mgonzalez";
+            // 
+            // lblDireccion
+            // 
+            this.lblDireccion.AutoSize = true;
+            this.lblDireccion.Location = new System.Drawing.Point(15, 90);
+            this.lblDireccion.Name = "lblDireccion";
+            this.lblDireccion.Size = new System.Drawing.Size(192, 13);
+            this.lblDireccion.TabIndex = 5;
+            this.lblDireccion.Text = "Dirección: San Martín 1540, Dpto 2A";
+            // 
+            // lblDni
+            // 
+            this.lblDni.AutoSize = true;
+            this.lblDni.Location = new System.Drawing.Point(300, 60);
+            this.lblDni.Name = "lblDni";
+            this.lblDni.Size = new System.Drawing.Size(80, 13);
+            this.lblDni.TabIndex = 4;
+            this.lblDni.Text = "DNI: 12345678";
+            // 
+            // lblCliente
+            // 
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Location = new System.Drawing.Point(15, 60);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(103, 13);
+            this.lblCliente.TabIndex = 3;
+            this.lblCliente.Text = "Cliente: Juan Pérez";
             // 
             // lblEstado
             // 
@@ -125,50 +152,23 @@
             this.lblEstado.TabIndex = 2;
             this.lblEstado.Text = "Estado: Pagado";
             // 
-            // lblCliente
+            // lblFecha
             // 
-            this.lblCliente.AutoSize = true;
-            this.lblCliente.Location = new System.Drawing.Point(15, 60);
-            this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(103, 13);
-            this.lblCliente.TabIndex = 3;
-            this.lblCliente.Text = "Cliente: Juan Pérez";
+            this.lblFecha.AutoSize = true;
+            this.lblFecha.Location = new System.Drawing.Point(300, 30);
+            this.lblFecha.Name = "lblFecha";
+            this.lblFecha.Size = new System.Drawing.Size(129, 13);
+            this.lblFecha.TabIndex = 1;
+            this.lblFecha.Text = "Fecha: 15/08/2026 14:30";
             // 
-            // lblDni
+            // lblComprobante
             // 
-            this.lblDni.AutoSize = true;
-            this.lblDni.Location = new System.Drawing.Point(300, 60);
-            this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(80, 13);
-            this.lblDni.TabIndex = 4;
-            this.lblDni.Text = "DNI: 12345678";
-            // 
-            // lblDireccion
-            // 
-            this.lblDireccion.AutoSize = true;
-            this.lblDireccion.Location = new System.Drawing.Point(15, 90);
-            this.lblDireccion.Name = "lblDireccion";
-            this.lblDireccion.Size = new System.Drawing.Size(192, 13);
-            this.lblDireccion.TabIndex = 5;
-            this.lblDireccion.Text = "Dirección: San Martín 1540, Dpto 2A";
-            // 
-            // lblVendedor
-            // 
-            this.lblVendedor.AutoSize = true;
-            this.lblVendedor.Location = new System.Drawing.Point(15, 120);
-            this.lblVendedor.Name = "lblVendedor";
-            this.lblVendedor.Size = new System.Drawing.Size(118, 13);
-            this.lblVendedor.TabIndex = 6;
-            this.lblVendedor.Text = "Vendedor: mgonzalez";
-            // 
-            // lblMetodoPago
-            // 
-            this.lblMetodoPago.AutoSize = true;
-            this.lblMetodoPago.Location = new System.Drawing.Point(300, 120);
-            this.lblMetodoPago.Name = "lblMetodoPago";
-            this.lblMetodoPago.Size = new System.Drawing.Size(166, 13);
-            this.lblMetodoPago.TabIndex = 7;
-            this.lblMetodoPago.Text = "Método de Pago: Transferencia";
+            this.lblComprobante.AutoSize = true;
+            this.lblComprobante.Location = new System.Drawing.Point(15, 30);
+            this.lblComprobante.Name = "lblComprobante";
+            this.lblComprobante.Size = new System.Drawing.Size(118, 13);
+            this.lblComprobante.TabIndex = 0;
+            this.lblComprobante.Text = "Comprobante: F-0001";
             // 
             // gbDetalle
             // 
@@ -224,18 +224,18 @@
             // 
             // colCantidad
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colCantidad.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colCantidad.DefaultCellStyle = dataGridViewCellStyle1;
             this.colCantidad.HeaderText = "Cant.";
             this.colCantidad.Name = "colCantidad";
             this.colCantidad.ReadOnly = true;
             // 
             // colPrecioUnitario
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colPrecioUnitario.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colPrecioUnitario.DefaultCellStyle = dataGridViewCellStyle2;
             this.colPrecioUnitario.HeaderText = "Precio Unit.";
             this.colPrecioUnitario.Name = "colPrecioUnitario";
             this.colPrecioUnitario.ReadOnly = true;
@@ -243,9 +243,9 @@
             // 
             // colSubtotal
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "C2";
-            this.colSubtotal.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "C2";
+            this.colSubtotal.DefaultCellStyle = dataGridViewCellStyle3;
             this.colSubtotal.HeaderText = "Subtotal";
             this.colSubtotal.Name = "colSubtotal";
             this.colSubtotal.ReadOnly = true;
@@ -280,6 +280,7 @@
             this.btnImprimir.TabIndex = 6;
             this.btnImprimir.Text = "Imprimir";
             this.btnImprimir.UseVisualStyleBackColor = true;
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
             // 
             // btnCerrar
             // 
@@ -305,6 +306,7 @@
             this.Controls.Add(this.pnlTitulo);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "FormDetalleVenta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Detalle de venta";
