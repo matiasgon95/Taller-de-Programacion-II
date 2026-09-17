@@ -17,25 +17,35 @@ namespace HardAdmin
 {
     public partial class FormModificarUsuario : Form
     {
+        // Traemos la cadena de conexión desde el App.config para no tenerla hardcodeada en el código.
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+
+        // Acá guardamos el ID del usuario que vamos a modificar. Lo recibimos al abrir el formulario.
         private int idUsuario;
 
+        // Variables para la validación del formulario.
         private const int EDAD_MINIMA = 18;
         private ErrorProvider errorProvider = new ErrorProvider();
         private bool formularioValido;
-        private List<Control> controlesInvalidos = new List<Control>();
+        private List<Control> controlesInvalidos = new List<Control>(); // Guarda qué campos tienen errores para hacerles foco después.
 
         public FormModificarUsuario(int idUsuario)
         {
             InitializeComponent();
+
+            // Asignamos el ID que viene de la pantalla anterior (seguramente una grilla) a nuestra variable global.
             this.idUsuario = idUsuario;
 
+            // Configuramos el ícono de error para que aparezca pegado a los controles y no titile (molesta menos a la vista).
             errorProvider.ContainerControl = this;
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
-            // Asignamos los eventos de validación y formato
+            // ---------- ENGANCHE DE EVENTOS ----------
+            // Bloqueos de teclado en tiempo real (para que no metan números en el nombre, etc.)
             txtNombre.KeyPress += SoloLetras_KeyPress;
             txtApellido.KeyPress += SoloLetras_KeyPress;
+
+            // Cuando salen del campo, les ponemos la primera letra en mayúscula automáticamente.
             txtNombre.Leave += CapitalizarTexto_Leave;
             txtApellido.Leave += CapitalizarTexto_Leave;
 
@@ -43,8 +53,10 @@ namespace HardAdmin
             txtDni.MaxLength = 8;
             txtAltura.KeyPress += SoloNumeros_KeyPress;
 
+            // Evitamos que elijan una fecha en el futuro.
             dtpFechaNacimiento.MaxDate = DateTime.Today;
 
+            // Limitamos el largo de los textos para que coincida exacto con la base de datos y no explote el SQL.
             txtNombre.MaxLength = 50;
             txtApellido.MaxLength = 50;
             txtCalle.MaxLength = 100;
@@ -54,14 +66,18 @@ namespace HardAdmin
             txtUsuario.MaxLength = 50;
             txtEmail.MaxLength = 100;
 
+            // Cada vez que escriben una letra en la dirección, armamos la "Dirección Completa" al vuelo.
             txtCalle.TextChanged += ActualizarDireccionCompleta;
             txtAltura.TextChanged += ActualizarDireccionCompleta;
             txtDpto.TextChanged += ActualizarDireccionCompleta;
             txtLocalidad.TextChanged += ActualizarDireccionCompleta;
 
+            // Lógica visual de las contraseñas.
             chkCambiarClave.CheckedChanged += chkCambiarClave_CheckedChanged;
             chkVerClave.CheckedChanged += chkVerClave_CheckedChanged;
 
+            // Enganchamos la validación de cada campo al evento Leave. 
+            // Así, apenas el usuario sale de un campo, le avisamos si está mal sin tener que esperar a que apriete Guardar.
             txtNombre.Leave += txtNombre_Leave;
             txtApellido.Leave += txtApellido_Leave;
             txtDni.Leave += txtDni_Leave;
@@ -75,16 +91,18 @@ namespace HardAdmin
             txtConfirmarContrasena.Leave += txtConfirmarContrasena_Leave;
             cmbRol.SelectedIndexChanged += cmbRol_SelectedIndexChanged;
 
-            // Estado inicial de las contraseñas
+            // Por defecto, como estamos editando un usuario, bloqueamos los campos de contraseña 
+            // para no obligar a cambiarla si solo querían arreglar un error en el nombre.
             txtContrasena.Enabled = false;
             txtConfirmarContrasena.Enabled = false;
             chkVerClave.Enabled = false;
 
-            // Cargamos los datos directo en el constructor como lo tenías originalmente
+            // Vamos a buscar la información a la base de datos para llenar los campos.
             CargarRoles();
             CargarDatosUsuario();
         }
 
+        // Busca los roles disponibles y los mete en el ComboBox.
         private void CargarRoles()
         {
             try
@@ -97,8 +115,8 @@ namespace HardAdmin
                         DataTable dt = new DataTable();
                         da.Fill(dt);
 
-                        cmbRol.DisplayMember = "nombre_rol";
-                        cmbRol.ValueMember = "id_rol";
+                        cmbRol.DisplayMember = "nombre_rol"; // Lo que lee la persona
+                        cmbRol.ValueMember = "id_rol";       // El número que guardamos por atrás
                         cmbRol.DataSource = dt;
                     }
                 }
@@ -109,6 +127,7 @@ namespace HardAdmin
             }
         }
 
+        // Trae toda la información del usuario seleccionado usando el ID y completa el formulario.
         private void CargarDatosUsuario()
         {
             try
@@ -129,25 +148,27 @@ namespace HardAdmin
                         {
                             if (reader.Read())
                             {
-                                // Datos de acceso
+                                // Llenamos los datos de acceso
                                 txtUsuario.Text = reader["nombre_usuario"].ToString();
                                 txtEmail.Text = reader["email"].ToString();
                                 cmbRol.SelectedValue = Convert.ToInt32(reader["id_rol"]);
 
-                                // Datos personales
+                                // Llenamos los datos personales
                                 txtNombre.Text = reader["nombre"].ToString();
                                 txtApellido.Text = reader["apellido"].ToString();
                                 txtDni.Text = reader["dni"].ToString();
 
+                                // Como la fecha permite nulos en la BD, comprobamos que tenga algo antes de asignarla.
                                 if (reader["fecha_nacimiento"] != DBNull.Value)
                                     dtpFechaNacimiento.Value = Convert.ToDateTime(reader["fecha_nacimiento"]);
 
-                                // Dirección
+                                // Llenamos la dirección
                                 txtCalle.Text = reader["calle"].ToString();
                                 txtAltura.Text = reader["altura"].ToString();
                                 txtDpto.Text = reader["dpto"].ToString();
                                 txtLocalidad.Text = reader["localidad"].ToString();
 
+                                // Manejamos los radio buttons. Si baja es 0 está activo, si es 1 está inactivo.
                                 int baja = Convert.ToInt32(reader["baja"]);
                                 if (baja == 0)
                                 {
@@ -168,6 +189,7 @@ namespace HardAdmin
             }
         }
 
+        // Concatena calle, altura, departamento y localidad en un solo string prolijo.
         private void ActualizarDireccionCompleta(object sender, EventArgs e)
         {
             string calle = txtCalle.Text.Trim();
@@ -197,8 +219,9 @@ namespace HardAdmin
             txtDireccionCompleta.Text = direccion;
         }
 
-        // ---------- Helpers de formato ----------
+        // ---------- HELPERS DE FORMATO ----------
 
+        // Corta el tipeo de cualquier cosa que no sea una letra o espacio.
         private void SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
@@ -207,6 +230,7 @@ namespace HardAdmin
             }
         }
 
+        // Corta el tipeo de letras o símbolos en los campos numéricos.
         private void SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -215,6 +239,7 @@ namespace HardAdmin
             }
         }
 
+        // Pasa a mayúscula la primera letra de cada palabra. Ej: "matias gonzalez" -> "Matias Gonzalez".
         private void CapitalizarTexto_Leave(object sender, EventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -224,21 +249,21 @@ namespace HardAdmin
             txt.Text = textInfo.ToTitleCase(txt.Text.Trim().ToLower(CultureInfo.GetCultureInfo("es-AR")));
         }
 
+        // Se ejecuta cuando tildan o destildan "Modificar contraseña".
         private void chkCambiarClave_CheckedChanged(object sender, EventArgs e)
         {
             bool cambiar = chkCambiarClave.Checked;
+
+            // Habilitamos o bloqueamos las cajas de texto según el tilde.
             txtContrasena.Enabled = cambiar;
             txtConfirmarContrasena.Enabled = cambiar;
-
-            // Habilita o deshabilita el checkbox de mostrar contraseñas
             chkVerClave.Enabled = cambiar;
 
+            // Si se arrepienten y destildan, limpiamos lo que habían escrito y borramos los íconos de error.
             if (!cambiar)
             {
                 txtContrasena.Clear();
                 txtConfirmarContrasena.Clear();
-
-                // Destildamos el mostrar clave por si lo había dejado marcado
                 chkVerClave.Checked = false;
 
                 Marcar(txtContrasena, true, "");
@@ -246,22 +271,26 @@ namespace HardAdmin
             }
         }
 
+        // Alterna entre mostrar asteriscos o el texto real en las claves.
         private void chkVerClave_CheckedChanged(object sender, EventArgs e)
         {
             txtContrasena.UseSystemPasswordChar = !chkVerClave.Checked;
             txtConfirmarContrasena.UseSystemPasswordChar = !chkVerClave.Checked;
         }
 
+        // Revisa que el string tenga únicamente letras y espacios (permite ñ y tildes).
         private bool EsSoloLetras(string texto)
         {
             return Regex.IsMatch(texto, @"^[\p{L}\s]+$");
         }
 
+        // Valida que sean exactamente entre 7 y 8 números consecutivos.
         private bool EsDniValido(string dni)
         {
             return Regex.IsMatch(dni, @"^\d{7,8}$");
         }
 
+        // Valida que el texto tenga formato de correo usando las librerías propias de C#.
         private bool EsEmailValido(string email)
         {
             try
@@ -275,6 +304,7 @@ namespace HardAdmin
             }
         }
 
+        // Calcula la edad real (teniendo en cuenta meses y días) y valida contra el mínimo.
         private bool CumpleEdadMinima(DateTime fechaNacimiento)
         {
             DateTime hoy = DateTime.Today;
@@ -286,6 +316,8 @@ namespace HardAdmin
             return edad >= EDAD_MINIMA;
         }
 
+        // Método centralizador de errores. Si algo está mal, prende el ErrorProvider rojo.
+        // Si está bien, lo apaga. Además lleva un registro de cuántos controles están mal.
         private void Marcar(Control control, bool condicionValida, string mensajeError)
         {
             if (condicionValida)
@@ -304,12 +336,17 @@ namespace HardAdmin
             }
         }
 
+        // Si fallan varios campos a la vez al dar Guardar, esto busca cuál está más arriba
+        // en el formulario (según el TabIndex) y pone el cursor ahí para que el usuario empiece a corregir.
         private void EnfocarPrimerInvalidoPorTabOrder()
         {
             Control primero = controlesInvalidos.OrderBy(c => c.TabIndex).FirstOrDefault();
             primero?.Focus();
         }
 
+        // CRÍTICO PARA MODIFICACIÓN: Comprueba si un DNI/Email/User ya existe, pero 
+        // IGNORA al propio usuario que estamos editando. Si no hacemos esto, tiraría error
+        // por encontrar sus propios datos en la base.
         private bool ExisteEnUsuarioModificacion(string columna, string valor)
         {
             string query = $"SELECT COUNT(1) FROM Usuario WHERE {columna} = @valor AND id_usuario != @idActual";
@@ -323,7 +360,8 @@ namespace HardAdmin
             }
         }
 
-        // ---------- Validación por campo ----------
+        // ---------- VALIDACIÓN POR CAMPO ----------
+        // Todas estas funciones devuelven true o false, y llaman a Marcar() para prender/apagar el error.
 
         private bool ValidarNombre()
         {
@@ -414,6 +452,7 @@ namespace HardAdmin
 
         private bool ValidarContrasena()
         {
+            // Si no está tildado el checkbox de modificar, siempre da "válido" porque no se toca.
             if (!chkCambiarClave.Checked) return true;
 
             string valor = txtContrasena.Text;
@@ -438,8 +477,8 @@ namespace HardAdmin
             return ok;
         }
 
-        // ---------- Eventos Leave / Changed ----------
-
+        // ---------- EVENTOS LEAVE ----------
+        // Vinculan la salida del campo con su función de validación.
         private void txtNombre_Leave(object sender, EventArgs e) => ValidarNombre();
         private void txtApellido_Leave(object sender, EventArgs e) => ValidarApellido();
         private void txtDni_Leave(object sender, EventArgs e) => ValidarDni();
@@ -456,6 +495,7 @@ namespace HardAdmin
             if (chkCambiarClave.Checked)
             {
                 ValidarContrasena();
+                // Si el segundo campo ya tiene texto, lo validamos también para ver si coinciden.
                 if (!string.IsNullOrEmpty(txtConfirmarContrasena.Text))
                 {
                     ValidarConfirmarContrasena();
@@ -465,13 +505,15 @@ namespace HardAdmin
 
         private void txtConfirmarContrasena_Leave(object sender, EventArgs e) => ValidarConfirmarContrasena();
 
-        // ---------- Guardar ----------
+        // ---------- BOTÓN GUARDAR ----------
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            // Reseteamos el estado a "todo válido" antes de hacer el chequeo final.
             formularioValido = true;
             controlesInvalidos.Clear();
 
+            // Ejecutamos TODAS las validaciones juntas. Si alguna falla, formularioValido pasa a false.
             ValidarNombre();
             ValidarApellido();
             ValidarDni();
@@ -485,18 +527,21 @@ namespace HardAdmin
             ValidarConfirmarContrasena();
             ValidarRol();
 
+            // Si hay algo mal, cortamos acá nomás y ponemos el cursor en el error.
             if (!formularioValido)
             {
                 EnfocarPrimerInvalidoPorTabOrder();
                 return;
             }
 
+            // Mapeamos qué guardar de los radio buttons.
             int baja = rbActivoSi.Checked ? 0 : 1;
 
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
+                    // Armamos un UPDATE dinámico. Arrancamos con los campos que se actualizan siempre.
                     string query = @"UPDATE Usuario 
                                      SET nombre_usuario = @usuario, 
                                          email = @email, 
@@ -511,15 +556,18 @@ namespace HardAdmin
                                          dpto = @dpto, 
                                          localidad = @localidad";
 
+                    // Si decidieron cambiar la clave, sumamos la columna al UPDATE.
                     if (chkCambiarClave.Checked)
                     {
                         query += ", contrasena = @contrasena";
                     }
 
+                    // Cerramos la instrucción.
                     query += " WHERE id_usuario = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
+                        // Carga masiva de los parámetros limpios al comando SQL.
                         cmd.Parameters.AddWithValue("@id", this.idUsuario);
                         cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
                         cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
@@ -532,26 +580,32 @@ namespace HardAdmin
                         cmd.Parameters.AddWithValue("@fechaNacimiento", dtpFechaNacimiento.Value.Date);
                         cmd.Parameters.AddWithValue("@calle", txtCalle.Text.Trim());
                         cmd.Parameters.AddWithValue("@altura", txtAltura.Text.Trim());
+
+                        // El depto lo mandamos como NULL explícito a la base si está vacío.
                         cmd.Parameters.AddWithValue("@dpto", string.IsNullOrWhiteSpace(txtDpto.Text) ? (object)DBNull.Value : txtDpto.Text.Trim());
                         cmd.Parameters.AddWithValue("@localidad", txtLocalidad.Text.Trim());
 
+                        // Si marcamos el tilde de cambiar clave, hacemos el hash y lo agregamos como parámetro.
                         if (chkCambiarClave.Checked)
                         {
                             string nuevaContrasenaHash = Seguridad.HashearContrasena(txtContrasena.Text);
                             cmd.Parameters.AddWithValue("@contrasena", nuevaContrasenaHash);
                         }
 
+                        // Abrimos conexión y tiramos el UPDATE.
                         con.Open();
                         cmd.ExecuteNonQuery();
                     }
                 }
 
                 MessageBox.Show("Usuario modificado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
+                this.DialogResult = DialogResult.OK; // Le avisamos a la grilla que se modificó algo y cerramos.
                 this.Close();
             }
             catch (SqlException ex)
             {
+                // Manejo de errores a nivel base de datos por si, justo antes de guardar, 
+                // alguien más registró un DNI/User/Email repetido y la BD lo rebotó por UNIQUE KEY.
                 if (ex.Number == 2627 || ex.Number == 2601)
                 {
                     MessageBox.Show("El nombre de usuario, email o DNI ya se encuentra registrado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
