@@ -113,5 +113,13 @@ namespace HardAdmin
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (FormDetalleVenta frm = new FormDetalleVenta())
+            {
+                frm.ShowDialog();
+            }
+        }
     }
 }
