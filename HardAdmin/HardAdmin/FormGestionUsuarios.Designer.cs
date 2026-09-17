@@ -40,7 +40,6 @@
             this.colFechaNac = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +59,7 @@
             this.btnAgregarUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAgregarUsuario.Location = new System.Drawing.Point(35, 451);
             this.btnAgregarUsuario.Name = "btnAgregarUsuario";
-            this.btnAgregarUsuario.Size = new System.Drawing.Size(99, 38);
+            this.btnAgregarUsuario.Size = new System.Drawing.Size(100, 38);
             this.btnAgregarUsuario.TabIndex = 2;
             this.btnAgregarUsuario.Text = "Agregar Usuario";
             this.btnAgregarUsuario.UseVisualStyleBackColor = true;
@@ -71,8 +70,8 @@
             this.dgvUsuarios.AllowUserToAddRows = false;
             this.dgvUsuarios.AllowUserToDeleteRows = false;
             this.dgvUsuarios.AllowUserToResizeRows = false;
-            this.dgvUsuarios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvUsuarios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -84,8 +83,7 @@
             this.colRol,
             this.colFechaNac,
             this.colDireccion,
-            this.colActivo,
-            this.colAccion});
+            this.colActivo});
             this.dgvUsuarios.Location = new System.Drawing.Point(35, 68);
             this.dgvUsuarios.MultiSelect = false;
             this.dgvUsuarios.Name = "dgvUsuarios";
@@ -96,18 +94,16 @@
             this.dgvUsuarios.Size = new System.Drawing.Size(733, 354);
             this.dgvUsuarios.TabIndex = 3;
             this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellDoubleClick);
-            this.dgvUsuarios.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvUsuarios_Scroll);
-            this.dgvUsuarios.SelectionChanged += new System.EventHandler(this.dgvUsuarios_SelectionChanged);
             // 
             // btnModificarFila
             // 
-            this.btnModificarFila.Location = new System.Drawing.Point(690, 110);
+            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnModificarFila.Location = new System.Drawing.Point(150, 451);
             this.btnModificarFila.Name = "btnModificarFila";
-            this.btnModificarFila.Size = new System.Drawing.Size(75, 23);
+            this.btnModificarFila.Size = new System.Drawing.Size(100, 38);
             this.btnModificarFila.TabIndex = 4;
-            this.btnModificarFila.Text = "Modificar";
+            this.btnModificarFila.Text = "Modificar Usuario";
             this.btnModificarFila.UseVisualStyleBackColor = true;
-            this.btnModificarFila.Visible = false;
             this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
             // 
             // colDni
@@ -169,13 +165,6 @@
             this.colActivo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colActivo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // colAccion
-            // 
-            this.colAccion.HeaderText = "Acción";
-            this.colAccion.Name = "colAccion";
-            this.colAccion.ReadOnly = true;
-            this.colAccion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
             // FormGestionUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -210,6 +199,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFechaNac;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colActivo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAccion;
     }
 }

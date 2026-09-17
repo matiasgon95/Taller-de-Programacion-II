@@ -14,8 +14,6 @@ namespace HardAdmin
 {
     public partial class FormGestionUsuarios : Form
     {
-        // Traemos la cadena de conexión desde el archivo de configuración (App.config).
-        // Así, si cambiamos de servidor, no hace falta recompilar todo el código.
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
 
         public FormGestionUsuarios()
@@ -25,18 +23,11 @@ namespace HardAdmin
 
         private void FormGestionUsuarios_Load(object sender, EventArgs e)
         {
-            // EL TRUCO DEL BOTÓN FLOTANTE: 
-            // Agregamos el botón físicamente "adentro" de los controles de la grilla.
-            // Esto permite que el botón se mueva junto con el scroll en lugar de quedar flotando afuera.
-            dgvUsuarios.Controls.Add(btnModificarFila);
-
             // Vamos a la base de datos y llenamos la tabla.
             CargarGrillaUsuarios();
 
             // Apenas arranca, quitamos la selección azul por defecto de la primera fila
-            // y ocultamos el botón para que la pantalla se vea limpia.
             dgvUsuarios.ClearSelection();
-            btnModificarFila.Visible = false;
 
             // ---------- DISEÑO VISUAL DE LA GRILLA ----------
 
@@ -50,42 +41,37 @@ namespace HardAdmin
             dgvUsuarios.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             // Excepción: la columna "Activo" (que dice Sí/No) queda mejor si está bien centrada.
-            dgvUsuarios.Columns["colActivo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            // Agregamos un condicional por si llegás a borrar la columna desde el diseñador.
+            if (dgvUsuarios.Columns["colActivo"] != null)
+            {
+                dgvUsuarios.Columns["colActivo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
         }
 
-        // ---------- EVENTOS DE MOVIMIENTO EN LA GRILLA ----------
+        // ---------- EVENTOS VACÍOS (PARA NO ROMPER EL DISEÑADOR) ----------
+        // Dejamos estos métodos vacíos. Si los borramos, la vista de diseño tira error. 
+        // Si querés, después podés desenlazarlos desde el rayito amarillo (Propiedades) y ahí sí borrarlos.
 
-        // Se dispara cada vez que el usuario hace clic en una fila distinta o se mueve con las flechas del teclado.
         private void dgvUsuarios_SelectionChanged(object sender, EventArgs e)
         {
-            PosicionarBotonAccion();
         }
 
-        // Se dispara cuando el usuario mueve la barra de desplazamiento (scroll) vertical u horizontal.
         private void dgvUsuarios_Scroll(object sender, ScrollEventArgs e)
         {
-            PosicionarBotonAccion();
-
-            // Esta línea es la magia que evita el efecto "fantasma":
-            // Fuerza a la grilla a redibujarse al instante y borra cualquier rastro visual que haya dejado el botón al moverse.
-            dgvUsuarios.Invalidate();
         }
 
         // ---------- EVENTOS DE ACCIÓN (MODIFICAR) ----------
 
-        // Permite abrir la edición haciendo doble clic en cualquier parte de la fila,
-        // no hace falta que le den sí o sí al botón.
+        // Permite abrir la edición haciendo doble clic en cualquier parte de la fila.
         private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Verificamos que e.RowIndex sea >= 0 para asegurarnos de que no hicieron doble clic 
-            // en los títulos de las columnas (eso sería el RowIndex -1 y daría error).
             if (e.RowIndex >= 0)
             {
                 AbrirModificarUsuario();
             }
         }
 
-        // Evento Click exclusivo del botón flotante de la columna "Acción".
+        // Evento Click del botón que ahora va a estar fijo en la pantalla.
         private void btnModificarFila_Click(object sender, EventArgs e)
         {
             if (dgvUsuarios.CurrentRow != null)
@@ -94,47 +80,8 @@ namespace HardAdmin
             }
         }
 
-        // ---------- LÓGICA DEL BOTÓN FLOTANTE ----------
-
-        // Este método calcula las coordenadas exactas de la celda "Acción" de la fila seleccionada
-        // y mueve el botón ahí, dándole el tamaño justo para que parezca que es parte de la grilla.
-        private void PosicionarBotonAccion()
-        {
-            // 1. Ocultamos el botón PRIMERO para que no deje un rastro visual al cambiar de posición.
-            btnModificarFila.Visible = false;
-
-            // Si no hay nada seleccionado (ej: grilla vacía), salimos y el botón queda oculto.
-            if (dgvUsuarios.CurrentRow == null || dgvUsuarios.CurrentRow.Index < 0)
-            {
-                return;
-            }
-
-            // Averiguamos en qué fila estamos parados y qué número de índice tiene nuestra columna de botones.
-            int rowIndex = dgvUsuarios.CurrentRow.Index;
-            int columnIndex = dgvUsuarios.Columns["colAccion"].Index;
-
-            // Obtenemos el rectángulo (coordenadas X, Y, Ancho y Alto) de esa celda en particular.
-            Rectangle cellRectangle = dgvUsuarios.GetCellDisplayRectangle(columnIndex, rowIndex, false);
-
-            // Si la celda está visible en la pantalla (ancho y alto mayores a 0)
-            if (cellRectangle.Width > 0 && cellRectangle.Height > 0)
-            {
-                // Le damos al botón el mismo tamaño que la celda, pero le restamos 4 píxeles 
-                // para que quede un pequeño margen y no toque los bordes.
-                btnModificarFila.Size = new Size(cellRectangle.Width - 4, cellRectangle.Height - 4);
-
-                // Lo movemos a las coordenadas de la celda, sumando 2 píxeles para centrar ese margen que dejamos.
-                btnModificarFila.Location = new Point(cellRectangle.X + 2, cellRectangle.Y + 2);
-
-                // 2. Lo volvemos a mostrar recién cuando ya está posicionado correctamente.
-                btnModificarFila.Visible = true;
-            }
-        }
-
         // ---------- APERTURA DE FORMULARIOS ----------
 
-        // Centraliza la lógica para abrir la ventana de edición. 
-        // Se llama tanto desde el doble clic como desde el botón flotante.
         private void AbrirModificarUsuario()
         {
             // Por las dudas, validamos que haya una fila real seleccionada.
@@ -144,17 +91,11 @@ namespace HardAdmin
                 return;
             }
 
-            // CRÍTICO: Como la grilla está enlazada a un DataTable (DataSource = dt), 
-            // la fila que seleccionamos no es una fila común, es un DataRowView.
-            // Lo casteamos para poder leer el dato invisible del ID del usuario.
             DataRowView filaSeleccionada = (DataRowView)dgvUsuarios.CurrentRow.DataBoundItem;
             int idUsuario = Convert.ToInt32(filaSeleccionada["id_usuario"]);
 
-            // Abrimos el formulario pasándole el ID al constructor.
             using (FormModificarUsuario frm = new FormModificarUsuario(idUsuario))
             {
-                // Usamos ShowDialog para que la pantalla de atrás quede bloqueada.
-                // Si el usuario guardó los cambios y cerró (DialogResult.OK), actualizamos la tabla para reflejarlo.
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     CargarGrillaUsuarios();
@@ -168,7 +109,6 @@ namespace HardAdmin
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    // Recargamos la grilla para que aparezca el nuevo usuario inmediatamente.
                     CargarGrillaUsuarios();
                 }
             }
@@ -176,7 +116,6 @@ namespace HardAdmin
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-            // Cierra toda la aplicación.
             Application.Exit();
         }
 
@@ -188,10 +127,6 @@ namespace HardAdmin
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    // Usamos AS para asignarles a las columnas de SQL el mismo nombre (DataPropertyName) 
-                    // que configuramos visualmente en el DataGridView.
-                    // Además, concatenamos Apellido/Nombre y la Dirección completa directo acá 
-                    // para que el programa no tenga que hacer cálculos extra.
                     string query = @"SELECT 
                                 u.id_usuario, 
                                 u.dni AS dni,
@@ -210,11 +145,7 @@ namespace HardAdmin
                         DataTable dt = new DataTable();
                         da.Fill(dt);
 
-                        // Esta propiedad evita que la grilla genere columnas automáticas extras por cada campo de SQL,
-                        // asegurando que respete el diseño visual, anchos y el orden que le dimos en el diseñador.
                         dgvUsuarios.AutoGenerateColumns = false;
-
-                        // Enlazamos los datos procesados a la tabla.
                         dgvUsuarios.DataSource = dt;
                     }
                 }
