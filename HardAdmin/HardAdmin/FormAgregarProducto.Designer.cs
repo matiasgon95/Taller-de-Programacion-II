@@ -38,7 +38,7 @@
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
-            this.LB_imagen = new System.Windows.Forms.Label();
+            this.lbImagen = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -49,10 +49,12 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.lb_encabezado = new System.Windows.Forms.Label();
+            this.pbImagen = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupStockActual)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupStockMinimo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupPrecio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbImagen)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -67,7 +69,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.btnSubir);
             this.panel1.Controls.Add(this.nupStockActual);
@@ -77,7 +79,7 @@
             this.panel1.Controls.Add(this.txtDescripcion);
             this.panel1.Controls.Add(this.txtCodigo);
             this.panel1.Controls.Add(this.txtNombre);
-            this.panel1.Controls.Add(this.LB_imagen);
+            this.panel1.Controls.Add(this.lbImagen);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
@@ -98,27 +100,47 @@
             this.btnSubir.TabIndex = 15;
             this.btnSubir.Text = "Subir Imagen..";
             this.btnSubir.UseVisualStyleBackColor = true;
+            this.btnSubir.Click += new System.EventHandler(this.btnSubir_Click);
             // 
             // nupStockActual
             // 
             this.nupStockActual.Location = new System.Drawing.Point(196, 268);
+            this.nupStockActual.Maximum = new decimal(new int[] {
+            1874919423,
+            2328306,
+            0,
+            0});
             this.nupStockActual.Name = "nupStockActual";
             this.nupStockActual.Size = new System.Drawing.Size(195, 20);
             this.nupStockActual.TabIndex = 14;
+            this.nupStockActual.ValueChanged += new System.EventHandler(this.nupStockActual_ValueChanged);
             // 
             // nupStockMinimo
             // 
             this.nupStockMinimo.Location = new System.Drawing.Point(196, 240);
+            this.nupStockMinimo.Maximum = new decimal(new int[] {
+            1874919423,
+            2328306,
+            0,
+            0});
             this.nupStockMinimo.Name = "nupStockMinimo";
             this.nupStockMinimo.Size = new System.Drawing.Size(195, 20);
             this.nupStockMinimo.TabIndex = 13;
+            this.nupStockMinimo.ValueChanged += new System.EventHandler(this.nupStockMinimo_ValueChanged);
             // 
             // nupPrecio
             // 
+            this.nupPrecio.DecimalPlaces = 2;
             this.nupPrecio.Location = new System.Drawing.Point(196, 207);
+            this.nupPrecio.Maximum = new decimal(new int[] {
+            1874919423,
+            2328306,
+            0,
+            0});
             this.nupPrecio.Name = "nupPrecio";
             this.nupPrecio.Size = new System.Drawing.Size(195, 20);
             this.nupPrecio.TabIndex = 12;
+            this.nupPrecio.ValueChanged += new System.EventHandler(this.nupPrecio_ValueChanged);
             // 
             // cmbCategoria
             // 
@@ -133,6 +155,7 @@
             this.cmbCategoria.Name = "cmbCategoria";
             this.cmbCategoria.Size = new System.Drawing.Size(195, 21);
             this.cmbCategoria.TabIndex = 11;
+            this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
             // 
             // txtDescripcion
             // 
@@ -142,6 +165,7 @@
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(195, 60);
             this.txtDescripcion.TabIndex = 10;
+            this.txtDescripcion.Leave += new System.EventHandler(this.txtDescripcion_Leave);
             // 
             // txtCodigo
             // 
@@ -151,27 +175,29 @@
             this.txtCodigo.Size = new System.Drawing.Size(195, 20);
             this.txtCodigo.TabIndex = 9;
             this.txtCodigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
+            this.txtCodigo.Leave += new System.EventHandler(this.txtCodigo_Leave);
             // 
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(196, 23);
-            this.txtNombre.MaxLength = 30;
+            this.txtNombre.MaxLength = 80;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(195, 20);
             this.txtNombre.TabIndex = 8;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
-            // LB_imagen
+            // lbImagen
             // 
-            this.LB_imagen.AutoSize = true;
-            this.LB_imagen.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LB_imagen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LB_imagen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LB_imagen.Location = new System.Drawing.Point(18, 302);
-            this.LB_imagen.Name = "LB_imagen";
-            this.LB_imagen.Size = new System.Drawing.Size(57, 18);
-            this.LB_imagen.TabIndex = 7;
-            this.LB_imagen.Text = "Imagen:";
+            this.lbImagen.AutoSize = true;
+            this.lbImagen.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lbImagen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbImagen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbImagen.Location = new System.Drawing.Point(18, 302);
+            this.lbImagen.Name = "lbImagen";
+            this.lbImagen.Size = new System.Drawing.Size(57, 18);
+            this.lbImagen.TabIndex = 7;
+            this.lbImagen.Text = "Imagen:";
             // 
             // label4
             // 
@@ -259,7 +285,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(309, 402);
+            this.btnGuardar.Location = new System.Drawing.Point(492, 360);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(84, 36);
             this.btnGuardar.TabIndex = 2;
@@ -269,7 +295,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(401, 402);
+            this.btnCancelar.Location = new System.Drawing.Point(582, 360);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(85, 36);
             this.btnCancelar.TabIndex = 3;
@@ -288,11 +314,20 @@
             this.lb_encabezado.TabIndex = 4;
             this.lb_encabezado.Text = "Datos del Producto";
             // 
+            // pbImagen
+            // 
+            this.pbImagen.Location = new System.Drawing.Point(492, 52);
+            this.pbImagen.Name = "pbImagen";
+            this.pbImagen.Size = new System.Drawing.Size(175, 243);
+            this.pbImagen.TabIndex = 5;
+            this.pbImagen.TabStop = false;
+            // 
             // FormAgregarProducto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 450);
+            this.ClientSize = new System.Drawing.Size(675, 450);
+            this.Controls.Add(this.pbImagen);
             this.Controls.Add(this.lb_encabezado);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
@@ -300,11 +335,13 @@
             this.Controls.Add(this.label1);
             this.Name = "FormAgregarProducto";
             this.Text = "HardAdmin - Agregar Producto";
+            this.Load += new System.EventHandler(this.FormAgregarProducto_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupStockActual)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupStockMinimo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupPrecio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbImagen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,7 +354,7 @@
         private System.Windows.Forms.Label LB_;
         private System.Windows.Forms.Label LB_Codigo;
         private System.Windows.Forms.Label LB_Nombre;
-        private System.Windows.Forms.Label LB_imagen;
+        private System.Windows.Forms.Label lbImagen;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -333,5 +370,6 @@
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label lb_encabezado;
+        private System.Windows.Forms.PictureBox pbImagen;
     }
 }
