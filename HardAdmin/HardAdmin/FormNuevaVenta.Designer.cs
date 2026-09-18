@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlTitulo = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblTitulo = new System.Windows.Forms.Label();
             this.gbDatosVenta = new System.Windows.Forms.GroupBox();
             this.txtDni = new System.Windows.Forms.TextBox();
             this.cmbMetodoPago = new System.Windows.Forms.ComboBox();
@@ -86,23 +86,24 @@
             // 
             // pnlTitulo
             // 
-            this.pnlTitulo.Controls.Add(this.label1);
+            this.pnlTitulo.Controls.Add(this.lblTitulo);
             this.pnlTitulo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTitulo.Location = new System.Drawing.Point(0, 0);
             this.pnlTitulo.Name = "pnlTitulo";
             this.pnlTitulo.Size = new System.Drawing.Size(834, 50);
             this.pnlTitulo.TabIndex = 1;
             // 
-            // label1
+            // lblTitulo
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(328, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 31);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Nueva Venta";
+            this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(328, 9);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(182, 31);
+            this.lblTitulo.TabIndex = 2;
+            this.lblTitulo.Text = "Nueva Venta";
             // 
             // gbDatosVenta
             // 
@@ -209,6 +210,7 @@
             this.btnNuevoCliente.TabIndex = 3;
             this.btnNuevoCliente.Text = "+";
             this.btnNuevoCliente.UseVisualStyleBackColor = true;
+            this.btnNuevoCliente.Click += new System.EventHandler(this.btnNuevoCliente_Click);
             // 
             // btnBuscarCliente
             // 
@@ -218,6 +220,7 @@
             this.btnBuscarCliente.TabIndex = 2;
             this.btnBuscarCliente.Text = "...";
             this.btnBuscarCliente.UseVisualStyleBackColor = true;
+            this.btnBuscarCliente.Click += new System.EventHandler(this.btnBuscarCliente_Click);
             // 
             // txtCliente
             // 
@@ -254,7 +257,9 @@
             // 
             // pnlAccionesGrilla
             // 
+            this.pnlAccionesGrilla.Controls.Add(this.lblMontoTotal);
             this.pnlAccionesGrilla.Controls.Add(this.btnQuitarProducto);
+            this.pnlAccionesGrilla.Controls.Add(this.lblTextoTotal);
             this.pnlAccionesGrilla.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlAccionesGrilla.Location = new System.Drawing.Point(3, 333);
             this.pnlAccionesGrilla.Name = "pnlAccionesGrilla";
@@ -269,13 +274,12 @@
             this.btnQuitarProducto.TabIndex = 0;
             this.btnQuitarProducto.Text = "Quitar Seleccionado";
             this.btnQuitarProducto.UseVisualStyleBackColor = true;
+            this.btnQuitarProducto.Click += new System.EventHandler(this.btnQuitarProducto_Click);
             // 
             // pnlInferior
             // 
-            this.pnlInferior.Controls.Add(this.lblMontoTotal);
             this.pnlInferior.Controls.Add(this.btnCancelar);
             this.pnlInferior.Controls.Add(this.btnGuardarVenta);
-            this.pnlInferior.Controls.Add(this.lblTextoTotal);
             this.pnlInferior.Controls.Add(this.lblCantidadItems);
             this.pnlInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlInferior.Location = new System.Drawing.Point(3, 368);
@@ -289,7 +293,7 @@
             this.lblMontoTotal.AutoSize = true;
             this.lblMontoTotal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMontoTotal.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblMontoTotal.Location = new System.Drawing.Point(470, 24);
+            this.lblMontoTotal.Location = new System.Drawing.Point(602, 5);
             this.lblMontoTotal.Name = "lblMontoTotal";
             this.lblMontoTotal.Size = new System.Drawing.Size(84, 32);
             this.lblMontoTotal.TabIndex = 19;
@@ -306,6 +310,7 @@
             this.btnCancelar.TabIndex = 18;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnGuardarVenta
             // 
@@ -316,6 +321,7 @@
             this.btnGuardarVenta.TabIndex = 17;
             this.btnGuardarVenta.Text = "Registrar Venta";
             this.btnGuardarVenta.UseVisualStyleBackColor = true;
+            this.btnGuardarVenta.Click += new System.EventHandler(this.btnGuardarVenta_Click);
             // 
             // lblTextoTotal
             // 
@@ -323,7 +329,7 @@
             this.lblTextoTotal.AutoSize = true;
             this.lblTextoTotal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTextoTotal.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblTextoTotal.Location = new System.Drawing.Point(380, 24);
+            this.lblTextoTotal.Location = new System.Drawing.Point(512, 5);
             this.lblTextoTotal.Name = "lblTextoTotal";
             this.lblTextoTotal.Size = new System.Drawing.Size(92, 32);
             this.lblTextoTotal.TabIndex = 16;
@@ -374,8 +380,8 @@
             // colCodigo
             // 
             this.colCodigo.DataPropertyName = "Código de artículo";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colCodigo.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colCodigo.DefaultCellStyle = dataGridViewCellStyle21;
             this.colCodigo.HeaderText = "Código";
             this.colCodigo.Name = "colCodigo";
             this.colCodigo.ReadOnly = true;
@@ -390,8 +396,8 @@
             // colCantidad
             // 
             this.colCantidad.DataPropertyName = "Cantidad ingresada";
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colCantidad.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colCantidad.DefaultCellStyle = dataGridViewCellStyle22;
             this.colCantidad.HeaderText = "Cantidad";
             this.colCantidad.Name = "colCantidad";
             this.colCantidad.ReadOnly = true;
@@ -401,8 +407,8 @@
             // colPrecio
             // 
             this.colPrecio.DataPropertyName = "Precio unitario";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colPrecio.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colPrecio.DefaultCellStyle = dataGridViewCellStyle23;
             this.colPrecio.HeaderText = "Precio Unit.";
             this.colPrecio.Name = "colPrecio";
             this.colPrecio.ReadOnly = true;
@@ -411,8 +417,8 @@
             // colSubtotal
             // 
             this.colSubtotal.DataPropertyName = "Cantidad * Precio";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colSubtotal.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colSubtotal.DefaultCellStyle = dataGridViewCellStyle24;
             this.colSubtotal.HeaderText = "Subtotal";
             this.colSubtotal.Name = "colSubtotal";
             this.colSubtotal.ReadOnly = true;
@@ -462,6 +468,7 @@
             this.btnAgregar.TabIndex = 4;
             this.btnAgregar.Text = "+ Agregar";
             this.btnAgregar.UseVisualStyleBackColor = false;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // nudCantidad
             // 
@@ -524,6 +531,7 @@
             this.btnBuscarProducto.TabIndex = 2;
             this.btnBuscarProducto.Text = "...";
             this.btnBuscarProducto.UseVisualStyleBackColor = true;
+            this.btnBuscarProducto.Click += new System.EventHandler(this.btnBuscarProducto_Click);
             // 
             // lblCodigo
             // 
@@ -553,12 +561,14 @@
             this.Name = "FormNuevaVenta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Nueva Venta";
+            this.Load += new System.EventHandler(this.FormNuevaVenta_Load);
             this.pnlTitulo.ResumeLayout(false);
             this.pnlTitulo.PerformLayout();
             this.gbDatosVenta.ResumeLayout(false);
             this.gbDatosVenta.PerformLayout();
             this.gbDetalleProductos.ResumeLayout(false);
             this.pnlAccionesGrilla.ResumeLayout(false);
+            this.pnlAccionesGrilla.PerformLayout();
             this.pnlInferior.ResumeLayout(false);
             this.pnlInferior.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).EndInit();
@@ -572,7 +582,7 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlTitulo;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.GroupBox gbDatosVenta;
         private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.TextBox txtCliente;
