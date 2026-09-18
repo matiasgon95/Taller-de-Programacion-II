@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.dgvProductos = new System.Windows.Forms.DataGridView();
             this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -38,7 +37,6 @@
             this.colStockMinimo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPrecio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAgregarProducto = new System.Windows.Forms.Button();
             this.btnMovimientos = new System.Windows.Forms.Button();
             this.btnModificarFila = new System.Windows.Forms.Button();
@@ -61,8 +59,8 @@
             this.dgvProductos.AllowUserToAddRows = false;
             this.dgvProductos.AllowUserToDeleteRows = false;
             this.dgvProductos.AllowUserToResizeRows = false;
-            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProductos.ColumnHeadersHeight = 34;
@@ -74,8 +72,7 @@
             this.colStock,
             this.colStockMinimo,
             this.colPrecio,
-            this.colActivo,
-            this.colAccion});
+            this.colActivo});
             this.dgvProductos.Location = new System.Drawing.Point(35, 70);
             this.dgvProductos.MultiSelect = false;
             this.dgvProductos.Name = "dgvProductos";
@@ -85,8 +82,6 @@
             this.dgvProductos.Size = new System.Drawing.Size(740, 365);
             this.dgvProductos.TabIndex = 2;
             this.dgvProductos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductos_CellDoubleClick);
-            this.dgvProductos.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvProductos_Scroll);
-            this.dgvProductos.SelectionChanged += new System.EventHandler(this.dgvProductos_SelectionChanged);
             // 
             // colCodigo
             // 
@@ -137,18 +132,6 @@
             this.colActivo.Name = "colActivo";
             this.colActivo.ReadOnly = true;
             // 
-            // colAccion
-            // 
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
-            this.colAccion.DefaultCellStyle = dataGridViewCellStyle11;
-            this.colAccion.HeaderText = "Acción";
-            this.colAccion.Name = "colAccion";
-            this.colAccion.ReadOnly = true;
-            this.colAccion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAccion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // btnAgregarProducto
             // 
             this.btnAgregarProducto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -160,26 +143,26 @@
             this.btnAgregarProducto.UseVisualStyleBackColor = true;
             this.btnAgregarProducto.Click += new System.EventHandler(this.btnAgregarProducto_Click);
             // 
+            // btnModificarFila
+            // 
+            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnModificarFila.Location = new System.Drawing.Point(165, 450);
+            this.btnModificarFila.Name = "btnModificarFila";
+            this.btnModificarFila.Size = new System.Drawing.Size(120, 50);
+            this.btnModificarFila.TabIndex = 4;
+            this.btnModificarFila.Text = "Modificar Producto";
+            this.btnModificarFila.UseVisualStyleBackColor = true;
+            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
+            // 
             // btnMovimientos
             // 
             this.btnMovimientos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMovimientos.Location = new System.Drawing.Point(655, 450);
             this.btnMovimientos.Name = "btnMovimientos";
             this.btnMovimientos.Size = new System.Drawing.Size(120, 50);
-            this.btnMovimientos.TabIndex = 4;
+            this.btnMovimientos.TabIndex = 5;
             this.btnMovimientos.Text = "Movimientos de Stock";
             this.btnMovimientos.UseVisualStyleBackColor = true;
-            // 
-            // btnModificarFila
-            // 
-            this.btnModificarFila.Location = new System.Drawing.Point(682, 112);
-            this.btnModificarFila.Name = "btnModificarFila";
-            this.btnModificarFila.Size = new System.Drawing.Size(78, 30);
-            this.btnModificarFila.TabIndex = 4;
-            this.btnModificarFila.Text = "Modificar";
-            this.btnModificarFila.UseVisualStyleBackColor = true;
-            this.btnModificarFila.Visible = false;
-            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
             // 
             // FormGestionProductos
             // 
@@ -215,6 +198,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colStockMinimo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPrecio;
         private System.Windows.Forms.DataGridViewTextBoxColumn colActivo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAccion;
     }
 }
