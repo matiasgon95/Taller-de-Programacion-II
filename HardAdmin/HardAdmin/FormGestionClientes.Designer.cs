@@ -39,7 +39,6 @@
             this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,8 +46,8 @@
             // 
             this.dgvClientes.AllowUserToAddRows = false;
             this.dgvClientes.AllowUserToDeleteRows = false;
-            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvClientes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvClientes.ColumnHeadersHeight = 34;
@@ -60,8 +59,7 @@
             this.colTelefono,
             this.colEmail,
             this.colDireccion,
-            this.colActivo,
-            this.colAccion});
+            this.colActivo});
             this.dgvClientes.Location = new System.Drawing.Point(28, 56);
             this.dgvClientes.MultiSelect = false;
             this.dgvClientes.Name = "dgvClientes";
@@ -70,6 +68,7 @@
             this.dgvClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvClientes.Size = new System.Drawing.Size(743, 316);
             this.dgvClientes.TabIndex = 2;
+            this.dgvClientes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellDoubleClick);
             // 
             // lblTitulo
             // 
@@ -85,7 +84,7 @@
             // btnNuevoCliente
             // 
             this.btnNuevoCliente.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnNuevoCliente.Location = new System.Drawing.Point(31, 392);
+            this.btnNuevoCliente.Location = new System.Drawing.Point(28, 385);
             this.btnNuevoCliente.Name = "btnNuevoCliente";
             this.btnNuevoCliente.Size = new System.Drawing.Size(119, 49);
             this.btnNuevoCliente.TabIndex = 2;
@@ -95,64 +94,63 @@
             // 
             // btnModificarFila
             // 
-            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnModificarFila.Location = new System.Drawing.Point(684, 96);
+            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnModificarFila.Location = new System.Drawing.Point(165, 385);
             this.btnModificarFila.Name = "btnModificarFila";
-            this.btnModificarFila.Size = new System.Drawing.Size(75, 23);
+            this.btnModificarFila.Size = new System.Drawing.Size(119, 49);
             this.btnModificarFila.TabIndex = 3;
-            this.btnModificarFila.Text = "Modifcar";
+            this.btnModificarFila.Text = "Modificar Cliente";
             this.btnModificarFila.UseVisualStyleBackColor = true;
-            this.btnModificarFila.Visible = false;
+            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
             // 
             // colNroCliente
             // 
+            this.colNroCliente.DataPropertyName = "id_cliente";
             this.colNroCliente.HeaderText = "Nro Cliente";
             this.colNroCliente.Name = "colNroCliente";
             this.colNroCliente.ReadOnly = true;
             // 
             // colCliente
             // 
+            this.colCliente.DataPropertyName = "cliente";
             this.colCliente.HeaderText = "Cliente";
             this.colCliente.Name = "colCliente";
             this.colCliente.ReadOnly = true;
             // 
             // colDNI
             // 
+            this.colDNI.DataPropertyName = "dni";
             this.colDNI.HeaderText = "DNI/CUIT";
             this.colDNI.Name = "colDNI";
             this.colDNI.ReadOnly = true;
             // 
             // colTelefono
             // 
+            this.colTelefono.DataPropertyName = "telefono";
             this.colTelefono.HeaderText = "Tel/Cel";
             this.colTelefono.Name = "colTelefono";
             this.colTelefono.ReadOnly = true;
             // 
             // colEmail
             // 
+            this.colEmail.DataPropertyName = "email";
             this.colEmail.HeaderText = "Email";
             this.colEmail.Name = "colEmail";
             this.colEmail.ReadOnly = true;
             // 
             // colDireccion
             // 
+            this.colDireccion.DataPropertyName = "direccion";
             this.colDireccion.HeaderText = "Direccion";
             this.colDireccion.Name = "colDireccion";
             this.colDireccion.ReadOnly = true;
             // 
             // colActivo
             // 
+            this.colActivo.DataPropertyName = "activo";
             this.colActivo.HeaderText = "Activo";
             this.colActivo.Name = "colActivo";
             this.colActivo.ReadOnly = true;
-            // 
-            // colAccion
-            // 
-            this.colAccion.HeaderText = "Accion";
-            this.colAccion.Name = "colAccion";
-            this.colAccion.ReadOnly = true;
             // 
             // FormGestionClientes
             // 
@@ -165,6 +163,7 @@
             this.Controls.Add(this.dgvClientes);
             this.Name = "FormGestionClientes";
             this.Text = "HardAdmin - Clientes";
+            this.Load += new System.EventHandler(this.FormGestionClientes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -184,6 +183,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colEmail;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colActivo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAccion;
     }
 }
