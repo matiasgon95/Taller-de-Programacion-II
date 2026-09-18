@@ -14,14 +14,20 @@ namespace HardAdmin
 {
     public partial class FormDetalleVenta : Form
     {
+        // Traemos la cadena de conexión desde el App.config para no tenerla escrita fija en el código
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+
+        // Variable global para guardar el ID de la venta que vamos a mostrar
         private int idVenta;
 
         public FormDetalleVenta(int idVenta)
         {
             InitializeComponent();
+
+            // Guardamos el ID que nos pasan desde la pantalla anterior
             this.idVenta = idVenta;
 
+            // Llamamos a los métodos que van a buscar los datos a la base apenas se abre la ventana
             CargarDatosVenta();
             CargarDetalleProductos();
         }
@@ -32,6 +38,8 @@ namespace HardAdmin
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
+                    // Armamos la consulta. 
+                    // El truco del 'RIGHT' con '00000000' es para rellenar con ceros a la izquierda el ID y que quede como formato factura (ej: F-00000015).
                     string query = @"SELECT 
                                         'F-' + RIGHT('00000000' + CAST(v.id_venta AS VARCHAR(8)), 8) AS nro_factura,
                                         v.fecha,
@@ -53,11 +61,13 @@ namespace HardAdmin
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
+                        // Le pasamos el parámetro seguro para evitar inyección SQL
                         cmd.Parameters.AddWithValue("@idVenta", idVenta);
                         con.Open();
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
+                            // Si encontramos la venta, leemos los datos
                             if (reader.Read())
                             {
                                 string nroFactura = reader["nro_factura"].ToString();
@@ -66,18 +76,24 @@ namespace HardAdmin
                                 string clienteNombre = reader["cliente_nombre"].ToString();
                                 string clienteApellido = reader["cliente_apellido"].ToString();
                                 string dni = reader["dni"].ToString();
+
+                                // Validamos los nulos de la dirección por si el cliente no los tiene cargados
                                 string calle = reader["calle"] == DBNull.Value ? "" : reader["calle"].ToString();
                                 string numero = reader["numero"] == DBNull.Value ? "" : reader["numero"].ToString();
                                 string pisoDepto = reader["piso_depto"] == DBNull.Value ? "" : reader["piso_depto"].ToString();
                                 string ciudad = reader["ciudad"] == DBNull.Value ? "" : reader["ciudad"].ToString();
+
                                 string vendedor = reader["vendedor"].ToString();
                                 string medioPago = reader["medio_pago"].ToString();
 
+                                // Asignamos todo a los labels de la pantalla dándole un formato prolijo
                                 lblComprobante.Text = "Comprobante: " + nroFactura;
                                 lblFecha.Text = "Fecha: " + fecha.ToString("dd/MM/yyyy HH:mm");
                                 lblEstado.Text = "Estado: " + estado;
                                 lblCliente.Text = "Cliente: " + $"{clienteNombre} {clienteApellido}";
                                 lblDni.Text = "DNI: " + dni;
+
+                                // Usamos nuestra función especial para armar la dirección completa
                                 lblDireccion.Text = "Dirección: " + ArmarDireccion(calle, numero, pisoDepto, ciudad);
                                 lblVendedor.Text = "Vendedor: " + vendedor;
                                 lblMetodoPago.Text = "Método de Pago: " + medioPago;
@@ -97,8 +113,7 @@ namespace HardAdmin
             }
         }
 
-        // Misma lógica que usamos para armar la dirección completa en el alta de Usuario,
-        // adaptada a los nombres de columna de Cliente (numero y piso_depto).
+        // Función auxiliar para concatenar la dirección solo con los datos que realmente existen
         private string ArmarDireccion(string calle, string numero, string pisoDepto, string ciudad)
         {
             string direccion = $"{calle} {numero}".Trim();
@@ -120,6 +135,7 @@ namespace HardAdmin
         {
             try
             {
+                // Limpiamos la grilla por si quedó basura de antes
                 dgvDetalleVenta.Rows.Clear();
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -142,8 +158,9 @@ namespace HardAdmin
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            decimal total = 0m;
+                            decimal total = 0m; // Acá vamos a ir sumando el total de la venta
 
+                            // Recorremos todos los productos que tiene esta venta
                             while (reader.Read())
                             {
                                 int idProducto = Convert.ToInt32(reader["id_producto"]);
@@ -153,17 +170,21 @@ namespace HardAdmin
                                 decimal precioUnitario = Convert.ToDecimal(reader["precio_unitario"]);
                                 decimal subtotal = Convert.ToDecimal(reader["subtotal"]);
 
+                                // Agregamos la fila a la grilla y le damos formato de moneda ("C2") a los precios
                                 dgvDetalleVenta.Rows.Add(idProducto, codigo, nombreProducto,
                                     cantidad, precioUnitario.ToString("C2"), subtotal.ToString("C2"));
 
+                                // Vamos acumulando el total
                                 total += subtotal;
                             }
 
+                            // Mostramos el total final con formato moneda
                             lblTotal.Text = total.ToString("C2");
                         }
                     }
                 }
 
+                // Ocultamos la columna del ID del producto porque al usuario no le sirve verla
                 if (dgvDetalleVenta.Columns.Contains("colIdProducto"))
                 {
                     dgvDetalleVenta.Columns["colIdProducto"].Visible = false;

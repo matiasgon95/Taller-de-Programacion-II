@@ -27,6 +27,7 @@ namespace HardAdmin
             CargarGrillaUsuarios();
 
             // Apenas arranca, quitamos la selección azul por defecto de la primera fila
+            // para que quede más limpio visualmente.
             dgvUsuarios.ClearSelection();
 
             // ---------- DISEÑO VISUAL DE LA GRILLA ----------
@@ -41,7 +42,7 @@ namespace HardAdmin
             dgvUsuarios.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             // Excepción: la columna "Activo" (que dice Sí/No) queda mejor si está bien centrada.
-            // Agregamos un condicional por si llegás a borrar la columna desde el diseñador.
+            // Agregamos un condicional por si la columna cambia de nombre o se borra desde el diseñador.
             if (dgvUsuarios.Columns["colActivo"] != null)
             {
                 dgvUsuarios.Columns["colActivo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -49,9 +50,8 @@ namespace HardAdmin
         }
 
         // ---------- EVENTOS VACÍOS (PARA NO ROMPER EL DISEÑADOR) ----------
-        // Dejamos estos métodos vacíos. Si los borramos, la vista de diseño tira error. 
-        // Si querés, después podés desenlazarlos desde el rayito amarillo (Propiedades) y ahí sí borrarlos.
-
+        // Dejamos estos métodos vacíos porque antes tenían lógica del botón flotante.
+        // Si los borramos de una, la vista de diseño tira error. 
         private void dgvUsuarios_SelectionChanged(object sender, EventArgs e)
         {
         }
@@ -71,7 +71,7 @@ namespace HardAdmin
             }
         }
 
-        // Evento Click del botón que ahora va a estar fijo en la pantalla.
+        // Evento Click del botón que ahora va a estar fijo en la pantalla al lado de Agregar.
         private void btnModificarFila_Click(object sender, EventArgs e)
         {
             if (dgvUsuarios.CurrentRow != null)
@@ -91,11 +91,13 @@ namespace HardAdmin
                 return;
             }
 
+            // Casteamos la fila seleccionada a DataRowView para poder acceder a los datos ocultos (como el ID)
             DataRowView filaSeleccionada = (DataRowView)dgvUsuarios.CurrentRow.DataBoundItem;
             int idUsuario = Convert.ToInt32(filaSeleccionada["id_usuario"]);
 
             using (FormModificarUsuario frm = new FormModificarUsuario(idUsuario))
             {
+                // Si el usuario guarda los cambios, recargamos la grilla para que se actualice la vista
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     CargarGrillaUsuarios();
@@ -127,6 +129,8 @@ namespace HardAdmin
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
+                    // Armamos la consulta. Fijate cómo concatenamos Nombre/Apellido y armamos
+                    // la dirección completa directo acá para que el programa no tenga que hacer cálculos extra.
                     string query = @"SELECT 
                                 u.id_usuario, 
                                 u.dni AS dni,
@@ -145,6 +149,8 @@ namespace HardAdmin
                         DataTable dt = new DataTable();
                         da.Fill(dt);
 
+                        // Esta propiedad en false evita que la grilla cree columnas automáticas extra
+                        // y solo rellene las que nosotros definimos en el diseñador (matcheando por el DataPropertyName)
                         dgvUsuarios.AutoGenerateColumns = false;
                         dgvUsuarios.DataSource = dt;
                     }

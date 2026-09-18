@@ -15,6 +15,8 @@ namespace HardAdmin
     public partial class FormModificarCliente : Form
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+
+        // Guardamos el ID del cliente que estamos tocando
         private int idCliente;
 
         private ErrorProvider errorProvider = new ErrorProvider();
@@ -31,11 +33,11 @@ namespace HardAdmin
             errorProvider.ContainerControl = this;
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
-            // Bloqueamos el campo dirección para que no se pueda editar a mano
+            // Bloqueamos la dirección
             txtDireccion.ReadOnly = true;
             txtDireccion.TabStop = false;
 
-            // Enganchamos las validaciones en tiempo real (al salir del campo)
+            // Enganchamos las validaciones en tiempo real
             txtNombre.Leave += txtNombre_Leave;
             txtApellido.Leave += txtApellido_Leave;
             txtDNI.Leave += txtDNI_Leave;
@@ -46,7 +48,7 @@ namespace HardAdmin
             txtCiudad.Leave += txtCiudad_Leave;
             txtCodigoPostal.Leave += txtCodigoPostal_Leave;
 
-            // Autocompletado de la dirección completa en tiempo real
+            // Autocompletado de la dirección
             txtCalle.TextChanged += ActualizarDireccionCompleta;
             txtNumero.TextChanged += ActualizarDireccionCompleta;
             txtPisoDpto.TextChanged += ActualizarDireccionCompleta;
@@ -58,6 +60,7 @@ namespace HardAdmin
             txtCiudad.Leave += CapitalizarTexto_Leave;
             txtCalle.Leave += CapitalizarTexto_Leave;
 
+            // Traemos los datos cuando arranca
             this.Load += FormModificarCliente_Load;
         }
 
@@ -88,6 +91,7 @@ namespace HardAdmin
                                 txtApellido.Text = reader["apellido"].ToString();
                                 txtDNI.Text = reader["dni"].ToString();
 
+                                // Validamos uno por uno si son DBNull para que no explote la lectura
                                 txtEmail.Text = reader["email"] != DBNull.Value ? reader["email"].ToString() : "";
                                 txtTelefono.Text = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : "";
                                 txtCalle.Text = reader["calle"] != DBNull.Value ? reader["calle"].ToString() : "";
@@ -96,6 +100,7 @@ namespace HardAdmin
                                 txtCiudad.Text = reader["ciudad"] != DBNull.Value ? reader["ciudad"].ToString() : "";
                                 txtCodigoPostal.Text = reader["codigo_postal"] != DBNull.Value ? reader["codigo_postal"].ToString() : "";
 
+                                // Manejo de los radiobuttons según el campo 'baja'
                                 bool deBaja = reader["baja"] != DBNull.Value && Convert.ToBoolean(reader["baja"]);
                                 if (deBaja)
                                     rbActivoNo.Checked = true;
@@ -147,12 +152,12 @@ namespace HardAdmin
 
         private void txtPisoDpto_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Libre para que puedan poner "3B", "PB", etc.
+            // Libre
         }
 
         private void txtDireccion_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = true; // Campo bloqueado
+            e.Handled = true; // Bloqueado
         }
 
         private void txtCiudad_KeyPress(object sender, KeyPressEventArgs e)
@@ -217,6 +222,8 @@ namespace HardAdmin
             }
         }
 
+        // CRÍTICO PARA MODIFICACIÓN: Chequea repetidos pero ignora el ID de este mismo cliente.
+        // Si no hacemos esto, siempre rebotaría sus propios datos al querer guardar otra cosa.
         private bool ExisteEnClienteModificacion(string columna, string valor)
         {
             string query = $"SELECT COUNT(1) FROM Cliente WHERE {columna} = @valor AND id_cliente != @idActual";
@@ -283,9 +290,9 @@ namespace HardAdmin
         private bool ValidarDNI()
         {
             string valor = txtDNI.Text.Trim();
-            if (string.IsNullOrWhiteSpace(valor))
+            if (string.IsNullOrWhiteSpace(valor) || valor.Length < 7)
             {
-                Marcar(txtDNI, false, "Debe ingresar el DNI o CUIT.");
+                Marcar(txtDNI, false, "El DNI/CUIT es obligatorio y debe tener al menos 7 números.");
                 return false;
             }
 
@@ -316,7 +323,7 @@ namespace HardAdmin
             }
 
             bool disponible = !ExisteEnClienteModificacion("email", valor);
-            Marcar(txtEmail, disponible, "El email ya se encuentra registrado.");
+            Marcar(txtEmail, disponible, "El email ya se encuentra registrado en otro cliente.");
             return disponible;
         }
 
@@ -348,7 +355,6 @@ namespace HardAdmin
             return ok;
         }
 
-        // Enganches de los eventos Leave
         private void txtNombre_Leave(object sender, EventArgs e) => ValidarNombre();
         private void txtApellido_Leave(object sender, EventArgs e) => ValidarApellido();
         private void txtDNI_Leave(object sender, EventArgs e) => ValidarDNI();
@@ -382,6 +388,7 @@ namespace HardAdmin
                 return;
             }
 
+            // Traducimos el radio button a un bit
             int baja = rbActivoSi.Checked ? 0 : 1;
 
             try
@@ -416,6 +423,7 @@ namespace HardAdmin
                         cmd.Parameters.AddWithValue("@codigo_postal", txtCodigoPostal.Text.Trim());
                         cmd.Parameters.AddWithValue("@baja", baja);
 
+                        // Null explícito para evitar problemas en DB
                         cmd.Parameters.AddWithValue("@piso_depto", string.IsNullOrWhiteSpace(txtPisoDpto.Text) ? (object)DBNull.Value : txtPisoDpto.Text.Trim());
 
                         con.Open();

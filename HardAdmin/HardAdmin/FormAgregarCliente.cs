@@ -16,7 +16,10 @@ namespace HardAdmin
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
 
+        // Instanciamos el manejador de errores visuales (el ícono rojo de advertencia)
         private ErrorProvider errorProvider = new ErrorProvider();
+
+        // Variables para controlar el estado de la validación general
         private bool formularioValido;
         private List<Control> controlesInvalidos = new List<Control>();
 
@@ -24,15 +27,16 @@ namespace HardAdmin
         {
             InitializeComponent();
 
-            // Configuración del ErrorProvider
+            // Configuración del ErrorProvider para que no titile y sea más agradable
             errorProvider.ContainerControl = this;
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
-            // Bloqueamos el campo dirección para que se llene solo
+            // Bloqueamos el campo dirección para que se llene solo y el usuario no meta mano
             txtDireccion.ReadOnly = true;
             txtDireccion.TabStop = false;
 
-            // Enganchamos las validaciones en tiempo real (al salir del campo)
+            // Enganchamos las validaciones en tiempo real.
+            // El evento 'Leave' salta apenas el usuario termina de escribir y cambia de campo.
             txtNombre.Leave += txtNombre_Leave;
             txtApellido.Leave += txtApellido_Leave;
             txtDNI.Leave += txtDNI_Leave;
@@ -43,13 +47,14 @@ namespace HardAdmin
             txtCiudad.Leave += txtCiudad_Leave;
             txtCodigoPostal.Leave += txtCodigoPostal_Leave;
 
-            // Autocompletado de la dirección completa en tiempo real
+            // Autocompletado de la dirección completa en tiempo real. Cada vez que tocan 
+            // una letra en la calle o altura, se actualiza el campo final.
             txtCalle.TextChanged += ActualizarDireccionCompleta;
             txtNumero.TextChanged += ActualizarDireccionCompleta;
             txtPisoDpto.TextChanged += ActualizarDireccionCompleta;
             txtCiudad.TextChanged += ActualizarDireccionCompleta;
 
-            // Eventos de teclado para restringir ingresos inválidos
+            // Eventos de teclado (KeyPress) para atajar ingresos inválidos mientras tipean.
             txtNombre.KeyPress += SoloLetras_KeyPress;
             txtApellido.KeyPress += SoloLetras_KeyPress;
             txtCiudad.KeyPress += SoloLetras_KeyPress;
@@ -59,9 +64,9 @@ namespace HardAdmin
             txtTelefono.KeyPress += SoloNumeros_KeyPress;
             txtNumero.KeyPress += SoloNumeros_KeyPress;
             txtCodigoPostal.KeyPress += SoloNumeros_KeyPress;
-            // txtPisoDpto queda libre por si ingresan letras como "PB" o "3B"
+            // Aclaración: txtPisoDpto queda libre por si ingresan letras como "PB" o "3B"
 
-            // Autocapitalizado al salir del campo
+            // Autocapitalizado al salir del campo (Para que quede prolijo "Juan Perez")
             txtNombre.Leave += CapitalizarTexto_Leave;
             txtApellido.Leave += CapitalizarTexto_Leave;
             txtCiudad.Leave += CapitalizarTexto_Leave;
@@ -70,6 +75,7 @@ namespace HardAdmin
 
         // ---------- HELPERS DE FORMATO Y TECLADO ----------
 
+        // Corta el tipeo de cualquier cosa que no sea una letra o espacio.
         private void SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
@@ -78,6 +84,7 @@ namespace HardAdmin
             }
         }
 
+        // Corta el tipeo de letras o símbolos en los campos numéricos.
         private void SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -86,6 +93,7 @@ namespace HardAdmin
             }
         }
 
+        // Pasa a mayúscula la primera letra de cada palabra
         private void CapitalizarTexto_Leave(object sender, EventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -95,6 +103,7 @@ namespace HardAdmin
             txt.Text = textInfo.ToTitleCase(txt.Text.Trim().ToLower(CultureInfo.GetCultureInfo("es-AR")));
         }
 
+        // Concatena calle, número, departamento y ciudad en un solo string prolijo.
         private void ActualizarDireccionCompleta(object sender, EventArgs e)
         {
             string calle = txtCalle.Text.Trim();
@@ -120,6 +129,7 @@ namespace HardAdmin
             txtDireccion.Text = direccion;
         }
 
+        // Valida que el texto tenga formato de correo usando las librerías propias de C#.
         private bool EsEmailValido(string email)
         {
             try
@@ -133,6 +143,7 @@ namespace HardAdmin
             }
         }
 
+        // Comprueba si un valor ya existe en la base de datos (para no duplicar DNI o Email)
         private bool ExisteEnCliente(string columna, string valor)
         {
             string query = $"SELECT COUNT(1) FROM Cliente WHERE {columna} = @valor";
@@ -147,6 +158,7 @@ namespace HardAdmin
 
         // ---------- SISTEMA DE ERRORES VISUALES ----------
 
+        // Método centralizador de errores. Si algo está mal, prende el ícono rojo. Si está bien, lo apaga.
         private void Marcar(Control control, bool condicionValida, string mensajeError)
         {
             if (condicionValida)
@@ -158,6 +170,8 @@ namespace HardAdmin
             {
                 errorProvider.SetError(control, mensajeError);
                 formularioValido = false;
+
+                // Agregamos el control a la lista si no estaba, para saber cuáles fallaron
                 if (!controlesInvalidos.Contains(control))
                 {
                     controlesInvalidos.Add(control);
@@ -165,6 +179,8 @@ namespace HardAdmin
             }
         }
 
+        // Si fallan varios campos a la vez al dar Guardar, esto busca cuál está más arriba
+        // en el formulario (según el TabIndex) y pone el cursor ahí.
         private void EnfocarPrimerInvalidoPorTabOrder()
         {
             Control primero = controlesInvalidos.OrderBy(c => c.TabIndex).FirstOrDefault();
@@ -172,6 +188,7 @@ namespace HardAdmin
         }
 
         // ---------- VALIDACIONES ESPECÍFICAS ----------
+        // Todas estas funciones devuelven true o false, y llaman a Marcar() para prender/apagar el error.
 
         private bool ValidarNombre()
         {
@@ -263,7 +280,7 @@ namespace HardAdmin
             return ok;
         }
 
-        // Enganches de los eventos Leave
+        // Enganches limpios de los eventos Leave hacia los validadores
         private void txtNombre_Leave(object sender, EventArgs e) => ValidarNombre();
         private void txtApellido_Leave(object sender, EventArgs e) => ValidarApellido();
         private void txtDNI_Leave(object sender, EventArgs e) => ValidarDNI();
@@ -274,7 +291,7 @@ namespace HardAdmin
         private void txtCiudad_Leave(object sender, EventArgs e) => ValidarCiudad();
         private void txtCodigoPostal_Leave(object sender, EventArgs e) => ValidarCodigoPostal();
 
-        // Evitamos que queden métodos vacíos sueltos (solo por si tu diseñador los tenía referenciados)
+        // Estos los dejamos vacíos solo para que no salte error en el diseñador
         private void txtDireccion_KeyPress(object sender, KeyPressEventArgs e) { e.Handled = true; }
         private void txtPisoDpto_KeyPress(object sender, KeyPressEventArgs e) { }
 
@@ -282,9 +299,11 @@ namespace HardAdmin
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            // Reseteamos el estado a "todo válido" antes del chequeo final.
             formularioValido = true;
             controlesInvalidos.Clear();
 
+            // Ejecutamos TODAS las validaciones juntas. Si alguna falla, formularioValido pasa a false.
             ValidarNombre();
             ValidarApellido();
             ValidarDNI();
@@ -295,6 +314,7 @@ namespace HardAdmin
             ValidarCiudad();
             ValidarCodigoPostal();
 
+            // Cortamos acá nomás y ponemos el cursor en el error si algo falló
             if (!formularioValido)
             {
                 EnfocarPrimerInvalidoPorTabOrder();
@@ -305,6 +325,7 @@ namespace HardAdmin
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
+                    // Armamos el insert asegurándonos que arranca con baja = 0 (Activo)
                     string query = @"INSERT INTO Cliente 
                                      (nombre, apellido, dni, email, telefono, calle, numero, piso_depto, ciudad, codigo_postal, baja)
                                      VALUES 
@@ -322,6 +343,7 @@ namespace HardAdmin
                         cmd.Parameters.AddWithValue("@ciudad", txtCiudad.Text.Trim());
                         cmd.Parameters.AddWithValue("@codigo_postal", txtCodigoPostal.Text.Trim());
 
+                        // Si el departamento está vacío, le mandamos explícitamente un nulo a SQL Server.
                         cmd.Parameters.AddWithValue("@piso_depto", string.IsNullOrWhiteSpace(txtPisoDpto.Text) ? (object)DBNull.Value : txtPisoDpto.Text.Trim());
 
                         con.Open();
@@ -330,11 +352,13 @@ namespace HardAdmin
                 }
 
                 MessageBox.Show("Cliente registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
+                this.DialogResult = DialogResult.OK; // Le avisamos a la grilla que se guardó bien
                 this.Close();
             }
             catch (SqlException ex)
             {
+                // Manejo de errores a nivel base de datos por si, justo antes de guardar, 
+                // alguien más registró un DNI o Email repetido y la BD lo rebotó por UNIQUE KEY.
                 if (ex.Number == 2627 || ex.Number == 2601)
                 {
                     MessageBox.Show("El DNI o Email ya se encuentra registrado en otro cliente.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
