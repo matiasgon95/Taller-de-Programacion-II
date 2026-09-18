@@ -59,12 +59,16 @@ namespace HardAdmin
 
         private void btnReportes_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Módulo Reportes en desarrollo.");
+            FormContenedorModulos contenedor = new FormContenedorModulos(this.usuarioActual, "Reportes");
+            contenedor.Show();
+            this.Hide();
         }
 
         private void btnConfiguracion_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Módulo Configuración en desarrollo.");
+            FormContenedorModulos contenedor = new FormContenedorModulos(this.usuarioActual, "Configuracion");
+            contenedor.Show();
+            this.Hide();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

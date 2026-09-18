@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlTitulo = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.gbDatosVenta = new System.Windows.Forms.GroupBox();
@@ -49,20 +49,14 @@
             this.lblCliente = new System.Windows.Forms.Label();
             this.gbDetalleProductos = new System.Windows.Forms.GroupBox();
             this.pnlAccionesGrilla = new System.Windows.Forms.Panel();
-            this.btnQuitarProducto = new System.Windows.Forms.Button();
-            this.pnlInferior = new System.Windows.Forms.Panel();
             this.lblMontoTotal = new System.Windows.Forms.Label();
+            this.btnQuitarProducto = new System.Windows.Forms.Button();
+            this.lblTextoTotal = new System.Windows.Forms.Label();
+            this.pnlInferior = new System.Windows.Forms.Panel();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardarVenta = new System.Windows.Forms.Button();
-            this.lblTextoTotal = new System.Windows.Forms.Label();
             this.lblCantidadItems = new System.Windows.Forms.Label();
             this.dgvDetalle = new System.Windows.Forms.DataGridView();
-            this.colIdProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrecio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlCargaRapida = new System.Windows.Forms.Panel();
             this.lblPrecio = new System.Windows.Forms.Label();
             this.lblCantidad = new System.Windows.Forms.Label();
@@ -74,6 +68,12 @@
             this.btnBuscarProducto = new System.Windows.Forms.Button();
             this.lblCodigo = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
+            this.colIdProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrecio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlTitulo.SuspendLayout();
             this.gbDatosVenta.SuspendLayout();
             this.gbDetalleProductos.SuspendLayout();
@@ -266,27 +266,6 @@
             this.pnlAccionesGrilla.Size = new System.Drawing.Size(828, 35);
             this.pnlAccionesGrilla.TabIndex = 0;
             // 
-            // btnQuitarProducto
-            // 
-            this.btnQuitarProducto.Location = new System.Drawing.Point(10, 5);
-            this.btnQuitarProducto.Name = "btnQuitarProducto";
-            this.btnQuitarProducto.Size = new System.Drawing.Size(140, 26);
-            this.btnQuitarProducto.TabIndex = 0;
-            this.btnQuitarProducto.Text = "Quitar Seleccionado";
-            this.btnQuitarProducto.UseVisualStyleBackColor = true;
-            this.btnQuitarProducto.Click += new System.EventHandler(this.btnQuitarProducto_Click);
-            // 
-            // pnlInferior
-            // 
-            this.pnlInferior.Controls.Add(this.btnCancelar);
-            this.pnlInferior.Controls.Add(this.btnGuardarVenta);
-            this.pnlInferior.Controls.Add(this.lblCantidadItems);
-            this.pnlInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlInferior.Location = new System.Drawing.Point(3, 368);
-            this.pnlInferior.Name = "pnlInferior";
-            this.pnlInferior.Size = new System.Drawing.Size(828, 75);
-            this.pnlInferior.TabIndex = 5;
-            // 
             // lblMontoTotal
             // 
             this.lblMontoTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -299,6 +278,40 @@
             this.lblMontoTotal.TabIndex = 19;
             this.lblMontoTotal.Text = "$ 0,00";
             this.lblMontoTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // btnQuitarProducto
+            // 
+            this.btnQuitarProducto.Location = new System.Drawing.Point(10, 5);
+            this.btnQuitarProducto.Name = "btnQuitarProducto";
+            this.btnQuitarProducto.Size = new System.Drawing.Size(140, 26);
+            this.btnQuitarProducto.TabIndex = 0;
+            this.btnQuitarProducto.Text = "Quitar Seleccionado";
+            this.btnQuitarProducto.UseVisualStyleBackColor = true;
+            this.btnQuitarProducto.Click += new System.EventHandler(this.btnQuitarProducto_Click);
+            // 
+            // lblTextoTotal
+            // 
+            this.lblTextoTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTextoTotal.AutoSize = true;
+            this.lblTextoTotal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTextoTotal.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblTextoTotal.Location = new System.Drawing.Point(512, 5);
+            this.lblTextoTotal.Name = "lblTextoTotal";
+            this.lblTextoTotal.Size = new System.Drawing.Size(92, 32);
+            this.lblTextoTotal.TabIndex = 16;
+            this.lblTextoTotal.Text = "TOTAL:";
+            this.lblTextoTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // pnlInferior
+            // 
+            this.pnlInferior.Controls.Add(this.btnCancelar);
+            this.pnlInferior.Controls.Add(this.btnGuardarVenta);
+            this.pnlInferior.Controls.Add(this.lblCantidadItems);
+            this.pnlInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlInferior.Location = new System.Drawing.Point(3, 368);
+            this.pnlInferior.Name = "pnlInferior";
+            this.pnlInferior.Size = new System.Drawing.Size(828, 75);
+            this.pnlInferior.TabIndex = 5;
             // 
             // btnCancelar
             // 
@@ -323,19 +336,6 @@
             this.btnGuardarVenta.UseVisualStyleBackColor = true;
             this.btnGuardarVenta.Click += new System.EventHandler(this.btnGuardarVenta_Click);
             // 
-            // lblTextoTotal
-            // 
-            this.lblTextoTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTextoTotal.AutoSize = true;
-            this.lblTextoTotal.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTextoTotal.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblTextoTotal.Location = new System.Drawing.Point(512, 5);
-            this.lblTextoTotal.Name = "lblTextoTotal";
-            this.lblTextoTotal.Size = new System.Drawing.Size(92, 32);
-            this.lblTextoTotal.TabIndex = 16;
-            this.lblTextoTotal.Text = "TOTAL:";
-            this.lblTextoTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // lblCantidadItems
             // 
             this.lblCantidadItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -350,6 +350,8 @@
             // 
             this.dgvDetalle.AllowUserToAddRows = false;
             this.dgvDetalle.AllowUserToDeleteRows = false;
+            this.dgvDetalle.AllowUserToResizeColumns = false;
+            this.dgvDetalle.AllowUserToResizeRows = false;
             this.dgvDetalle.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDetalle.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetalle.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -359,6 +361,7 @@
             this.colCantidad,
             this.colPrecio,
             this.colSubtotal});
+            this.dgvDetalle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDetalle.Location = new System.Drawing.Point(3, 73);
             this.dgvDetalle.MultiSelect = false;
             this.dgvDetalle.Name = "dgvDetalle";
@@ -368,60 +371,6 @@
             this.dgvDetalle.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDetalle.Size = new System.Drawing.Size(828, 370);
             this.dgvDetalle.TabIndex = 4;
-            // 
-            // colIdProducto
-            // 
-            this.colIdProducto.DataPropertyName = "id_producto";
-            this.colIdProducto.HeaderText = "idProducto";
-            this.colIdProducto.Name = "colIdProducto";
-            this.colIdProducto.ReadOnly = true;
-            this.colIdProducto.Visible = false;
-            // 
-            // colCodigo
-            // 
-            this.colCodigo.DataPropertyName = "Código de artículo";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colCodigo.DefaultCellStyle = dataGridViewCellStyle21;
-            this.colCodigo.HeaderText = "Código";
-            this.colCodigo.Name = "colCodigo";
-            this.colCodigo.ReadOnly = true;
-            // 
-            // colNombre
-            // 
-            this.colNombre.DataPropertyName = "Nombre del producto";
-            this.colNombre.HeaderText = "Descripción";
-            this.colNombre.Name = "colNombre";
-            this.colNombre.ReadOnly = true;
-            // 
-            // colCantidad
-            // 
-            this.colCantidad.DataPropertyName = "Cantidad ingresada";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colCantidad.DefaultCellStyle = dataGridViewCellStyle22;
-            this.colCantidad.HeaderText = "Cantidad";
-            this.colCantidad.Name = "colCantidad";
-            this.colCantidad.ReadOnly = true;
-            this.colCantidad.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colCantidad.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colPrecio
-            // 
-            this.colPrecio.DataPropertyName = "Precio unitario";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colPrecio.DefaultCellStyle = dataGridViewCellStyle23;
-            this.colPrecio.HeaderText = "Precio Unit.";
-            this.colPrecio.Name = "colPrecio";
-            this.colPrecio.ReadOnly = true;
-            this.colPrecio.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // colSubtotal
-            // 
-            this.colSubtotal.DataPropertyName = "Cantidad * Precio";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colSubtotal.DefaultCellStyle = dataGridViewCellStyle24;
-            this.colSubtotal.HeaderText = "Subtotal";
-            this.colSubtotal.Name = "colSubtotal";
-            this.colSubtotal.ReadOnly = true;
             // 
             // pnlCargaRapida
             // 
@@ -444,7 +393,7 @@
             // lblPrecio
             // 
             this.lblPrecio.AutoSize = true;
-            this.lblPrecio.Location = new System.Drawing.Point(360, 18);
+            this.lblPrecio.Location = new System.Drawing.Point(383, 18);
             this.lblPrecio.Name = "lblPrecio";
             this.lblPrecio.Size = new System.Drawing.Size(41, 13);
             this.lblPrecio.TabIndex = 16;
@@ -494,7 +443,7 @@
             // 
             // txtPrecio
             // 
-            this.txtPrecio.Location = new System.Drawing.Point(410, 15);
+            this.txtPrecio.Location = new System.Drawing.Point(430, 15);
             this.txtPrecio.Name = "txtPrecio";
             this.txtPrecio.ReadOnly = true;
             this.txtPrecio.Size = new System.Drawing.Size(75, 22);
@@ -507,7 +456,7 @@
             // 
             this.lblStock.AutoSize = true;
             this.lblStock.ForeColor = System.Drawing.Color.Blue;
-            this.lblStock.Location = new System.Drawing.Point(495, 18);
+            this.lblStock.Location = new System.Drawing.Point(517, 18);
             this.lblStock.Name = "lblStock";
             this.lblStock.Size = new System.Drawing.Size(45, 13);
             this.lblStock.TabIndex = 13;
@@ -548,6 +497,63 @@
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(110, 22);
             this.txtCodigo.TabIndex = 0;
+            // 
+            // colIdProducto
+            // 
+            this.colIdProducto.DataPropertyName = "id_producto";
+            this.colIdProducto.HeaderText = "idProducto";
+            this.colIdProducto.Name = "colIdProducto";
+            this.colIdProducto.ReadOnly = true;
+            this.colIdProducto.Visible = false;
+            // 
+            // colCodigo
+            // 
+            this.colCodigo.DataPropertyName = "Código de artículo";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colCodigo.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colCodigo.HeaderText = "Código";
+            this.colCodigo.Name = "colCodigo";
+            this.colCodigo.ReadOnly = true;
+            this.colCodigo.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // colNombre
+            // 
+            this.colNombre.DataPropertyName = "Nombre del producto";
+            this.colNombre.HeaderText = "Descripción";
+            this.colNombre.Name = "colNombre";
+            this.colNombre.ReadOnly = true;
+            this.colNombre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // colCantidad
+            // 
+            this.colCantidad.DataPropertyName = "Cantidad ingresada";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colCantidad.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colCantidad.HeaderText = "Cantidad";
+            this.colCantidad.Name = "colCantidad";
+            this.colCantidad.ReadOnly = true;
+            this.colCantidad.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colCantidad.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colPrecio
+            // 
+            this.colPrecio.DataPropertyName = "Precio unitario";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colPrecio.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colPrecio.HeaderText = "Precio Unit.";
+            this.colPrecio.Name = "colPrecio";
+            this.colPrecio.ReadOnly = true;
+            this.colPrecio.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // colSubtotal
+            // 
+            this.colSubtotal.DataPropertyName = "Cantidad * Precio";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colSubtotal.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colSubtotal.HeaderText = "Subtotal";
+            this.colSubtotal.Name = "colSubtotal";
+            this.colSubtotal.ReadOnly = true;
+            this.colSubtotal.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // FormNuevaVenta
             // 
@@ -606,12 +612,6 @@
         private System.Windows.Forms.TextBox txtPrecio;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.DataGridView dgvDetalle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIdProducto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCodigo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCantidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPrecio;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSubtotal;
         private System.Windows.Forms.Panel pnlInferior;
         private System.Windows.Forms.Label lblCantidadItems;
         private System.Windows.Forms.Label lblTextoTotal;
@@ -623,5 +623,11 @@
         private System.Windows.Forms.Label lblMontoTotal;
         private System.Windows.Forms.TextBox txtDni;
         private System.Windows.Forms.Label lblPrecio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIdProducto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCodigo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCantidad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPrecio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSubtotal;
     }
 }

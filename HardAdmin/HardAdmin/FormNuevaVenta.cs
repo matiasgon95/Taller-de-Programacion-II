@@ -326,7 +326,22 @@ namespace HardAdmin
             lblNombreProducto.Text = nombre;
             txtPrecio.Text = precio.ToString("C2", CulturaMoneda);
             lblStock.Text = "Stock: " + stock;
-            nudCantidad.Value = 1;
+
+            int disponible = stock - CantidadYaCargada(idProducto);
+
+            if (disponible <= 0)
+            {
+                nudCantidad.Maximum = 1;
+                nudCantidad.Value = 1;
+                nudCantidad.Enabled = false;
+                MessageBox.Show("Ya tenés cargada toda la cantidad disponible de este producto.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                nudCantidad.Enabled = true;
+                nudCantidad.Maximum = disponible;
+                nudCantidad.Value = 1;
+            }
         }
 
         private void LimpiarPanelCargaRapida()
@@ -339,6 +354,8 @@ namespace HardAdmin
             lblNombreProducto.Text = "Seleccione producto...";
             txtPrecio.Text = 0m.ToString("C2", CulturaMoneda);
             lblStock.Text = "Stock: -";
+            nudCantidad.Enabled = true;
+            nudCantidad.Maximum = 1;
             nudCantidad.Value = 1;
         }
 

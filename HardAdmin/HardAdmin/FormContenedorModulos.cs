@@ -75,8 +75,7 @@ namespace HardAdmin
                     MessageBox.Show("Módulo Reportes en desarrollo.");
                     break;
                 case "Configuracion":
-                    //AbrirFormularioEnPanel(new FormConfiguracion());
-                    MessageBox.Show("Módulo Configuración en desarrollo.");
+                    AbrirFormularioEnPanel(new FormConfiguracion());
                     break;
                 default:
                     AbrirFormularioEnPanel(new FormGestionUsuarios());
