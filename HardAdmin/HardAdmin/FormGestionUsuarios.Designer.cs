@@ -31,7 +31,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnAgregarUsuario = new System.Windows.Forms.Button();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
-            this.btnModificarFila = new System.Windows.Forms.Button();
             this.colDni = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNombreCompleto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,6 +39,7 @@
             this.colFechaNac = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnModificarFila = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +48,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(263, 22);
+            this.label1.Location = new System.Drawing.Point(270, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(273, 31);
             this.label1.TabIndex = 1;
@@ -57,9 +57,9 @@
             // btnAgregarUsuario
             // 
             this.btnAgregarUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAgregarUsuario.Location = new System.Drawing.Point(35, 451);
+            this.btnAgregarUsuario.Location = new System.Drawing.Point(35, 450);
             this.btnAgregarUsuario.Name = "btnAgregarUsuario";
-            this.btnAgregarUsuario.Size = new System.Drawing.Size(100, 38);
+            this.btnAgregarUsuario.Size = new System.Drawing.Size(120, 50);
             this.btnAgregarUsuario.TabIndex = 2;
             this.btnAgregarUsuario.Text = "Agregar Usuario";
             this.btnAgregarUsuario.UseVisualStyleBackColor = true;
@@ -70,11 +70,12 @@
             this.dgvUsuarios.AllowUserToAddRows = false;
             this.dgvUsuarios.AllowUserToDeleteRows = false;
             this.dgvUsuarios.AllowUserToResizeRows = false;
-            this.dgvUsuarios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvUsuarios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUsuarios.ColumnHeadersHeight = 34;
+            this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvUsuarios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDni,
             this.colNombreCompleto,
@@ -84,27 +85,16 @@
             this.colFechaNac,
             this.colDireccion,
             this.colActivo});
-            this.dgvUsuarios.Location = new System.Drawing.Point(35, 68);
+            this.dgvUsuarios.Location = new System.Drawing.Point(35, 70);
             this.dgvUsuarios.MultiSelect = false;
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.ReadOnly = true;
             this.dgvUsuarios.RowHeadersVisible = false;
             this.dgvUsuarios.RowTemplate.Height = 32;
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUsuarios.Size = new System.Drawing.Size(733, 354);
+            this.dgvUsuarios.Size = new System.Drawing.Size(740, 365);
             this.dgvUsuarios.TabIndex = 3;
             this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellDoubleClick);
-            // 
-            // btnModificarFila
-            // 
-            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnModificarFila.Location = new System.Drawing.Point(150, 451);
-            this.btnModificarFila.Name = "btnModificarFila";
-            this.btnModificarFila.Size = new System.Drawing.Size(100, 38);
-            this.btnModificarFila.TabIndex = 4;
-            this.btnModificarFila.Text = "Modificar Usuario";
-            this.btnModificarFila.UseVisualStyleBackColor = true;
-            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
             // 
             // colDni
             // 
@@ -165,11 +155,22 @@
             this.colActivo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colActivo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // btnModificarFila
+            // 
+            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnModificarFila.Location = new System.Drawing.Point(170, 450);
+            this.btnModificarFila.Name = "btnModificarFila";
+            this.btnModificarFila.Size = new System.Drawing.Size(120, 50);
+            this.btnModificarFila.TabIndex = 4;
+            this.btnModificarFila.Text = "Modificar Usuario";
+            this.btnModificarFila.UseVisualStyleBackColor = true;
+            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
+            // 
             // FormGestionUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 513);
+            this.ClientSize = new System.Drawing.Size(804, 511);
             this.Controls.Add(this.btnModificarFila);
             this.Controls.Add(this.dgvUsuarios);
             this.Controls.Add(this.btnAgregarUsuario);
@@ -178,7 +179,6 @@
             this.Name = "FormGestionUsuarios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Gestión de Usuarios";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormGestionUsuarios_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).EndInit();
             this.ResumeLayout(false);

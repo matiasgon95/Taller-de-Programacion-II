@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.dgvClientes = new System.Windows.Forms.DataGridView();
-            this.lblTitulo = new System.Windows.Forms.Label();
-            this.btnNuevoCliente = new System.Windows.Forms.Button();
-            this.btnModificarFila = new System.Windows.Forms.Button();
             this.colNroCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDNI = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,6 +36,9 @@
             this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.btnNuevoCliente = new System.Windows.Forms.Button();
+            this.btnModificarFila = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,8 +46,9 @@
             // 
             this.dgvClientes.AllowUserToAddRows = false;
             this.dgvClientes.AllowUserToDeleteRows = false;
-            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvClientes.AllowUserToResizeRows = false;
+            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvClientes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvClientes.ColumnHeadersHeight = 34;
@@ -60,48 +61,15 @@
             this.colEmail,
             this.colDireccion,
             this.colActivo});
-            this.dgvClientes.Location = new System.Drawing.Point(28, 56);
+            this.dgvClientes.Location = new System.Drawing.Point(35, 70);
             this.dgvClientes.MultiSelect = false;
             this.dgvClientes.Name = "dgvClientes";
             this.dgvClientes.ReadOnly = true;
             this.dgvClientes.RowHeadersVisible = false;
             this.dgvClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClientes.Size = new System.Drawing.Size(743, 316);
+            this.dgvClientes.Size = new System.Drawing.Size(740, 365);
             this.dgvClientes.TabIndex = 2;
             this.dgvClientes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellDoubleClick);
-            // 
-            // lblTitulo
-            // 
-            this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(266, 9);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(264, 31);
-            this.lblTitulo.TabIndex = 1;
-            this.lblTitulo.Text = "Listado de Clientes";
-            // 
-            // btnNuevoCliente
-            // 
-            this.btnNuevoCliente.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnNuevoCliente.Location = new System.Drawing.Point(28, 385);
-            this.btnNuevoCliente.Name = "btnNuevoCliente";
-            this.btnNuevoCliente.Size = new System.Drawing.Size(119, 49);
-            this.btnNuevoCliente.TabIndex = 2;
-            this.btnNuevoCliente.Text = "Nuevo Cliente";
-            this.btnNuevoCliente.UseVisualStyleBackColor = true;
-            this.btnNuevoCliente.Click += new System.EventHandler(this.btnNuevoCliente_Click);
-            // 
-            // btnModificarFila
-            // 
-            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnModificarFila.Location = new System.Drawing.Point(165, 385);
-            this.btnModificarFila.Name = "btnModificarFila";
-            this.btnModificarFila.Size = new System.Drawing.Size(119, 49);
-            this.btnModificarFila.TabIndex = 3;
-            this.btnModificarFila.Text = "Modificar Cliente";
-            this.btnModificarFila.UseVisualStyleBackColor = true;
-            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
             // 
             // colNroCliente
             // 
@@ -152,16 +120,51 @@
             this.colActivo.Name = "colActivo";
             this.colActivo.ReadOnly = true;
             // 
+            // lblTitulo
+            // 
+            this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(270, 20);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(264, 31);
+            this.lblTitulo.TabIndex = 1;
+            this.lblTitulo.Text = "Listado de Clientes";
+            // 
+            // btnNuevoCliente
+            // 
+            this.btnNuevoCliente.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnNuevoCliente.Location = new System.Drawing.Point(35, 450);
+            this.btnNuevoCliente.Name = "btnNuevoCliente";
+            this.btnNuevoCliente.Size = new System.Drawing.Size(120, 50);
+            this.btnNuevoCliente.TabIndex = 2;
+            this.btnNuevoCliente.Text = "Nuevo Cliente";
+            this.btnNuevoCliente.UseVisualStyleBackColor = true;
+            this.btnNuevoCliente.Click += new System.EventHandler(this.btnNuevoCliente_Click);
+            // 
+            // btnModificarFila
+            // 
+            this.btnModificarFila.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnModificarFila.Location = new System.Drawing.Point(170, 450);
+            this.btnModificarFila.Name = "btnModificarFila";
+            this.btnModificarFila.Size = new System.Drawing.Size(120, 50);
+            this.btnModificarFila.TabIndex = 3;
+            this.btnModificarFila.Text = "Modificar Cliente";
+            this.btnModificarFila.UseVisualStyleBackColor = true;
+            this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
+            // 
             // FormGestionClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(804, 511);
             this.Controls.Add(this.btnModificarFila);
             this.Controls.Add(this.btnNuevoCliente);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.dgvClientes);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "FormGestionClientes";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Clientes";
             this.Load += new System.EventHandler(this.FormGestionClientes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).EndInit();
