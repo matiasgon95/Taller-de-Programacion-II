@@ -760,23 +760,14 @@ namespace HardAdmin
 
 
 
+        // Dejamos vacíos estos métodos temporales para que no se rompa el diseñador si había quedado algún rastro.
+        // Después podés borrar estas dos líneas tranquilamente.
 
+        private void label10_Click(object sender, EventArgs e){ }
 
-        private void label10_Click(object sender, EventArgs e)
-        {
+        private void label11_Click(object sender, EventArgs e){  }
 
-        }
-
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void rbNo_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void rbNo_CheckedChanged(object sender, EventArgs e){ }
 
     }
 }

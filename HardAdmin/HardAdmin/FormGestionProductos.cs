@@ -156,6 +156,12 @@ namespace HardAdmin
             }
         }
 
+        private void btnMovimientos_Click(object sender, EventArgs e)
+        {
+            FormMovimientosStock frm = new FormMovimientosStock();
+            frm.ShowDialog();
+        }
+
         // Dejamos vacíos estos métodos temporales para que no se rompa el diseñador si había quedado algún rastro.
         // Después podés borrar estas dos líneas tranquilamente.
         private void dgvProductos_SelectionChanged(object sender, EventArgs e) { }

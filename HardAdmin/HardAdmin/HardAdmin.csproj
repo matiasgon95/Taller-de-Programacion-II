@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormMovimientosStock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMovimientosStock.Designer.cs">
+      <DependentUpon>FormMovimientosStock.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormConfiguracion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormModificarUsuario.resx">
       <DependentUpon>FormModificarUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMovimientosStock.resx">
+      <DependentUpon>FormMovimientosStock.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormNuevaVenta.resx">
       <DependentUpon>FormNuevaVenta.cs</DependentUpon>
