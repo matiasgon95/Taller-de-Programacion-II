@@ -30,6 +30,17 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.btnSubir = new System.Windows.Forms.Button();
+            this.rbNo = new System.Windows.Forms.RadioButton();
+            this.rbSi = new System.Windows.Forms.RadioButton();
+            this.nupStockActual = new System.Windows.Forms.NumericUpDown();
+            this.nupStockMinimo = new System.Windows.Forms.NumericUpDown();
+            this.nupPrecio = new System.Windows.Forms.NumericUpDown();
+            this.cmbCategoria = new System.Windows.Forms.ComboBox();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.txtCodigo = new System.Windows.Forms.TextBox();
+            this.txtNombre = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -39,32 +50,21 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tbNombre = new System.Windows.Forms.TextBox();
-            this.tbCodigo = new System.Windows.Forms.TextBox();
-            this.tbDescripcion = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.nupPrecio = new System.Windows.Forms.NumericUpDown();
-            this.nupStockMinimo = new System.Windows.Forms.NumericUpDown();
-            this.nupStockActual = new System.Windows.Forms.NumericUpDown();
-            this.rbSi = new System.Windows.Forms.RadioButton();
-            this.rbNo = new System.Windows.Forms.RadioButton();
-            this.btnImagen = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
+            this.pbImagen = new System.Windows.Forms.PictureBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupPrecio)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupStockMinimo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupStockActual)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupStockMinimo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupPrecio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbImagen)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(191, 9);
+            this.label1.Location = new System.Drawing.Point(113, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(258, 31);
             this.label1.TabIndex = 0;
@@ -72,19 +72,19 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.btnImagen);
+            this.panel1.Controls.Add(this.btnSubir);
             this.panel1.Controls.Add(this.rbNo);
             this.panel1.Controls.Add(this.rbSi);
             this.panel1.Controls.Add(this.nupStockActual);
             this.panel1.Controls.Add(this.nupStockMinimo);
             this.panel1.Controls.Add(this.nupPrecio);
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.tbDescripcion);
-            this.panel1.Controls.Add(this.tbCodigo);
-            this.panel1.Controls.Add(this.tbNombre);
+            this.panel1.Controls.Add(this.cmbCategoria);
+            this.panel1.Controls.Add(this.txtDescripcion);
+            this.panel1.Controls.Add(this.txtCodigo);
+            this.panel1.Controls.Add(this.txtNombre);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
@@ -96,8 +96,128 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(45, 54);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 345);
+            this.panel1.Size = new System.Drawing.Size(404, 345);
             this.panel1.TabIndex = 1;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label11.Location = new System.Drawing.Point(47, -1);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(100, 15);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "Datos del Producto";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
+            // btnSubir
+            // 
+            this.btnSubir.Location = new System.Drawing.Point(218, 279);
+            this.btnSubir.Name = "btnSubir";
+            this.btnSubir.Size = new System.Drawing.Size(85, 23);
+            this.btnSubir.TabIndex = 18;
+            this.btnSubir.Text = "Subir Imagen..";
+            this.btnSubir.UseVisualStyleBackColor = true;
+            this.btnSubir.Click += new System.EventHandler(this.btnSubir_Click);
+            // 
+            // rbNo
+            // 
+            this.rbNo.AutoSize = true;
+            this.rbNo.Location = new System.Drawing.Point(264, 310);
+            this.rbNo.Name = "rbNo";
+            this.rbNo.Size = new System.Drawing.Size(39, 17);
+            this.rbNo.TabIndex = 17;
+            this.rbNo.TabStop = true;
+            this.rbNo.Text = "No";
+            this.rbNo.UseVisualStyleBackColor = true;
+            this.rbNo.CheckedChanged += new System.EventHandler(this.rbNo_CheckedChanged);
+            // 
+            // rbSi
+            // 
+            this.rbSi.AutoSize = true;
+            this.rbSi.Location = new System.Drawing.Point(224, 310);
+            this.rbSi.Name = "rbSi";
+            this.rbSi.Size = new System.Drawing.Size(34, 17);
+            this.rbSi.TabIndex = 16;
+            this.rbSi.TabStop = true;
+            this.rbSi.Text = "Si";
+            this.rbSi.UseVisualStyleBackColor = true;
+            // 
+            // nupStockActual
+            // 
+            this.nupStockActual.Location = new System.Drawing.Point(151, 250);
+            this.nupStockActual.Maximum = new decimal(new int[] {
+            1874919423,
+            2328306,
+            0,
+            0});
+            this.nupStockActual.Name = "nupStockActual";
+            this.nupStockActual.Size = new System.Drawing.Size(217, 20);
+            this.nupStockActual.TabIndex = 15;
+            this.nupStockActual.ValueChanged += new System.EventHandler(this.nupStockActual_ValueChanged);
+            // 
+            // nupStockMinimo
+            // 
+            this.nupStockMinimo.Location = new System.Drawing.Point(151, 218);
+            this.nupStockMinimo.Maximum = new decimal(new int[] {
+            1874919423,
+            2328306,
+            0,
+            0});
+            this.nupStockMinimo.Name = "nupStockMinimo";
+            this.nupStockMinimo.Size = new System.Drawing.Size(217, 20);
+            this.nupStockMinimo.TabIndex = 14;
+            this.nupStockMinimo.ValueChanged += new System.EventHandler(this.nupStockMinimo_ValueChanged);
+            // 
+            // nupPrecio
+            // 
+            this.nupPrecio.DecimalPlaces = 2;
+            this.nupPrecio.Location = new System.Drawing.Point(151, 186);
+            this.nupPrecio.Maximum = new decimal(new int[] {
+            1874919423,
+            2328306,
+            0,
+            0});
+            this.nupPrecio.Name = "nupPrecio";
+            this.nupPrecio.Size = new System.Drawing.Size(217, 20);
+            this.nupPrecio.TabIndex = 13;
+            this.nupPrecio.ValueChanged += new System.EventHandler(this.nupPrecio_ValueChanged);
+            // 
+            // cmbCategoria
+            // 
+            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCategoria.FormattingEnabled = true;
+            this.cmbCategoria.Location = new System.Drawing.Point(151, 152);
+            this.cmbCategoria.Name = "cmbCategoria";
+            this.cmbCategoria.Size = new System.Drawing.Size(217, 21);
+            this.cmbCategoria.TabIndex = 12;
+            this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
+            // 
+            // txtDescripcion
+            // 
+            this.txtDescripcion.Location = new System.Drawing.Point(151, 107);
+            this.txtDescripcion.Multiline = true;
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(217, 39);
+            this.txtDescripcion.TabIndex = 11;
+            this.txtDescripcion.Leave += new System.EventHandler(this.txtDescripcion_Leave);
+            // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Location = new System.Drawing.Point(151, 74);
+            this.txtCodigo.Name = "txtCodigo";
+            this.txtCodigo.Size = new System.Drawing.Size(217, 20);
+            this.txtCodigo.TabIndex = 10;
+            this.txtCodigo.Leave += new System.EventHandler(this.txtCodigo_Leave);
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.Location = new System.Drawing.Point(151, 36);
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(217, 20);
+            this.txtNombre.TabIndex = 9;
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // label10
             // 
@@ -198,146 +318,53 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Nombre:";
             // 
-            // pictureBox1
+            // pbImagen
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(407, 54);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(197, 189);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            // 
-            // tbNombre
-            // 
-            this.tbNombre.Location = new System.Drawing.Point(151, 36);
-            this.tbNombre.Name = "tbNombre";
-            this.tbNombre.Size = new System.Drawing.Size(147, 20);
-            this.tbNombre.TabIndex = 9;
-            // 
-            // tbCodigo
-            // 
-            this.tbCodigo.Location = new System.Drawing.Point(151, 74);
-            this.tbCodigo.Name = "tbCodigo";
-            this.tbCodigo.Size = new System.Drawing.Size(147, 20);
-            this.tbCodigo.TabIndex = 10;
-            // 
-            // tbDescripcion
-            // 
-            this.tbDescripcion.Location = new System.Drawing.Point(151, 107);
-            this.tbDescripcion.Multiline = true;
-            this.tbDescripcion.Name = "tbDescripcion";
-            this.tbDescripcion.Size = new System.Drawing.Size(147, 39);
-            this.tbDescripcion.TabIndex = 11;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(151, 152);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(147, 21);
-            this.comboBox1.TabIndex = 12;
-            // 
-            // nupPrecio
-            // 
-            this.nupPrecio.Location = new System.Drawing.Point(151, 186);
-            this.nupPrecio.Name = "nupPrecio";
-            this.nupPrecio.Size = new System.Drawing.Size(147, 20);
-            this.nupPrecio.TabIndex = 13;
-            // 
-            // nupStockMinimo
-            // 
-            this.nupStockMinimo.Location = new System.Drawing.Point(151, 218);
-            this.nupStockMinimo.Name = "nupStockMinimo";
-            this.nupStockMinimo.Size = new System.Drawing.Size(147, 20);
-            this.nupStockMinimo.TabIndex = 14;
-            this.nupStockMinimo.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
-            // 
-            // nupStockActual
-            // 
-            this.nupStockActual.Location = new System.Drawing.Point(151, 250);
-            this.nupStockActual.Name = "nupStockActual";
-            this.nupStockActual.Size = new System.Drawing.Size(147, 20);
-            this.nupStockActual.TabIndex = 15;
-            // 
-            // rbSi
-            // 
-            this.rbSi.AutoSize = true;
-            this.rbSi.Location = new System.Drawing.Point(151, 308);
-            this.rbSi.Name = "rbSi";
-            this.rbSi.Size = new System.Drawing.Size(34, 17);
-            this.rbSi.TabIndex = 16;
-            this.rbSi.TabStop = true;
-            this.rbSi.Text = "Si";
-            this.rbSi.UseVisualStyleBackColor = true;
-            // 
-            // rbNo
-            // 
-            this.rbNo.AutoSize = true;
-            this.rbNo.Location = new System.Drawing.Point(197, 308);
-            this.rbNo.Name = "rbNo";
-            this.rbNo.Size = new System.Drawing.Size(39, 17);
-            this.rbNo.TabIndex = 17;
-            this.rbNo.TabStop = true;
-            this.rbNo.Text = "No";
-            this.rbNo.UseVisualStyleBackColor = true;
-            // 
-            // btnImagen
-            // 
-            this.btnImagen.Location = new System.Drawing.Point(151, 276);
-            this.btnImagen.Name = "btnImagen";
-            this.btnImagen.Size = new System.Drawing.Size(85, 23);
-            this.btnImagen.TabIndex = 18;
-            this.btnImagen.Text = "Subir Imagen..";
-            this.btnImagen.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.Location = new System.Drawing.Point(47, -1);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(100, 15);
-            this.label11.TabIndex = 19;
-            this.label11.Text = "Datos del Producto";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
+            this.pbImagen.Location = new System.Drawing.Point(478, 54);
+            this.pbImagen.Name = "pbImagen";
+            this.pbImagen.Size = new System.Drawing.Size(185, 236);
+            this.pbImagen.TabIndex = 2;
+            this.pbImagen.TabStop = false;
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(407, 416);
+            this.btnGuardar.Location = new System.Drawing.Point(478, 359);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 40);
+            this.btnGuardar.Size = new System.Drawing.Size(80, 40);
             this.btnGuardar.TabIndex = 3;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(524, 416);
+            this.btnCancelar.Location = new System.Drawing.Point(583, 359);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(80, 40);
             this.btnCancelar.TabIndex = 4;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // FormModificarProducto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 468);
+            this.ClientSize = new System.Drawing.Size(675, 450);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pbImagen);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Name = "FormModificarProducto";
             this.Text = "HardAdmin -Modificar Producto";
+            this.Load += new System.EventHandler(this.FormModificarProducto_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupPrecio)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nupStockMinimo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupStockActual)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupStockMinimo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupPrecio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbImagen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,19 +379,19 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbImagen;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox tbDescripcion;
-        private System.Windows.Forms.TextBox tbCodigo;
-        private System.Windows.Forms.TextBox tbNombre;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox txtDescripcion;
+        private System.Windows.Forms.TextBox txtCodigo;
+        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.ComboBox cmbCategoria;
         private System.Windows.Forms.NumericUpDown nupStockActual;
         private System.Windows.Forms.NumericUpDown nupStockMinimo;
         private System.Windows.Forms.NumericUpDown nupPrecio;
-        private System.Windows.Forms.Button btnImagen;
+        private System.Windows.Forms.Button btnSubir;
         private System.Windows.Forms.RadioButton rbNo;
         private System.Windows.Forms.RadioButton rbSi;
         private System.Windows.Forms.Label label11;

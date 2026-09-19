@@ -105,8 +105,7 @@ namespace HardAdmin
             DataRowView filaSeleccionada = (DataRowView)dgvProductos.CurrentRow.DataBoundItem;
             int idProducto = Convert.ToInt32(filaSeleccionada["id_producto"]);
 
-            // TODO: Descomentar y adaptar cuando esté creado el FormModificarProducto
-            /*
+
             using (FormModificarProducto frm = new FormModificarProducto(idProducto))
             {
                 if (frm.ShowDialog() == DialogResult.OK)
@@ -114,9 +113,6 @@ namespace HardAdmin
                     CargarGrillaProductos();
                 }
             }
-            */
-
-            MessageBox.Show("Se abrirá la modificación para el producto ID: " + idProducto, "En desarrollo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // ---------- CONEXIÓN A BASE DE DATOS ----------
