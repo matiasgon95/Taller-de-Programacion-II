@@ -12,11 +12,8 @@ namespace HardAdmin
 
         private void btnCategorias_Click(object sender, EventArgs e)
         {
-            // TODO: Abrir el formulario de gestión de categorías
-            // FormGestionCategorias frm = new FormGestionCategorias();
-            // frm.ShowDialog();
-
-            MessageBox.Show("Módulo de Categorías en desarrollo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            FormGestionCategorias frm = new FormGestionCategorias();
+            frm.ShowDialog();
         }
 
         private void btnMetodosPago_Click(object sender, EventArgs e)
