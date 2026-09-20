@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -133,6 +134,7 @@ namespace HardAdmin
                                         p.precio,
                                         p.stock,
                                         p.stock_minimo,
+                                        p.foto_producto,
                                         c.nombre_categoria,
                                         CASE WHEN p.baja = 0 THEN 'Sí' ELSE 'No' END AS activo 
                                      FROM Producto p
@@ -156,6 +158,148 @@ namespace HardAdmin
             }
         }
 
+        // Busca la imagen del producto a partir de la ruta almacenada
+        // en la base de datos y la muestra en el PictureBox.
+        private void CargarImagenProducto(string rutaFoto)
+        {
+            if (string.IsNullOrWhiteSpace(rutaFoto))
+                return;
+
+            DirectoryInfo directorioActual =
+                new DirectoryInfo(Application.StartupPath);
+
+            DirectoryInfo carpetaImagenes = null;
+
+            while (directorioActual != null)
+            {
+                string posibleRuta = Path.Combine(
+                    directorioActual.FullName,
+                    "ImagenesProductos"
+                );
+
+                if (Directory.Exists(posibleRuta))
+                {
+                    carpetaImagenes = new DirectoryInfo(posibleRuta);
+                    break;
+                }
+
+                directorioActual = directorioActual.Parent;
+            }
+
+            if (carpetaImagenes == null)
+            {
+                LimpiarImagenProducto();
+                return;
+            }
+
+            string nombreArchivo = Path.GetFileName(rutaFoto);
+
+            string rutaCompleta = Path.Combine(
+                carpetaImagenes.FullName,
+                nombreArchivo
+            );
+
+            if (!File.Exists(rutaCompleta))
+            {
+                LimpiarImagenProducto();
+                return;
+            }
+
+            try
+            {
+                if (pbImagen.Image != null)
+                {
+                    pbImagen.Image.Dispose();
+                    pbImagen.Image = null;
+                }
+
+                using (FileStream stream = new FileStream(
+                    rutaCompleta,
+                    FileMode.Open,
+                    FileAccess.Read))
+                {
+                    using (Image imagenTemporal = Image.FromStream(stream))
+                    {
+                        pbImagen.Image = new Bitmap(imagenTemporal);
+                    }
+                }
+
+                pbImagen.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+            catch (Exception ex)
+            {
+                LimpiarImagenProducto();
+
+                MessageBox.Show(
+                    "No se pudo cargar la imagen del producto: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        // Limpia la imagen mostrada en el panel de detalle
+        // cuando el producto seleccionado no posee una imagen.
+        private void LimpiarImagenProducto()
+        {
+            if (pbImagen.Image != null)
+            {
+                pbImagen.Image.Dispose();
+                pbImagen.Image = null;
+            }
+
+            pbImagen.Image = null;
+        }
+
+        // Segun la casilla seleccionada en el DataGrindView
+        // aparece una informacion mas detallada en la seccion inferior en el GroupBox
+        private void dgvProductos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvProductos.CurrentRow == null)
+                return;
+
+            DataRowView filaSeleccionada =
+                (DataRowView)dgvProductos.CurrentRow.DataBoundItem;
+
+            if (filaSeleccionada == null)
+                return;
+
+            lbCodigoInfo.Text = filaSeleccionada["codigo"].ToString();
+            lbNombreInfo.Text = filaSeleccionada["nombre_producto"].ToString();
+            lbCategoriaInfo.Text = filaSeleccionada["nombre_categoria"].ToString();
+
+            lbStockInfo.Text =
+                filaSeleccionada["stock"].ToString();
+
+            lbStockMinimoInfo.Text =
+                filaSeleccionada["stock_minimo"].ToString();
+
+            lbPrecioInfo.Text =
+                "$ " + Convert.ToDecimal(filaSeleccionada["precio"])
+                    .ToString("N2");
+
+            lbDescripcionInfo.Text =
+                filaSeleccionada["descripcion"] == DBNull.Value
+                    ? "Sin descripción."
+                    : filaSeleccionada["descripcion"].ToString();
+
+            if (filaSeleccionada["foto_producto"] == DBNull.Value ||
+                string.IsNullOrWhiteSpace(
+                    filaSeleccionada["foto_producto"].ToString()))
+            {
+                LimpiarImagenProducto();
+            }
+            else
+            {
+                string rutaFoto =
+                    filaSeleccionada["foto_producto"].ToString();
+
+                CargarImagenProducto(rutaFoto);
+            }
+        }
+
+
         private void btnMovimientos_Click(object sender, EventArgs e)
         {
             FormMovimientosStock frm = new FormMovimientosStock();
@@ -164,7 +308,8 @@ namespace HardAdmin
 
         // Dejamos vacíos estos métodos temporales para que no se rompa el diseñador si había quedado algún rastro.
         // Después podés borrar estas dos líneas tranquilamente.
-        private void dgvProductos_SelectionChanged(object sender, EventArgs e) { }
+
         private void dgvProductos_Scroll(object sender, ScrollEventArgs e) { }
+
     }
 }
