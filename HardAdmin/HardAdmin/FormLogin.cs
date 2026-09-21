@@ -58,6 +58,7 @@ namespace HardAdmin
                             // Guardamos la información en la clase estática
                             SesionActual.IdUsuario = Convert.ToInt32(reader["id_usuario"]);
                             SesionActual.NombreUsuario = txtUsuario.Text.Trim();
+                            SesionActual.IdRol = Convert.ToInt32(reader["id_rol"]);
                             SesionActual.Rol = reader["nombre_rol"].ToString();
 
                             // Abrir el sistema

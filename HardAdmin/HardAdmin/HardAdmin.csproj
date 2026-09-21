@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PermisosSistema.cs" />
     <Compile Include="FormMovimientosStock.cs">
       <SubType>Form</SubType>
     </Compile>

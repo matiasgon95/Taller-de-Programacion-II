@@ -27,6 +27,31 @@ namespace HardAdmin
             lblBienvenida.Text = $"¡Bienvenido, {usuarioActual}!";
             lblUsuarioLogueado.Text = $"Usuario: {usuarioActual}";
             lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+
+            AplicarPermisos();
+        }
+
+        // Habilita o deshabilita los botones del menú
+        // según los permisos del usuario actual.
+        private void AplicarPermisos()
+        {
+            btnUsuarios.Enabled =
+                PermisosSistema.TienePermisoModulo("Usuarios");
+
+            btnProductos.Enabled =
+                PermisosSistema.TienePermisoModulo("Productos");
+
+            btnClientes.Enabled =
+                PermisosSistema.TienePermisoModulo("Clientes");
+
+            btnVentas.Enabled =
+                PermisosSistema.TienePermisoModulo("Ventas");
+
+            btnReportes.Enabled =
+                PermisosSistema.TienePermisoModulo("Reportes");
+
+            btnConfiguracion.Enabled =
+                PermisosSistema.TienePermisoModulo("Configuracion");
         }
 
         private void btnUsuarios_Click(object sender, EventArgs e)

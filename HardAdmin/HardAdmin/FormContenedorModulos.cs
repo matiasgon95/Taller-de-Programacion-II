@@ -28,6 +28,8 @@ namespace HardAdmin
             lblUsuarioLogueado.Text = $"Usuario: {usuarioActual}";
             lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
+            AplicarPermisos();
+
             AbrirModulo(this.moduloInicial);
         }
 
@@ -56,6 +58,18 @@ namespace HardAdmin
 
         private void AbrirModulo(string modulo)
         {
+            if (!PermisosSistema.TienePermisoModulo(modulo))
+            {
+                MessageBox.Show(
+                    "No tiene permisos para acceder a este módulo.",
+                    "Acceso denegado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
+
             switch (modulo)
             {
                 case "Usuarios":
@@ -78,9 +92,37 @@ namespace HardAdmin
                     AbrirFormularioEnPanel(new FormConfiguracion());
                     break;
                 default:
-                    AbrirFormularioEnPanel(new FormGestionUsuarios());
+                    MessageBox.Show(
+                        "El módulo seleccionado no existe.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                     break;
             }
+        }
+
+        // Habilita o deshabilita los botones del menú
+        // según los permisos del usuario actual.
+        private void AplicarPermisos()
+        {
+            btnUsuarios.Enabled =
+                PermisosSistema.TienePermisoModulo("Usuarios");
+
+            btnProductos.Enabled =
+                PermisosSistema.TienePermisoModulo("Productos");
+
+            btnClientes.Enabled =
+                PermisosSistema.TienePermisoModulo("Clientes");
+
+            btnVentas.Enabled =
+                PermisosSistema.TienePermisoModulo("Ventas");
+
+            btnReportes.Enabled =
+                PermisosSistema.TienePermisoModulo("Reportes");
+
+            btnConfiguración.Enabled =
+                PermisosSistema.TienePermisoModulo("Configuracion");
         }
 
         // Eventos de los botones del menú lateral
