@@ -47,6 +47,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormReportesFinanzas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportesFinanzas.Designer.cs">
+      <DependentUpon>FormReportesFinanzas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportesProductos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportesProductos.Designer.cs">
+      <DependentUpon>FormReportesProductos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportesVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportesVentas.Designer.cs">
+      <DependentUpon>FormReportesVentas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportes.Designer.cs">
+      <DependentUpon>FormReportes.cs</DependentUpon>
+    </Compile>
     <Compile Include="PermisosSistema.cs" />
     <Compile Include="FormMovimientosStock.cs">
       <SubType>Form</SubType>
@@ -222,6 +246,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormNuevaVenta.resx">
       <DependentUpon>FormNuevaVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReportes.resx">
+      <DependentUpon>FormReportes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReportesFinanzas.resx">
+      <DependentUpon>FormReportesFinanzas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReportesProductos.resx">
+      <DependentUpon>FormReportesProductos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReportesVentas.resx">
+      <DependentUpon>FormReportesVentas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormVentas.resx">
       <DependentUpon>FormVentas.cs</DependentUpon>

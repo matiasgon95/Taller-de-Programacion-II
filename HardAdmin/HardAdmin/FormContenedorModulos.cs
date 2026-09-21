@@ -85,8 +85,7 @@ namespace HardAdmin
                     AbrirFormularioEnPanel(new FormVentas());
                     break;
                 case "Reportes":
-                    //AbrirFormularioEnPanel(new FormReportes());
-                    MessageBox.Show("Módulo Reportes en desarrollo.");
+                    AbrirFormularioEnPanel(new FormReportes());
                     break;
                 case "Configuracion":
                     AbrirFormularioEnPanel(new FormConfiguracion());
