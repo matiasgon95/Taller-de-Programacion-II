@@ -20,7 +20,7 @@ namespace HardAdmin
         private UsuarioServicio servicio = new UsuarioServicio();
 
         // Edad mínima requerida para dar de alta un usuario.
-        private const int EDAD_MINIMA = 18;
+        private const int edadRequerida = UsuarioServicio.EDAD_MINIMA;
 
         // Se crea por código para no depender de agregarlo desde el diseñador.
         private ErrorProvider errorProvider = new ErrorProvider();
@@ -140,37 +140,6 @@ namespace HardAdmin
             txtDireccionCompleta.Text = direccion;
         }
 
-        // ---------- Helpers de formato (puramente visuales, se quedan en la UI) ----------
-
-        // Bloquea en tiempo real cualquier tecla que no sea letra, espacio o control (backspace, etc.)
-        private void SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
-            {
-                e.Handled = true;
-            }
-        }
-
-        // Bloquea en tiempo real cualquier tecla que no sea número o control
-        private void SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        // Al salir del campo, pone en mayúscula la primera letra de cada palabra
-        // (ej: "juan carlos" -> "Juan Carlos")
-        private void CapitalizarTexto_Leave(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            if (txt == null || string.IsNullOrWhiteSpace(txt.Text)) return;
-
-            TextInfo textInfo = CultureInfo.GetCultureInfo("es-AR").TextInfo;
-            txt.Text = textInfo.ToTitleCase(txt.Text.Trim().ToLower(CultureInfo.GetCultureInfo("es-AR")));
-        }
-
         // Alterna entre mostrar y ocultar el contenido de los dos campos de contraseña
         private void chkVerClave_CheckedChanged(object sender, EventArgs e)
         {
@@ -242,7 +211,7 @@ namespace HardAdmin
         private bool ValidarFechaNacimiento()
         {
             bool ok = servicio.EsFechaNacimientoValida(dtpFechaNacimiento.Value);
-            Marcar(dtpFechaNacimiento, ok, $"La fecha no puede ser futura y el usuario debe ser mayor de {EDAD_MINIMA} años.");
+            Marcar(dtpFechaNacimiento, ok, $"La fecha no puede ser futura y el usuario debe ser mayor de {edadRequerida} años.");
             return ok;
         }
 

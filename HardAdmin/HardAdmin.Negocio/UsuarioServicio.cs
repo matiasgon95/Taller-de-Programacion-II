@@ -11,7 +11,7 @@ namespace HardAdmin.Negocio
     public class UsuarioServicio
     {
         private UsuarioRepositorio repositorio = new UsuarioRepositorio();
-        private const int EDAD_MINIMA = 18;
+        public const int EDAD_MINIMA = 18;
 
         public System.Collections.Generic.List<Rol> ObtenerRoles()
         {
