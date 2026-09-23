@@ -18,11 +18,8 @@ namespace HardAdmin
 
         private void btnMetodosPago_Click(object sender, EventArgs e)
         {
-            // TODO: Abrir el formulario de gestión de métodos de pago
-            // FormGestionMetodosPago frm = new FormGestionMetodosPago();
-            // frm.ShowDialog();
-
-            MessageBox.Show("Módulo de Métodos de Pago en desarrollo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            FormGestionMetodosPago frm = new FormGestionMetodosPago();
+            frm.ShowDialog();
         }
     }
 }

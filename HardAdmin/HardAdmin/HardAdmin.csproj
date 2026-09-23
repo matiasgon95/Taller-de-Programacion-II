@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormGestionMetodosPago.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGestionMetodosPago.Designer.cs">
+      <DependentUpon>FormGestionMetodosPago.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormReportesFinanzas.cs">
       <SubType>Form</SubType>
     </Compile>
