@@ -106,7 +106,6 @@
             this.txtCodigoPostal.Name = "txtCodigoPostal";
             this.txtCodigoPostal.Size = new System.Drawing.Size(70, 23);
             this.txtCodigoPostal.TabIndex = 9;
-            this.txtCodigoPostal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigoPostal_KeyPress);
             // 
             // txtCiudad
             // 
@@ -115,7 +114,6 @@
             this.txtCiudad.Name = "txtCiudad";
             this.txtCiudad.Size = new System.Drawing.Size(200, 23);
             this.txtCiudad.TabIndex = 8;
-            this.txtCiudad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCiudad_KeyPress);
             // 
             // txtDireccion
             // 
@@ -143,7 +141,6 @@
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(50, 23);
             this.txtNumero.TabIndex = 6;
-            this.txtNumero.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumero_KeyPress);
             // 
             // txtCalle
             // 
@@ -152,7 +149,6 @@
             this.txtCalle.Name = "txtCalle";
             this.txtCalle.Size = new System.Drawing.Size(150, 23);
             this.txtCalle.TabIndex = 5;
-            this.txtCalle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCalle_KeyPress);
             // 
             // txtEmail
             // 
@@ -169,7 +165,6 @@
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(150, 23);
             this.txtTelefono.TabIndex = 4;
-            this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
             // 
             // txtDNI
             // 
@@ -178,7 +173,6 @@
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(90, 23);
             this.txtDNI.TabIndex = 2;
-            this.txtDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDNI_KeyPress);
             // 
             // txtNombre
             // 
@@ -187,7 +181,6 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(100, 23);
             this.txtNombre.TabIndex = 0;
-            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // txtApellido
             // 
@@ -196,7 +189,6 @@
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(100, 23);
             this.txtApellido.TabIndex = 1;
-            this.txtApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtApellido_KeyPress);
             // 
             // labActivo
             // 

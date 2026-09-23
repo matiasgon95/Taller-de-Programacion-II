@@ -193,6 +193,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validaciones.cs" />
     <EmbeddedResource Include="FormAgregarCliente.resx">
       <DependentUpon>FormAgregarCliente.cs</DependentUpon>
     </EmbeddedResource>

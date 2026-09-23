@@ -86,9 +86,14 @@ namespace HardAdmin.Negocio
 
         // ---------- Unicidad contra la base ----------
 
-        public bool DniDisponible(string dni) => !repositorio.ExisteUsuario("dni", dni);
-        public bool NombreUsuarioDisponible(string usuario) => !repositorio.ExisteUsuario("nombre_usuario", usuario);
-        public bool EmailDisponible(string email) => !repositorio.ExisteUsuario("email", email);
+        public bool DniDisponible(string dni, int? idExcluir = null)
+            => !repositorio.ExisteUsuario("dni", dni, idExcluir);
+
+        public bool NombreUsuarioDisponible(string usuario, int? idExcluir = null)
+            => !repositorio.ExisteUsuario("nombre_usuario", usuario, idExcluir);
+
+        public bool EmailDisponible(string email, int? idExcluir = null)
+            => !repositorio.ExisteUsuario("email", email, idExcluir);
 
         // ---------- Alta ----------
 
@@ -96,6 +101,23 @@ namespace HardAdmin.Negocio
         {
             string contrasenaHasheada = Seguridad.HashearContrasena(contrasenaPlano);
             repositorio.Insertar(usuario, contrasenaHasheada);
+        }
+
+        public Usuario ObtenerPorId(int id)
+        {
+            return repositorio.ObtenerPorId(id);
+        }
+
+        public void Modificar(Usuario usuario, string nuevaClave)
+        {
+            string contrasenaHasheada = null;
+
+            if (!string.IsNullOrEmpty(nuevaClave))
+            {
+                contrasenaHasheada = Seguridad.HashearContrasena(nuevaClave);
+            }
+
+            repositorio.Modificar(usuario, contrasenaHasheada);
         }
     }
 }

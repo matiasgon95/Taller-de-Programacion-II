@@ -37,15 +37,15 @@ namespace HardAdmin
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
             // Asignamos los eventos de validación y formato a los campos correspondientes.
-            txtNombre.KeyPress += SoloLetras_KeyPress;
-            txtApellido.KeyPress += SoloLetras_KeyPress;
-            txtNombre.Leave += CapitalizarTexto_Leave;
-            txtApellido.Leave += CapitalizarTexto_Leave;
+            txtNombre.KeyPress += Validaciones.SoloLetras_KeyPress;
+            txtApellido.KeyPress += Validaciones.SoloLetras_KeyPress;
+            txtNombre.Leave += Validaciones.CapitalizarTexto_Leave;
+            txtApellido.Leave += Validaciones.CapitalizarTexto_Leave;
 
-            txtDni.KeyPress += SoloNumeros_KeyPress;
+            txtDni.KeyPress += Validaciones.SoloNumeros_KeyPress;
             txtDni.MaxLength = 8;
 
-            txtAltura.KeyPress += SoloNumeros_KeyPress;
+            txtAltura.KeyPress += Validaciones.SoloNumeros_KeyPress;
 
             // No se puede seleccionar una fecha de nacimiento futura desde el propio control.
             dtpFechaNacimiento.MaxDate = DateTime.Today;

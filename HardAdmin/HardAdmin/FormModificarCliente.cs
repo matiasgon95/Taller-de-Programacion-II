@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using HardAdmin.Entidades;
+using HardAdmin.Negocio; // Importamos la capa de negocio
 
 namespace HardAdmin
 {
     public partial class FormModificarCliente : Form
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
-
-        // Guardamos el ID del cliente que estamos tocando
+        private ClienteServicio servicio = new ClienteServicio();
         private int idCliente;
-
         private ErrorProvider errorProvider = new ErrorProvider();
         private bool formularioValido;
         private List<Control> controlesInvalidos = new List<Control>();
@@ -26,18 +19,15 @@ namespace HardAdmin
         public FormModificarCliente(int idCliente)
         {
             InitializeComponent();
-
             this.idCliente = idCliente;
 
-            // Configuramos el ErrorProvider
             errorProvider.ContainerControl = this;
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
-            // Bloqueamos la dirección
             txtDireccion.ReadOnly = true;
             txtDireccion.TabStop = false;
 
-            // Enganchamos las validaciones en tiempo real
+            // Enganches de eventos Leave
             txtNombre.Leave += txtNombre_Leave;
             txtApellido.Leave += txtApellido_Leave;
             txtDNI.Leave += txtDNI_Leave;
@@ -48,19 +38,27 @@ namespace HardAdmin
             txtCiudad.Leave += txtCiudad_Leave;
             txtCodigoPostal.Leave += txtCodigoPostal_Leave;
 
-            // Autocompletado de la dirección
             txtCalle.TextChanged += ActualizarDireccionCompleta;
             txtNumero.TextChanged += ActualizarDireccionCompleta;
             txtPisoDpto.TextChanged += ActualizarDireccionCompleta;
             txtCiudad.TextChanged += ActualizarDireccionCompleta;
 
-            // Autocapitalizado al salir del campo
-            txtNombre.Leave += CapitalizarTexto_Leave;
-            txtApellido.Leave += CapitalizarTexto_Leave;
-            txtCiudad.Leave += CapitalizarTexto_Leave;
-            txtCalle.Leave += CapitalizarTexto_Leave;
+            // Uso de la clase estática Validaciones
+            txtNombre.KeyPress += Validaciones.SoloLetras_KeyPress;
+            txtApellido.KeyPress += Validaciones.SoloLetras_KeyPress;
+            txtCiudad.KeyPress += Validaciones.SoloLetras_KeyPress;
+            txtCalle.KeyPress += Validaciones.SoloLetras_KeyPress;
 
-            // Traemos los datos cuando arranca
+            txtDNI.KeyPress += Validaciones.SoloNumeros_KeyPress;
+            txtTelefono.KeyPress += Validaciones.SoloNumeros_KeyPress;
+            txtNumero.KeyPress += Validaciones.SoloNumeros_KeyPress;
+            txtCodigoPostal.KeyPress += Validaciones.SoloNumeros_KeyPress;
+
+            txtNombre.Leave += Validaciones.CapitalizarTexto_Leave;
+            txtApellido.Leave += Validaciones.CapitalizarTexto_Leave;
+            txtCiudad.Leave += Validaciones.CapitalizarTexto_Leave;
+            txtCalle.Leave += Validaciones.CapitalizarTexto_Leave;
+
             this.Load += FormModificarCliente_Load;
         }
 
@@ -69,46 +67,30 @@ namespace HardAdmin
             CargarDatosCliente();
         }
 
-        // ---------- CARGA DE DATOS DESDE SQL ----------
-
         private void CargarDatosCliente()
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                // Pedimos el cliente a la Capa de Negocio
+                Cliente cliente = servicio.ObtenerPorId(this.idCliente);
+
+                if (cliente != null)
                 {
-                    string query = "SELECT * FROM Cliente WHERE id_cliente = @id";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", this.idCliente);
-                        con.Open();
+                    txtNombre.Text = cliente.Nombre;
+                    txtApellido.Text = cliente.Apellido;
+                    txtDNI.Text = cliente.Dni;
+                    txtEmail.Text = cliente.Email;
+                    txtTelefono.Text = cliente.Telefono;
+                    txtCalle.Text = cliente.Calle;
+                    txtNumero.Text = cliente.Numero;
+                    txtPisoDpto.Text = cliente.PisoDpto;
+                    txtCiudad.Text = cliente.Ciudad;
+                    txtCodigoPostal.Text = cliente.CodigoPostal;
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                txtNombre.Text = reader["nombre"].ToString();
-                                txtApellido.Text = reader["apellido"].ToString();
-                                txtDNI.Text = reader["dni"].ToString();
-
-                                // Validamos uno por uno si son DBNull para que no explote la lectura
-                                txtEmail.Text = reader["email"] != DBNull.Value ? reader["email"].ToString() : "";
-                                txtTelefono.Text = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : "";
-                                txtCalle.Text = reader["calle"] != DBNull.Value ? reader["calle"].ToString() : "";
-                                txtNumero.Text = reader["numero"] != DBNull.Value ? reader["numero"].ToString() : "";
-                                txtPisoDpto.Text = reader["piso_depto"] != DBNull.Value ? reader["piso_depto"].ToString() : "";
-                                txtCiudad.Text = reader["ciudad"] != DBNull.Value ? reader["ciudad"].ToString() : "";
-                                txtCodigoPostal.Text = reader["codigo_postal"] != DBNull.Value ? reader["codigo_postal"].ToString() : "";
-
-                                // Manejo de los radiobuttons según el campo 'baja'
-                                bool deBaja = reader["baja"] != DBNull.Value && Convert.ToBoolean(reader["baja"]);
-                                if (deBaja)
-                                    rbActivoNo.Checked = true;
-                                else
-                                    rbActivoSi.Checked = true;
-                            }
-                        }
-                    }
+                    if (cliente.Baja == 1)
+                        rbActivoNo.Checked = true;
+                    else
+                        rbActivoSi.Checked = true;
                 }
             }
             catch (Exception ex)
@@ -118,62 +100,10 @@ namespace HardAdmin
             }
         }
 
-        // ---------- EVENTOS KEYPRESS ----------
-
-        private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ') e.Handled = true;
-        }
-
-        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ') e.Handled = true;
-        }
-
-        private void txtDNI_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar)) e.Handled = true;
-        }
-
-        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar)) e.Handled = true;
-        }
-
-        private void txtCalle_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ') e.Handled = true;
-        }
-
-        private void txtNumero_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar)) e.Handled = true;
-        }
-
-        private void txtPisoDpto_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Libre
-        }
-
-        private void txtDireccion_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = true; // Bloqueado
-        }
-
-        private void txtCiudad_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ') e.Handled = true;
-        }
-
-        private void txtCodigoPostal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar)) e.Handled = true;
-        }
-
+        private void txtPisoDpto_KeyPress(object sender, KeyPressEventArgs e) { }
+        private void txtDireccion_KeyPress(object sender, KeyPressEventArgs e) { e.Handled = true; }
         private void labCalle_Click(object sender, EventArgs e) { }
         private void labEmail_Click(object sender, EventArgs e) { }
-
-        // ---------- HELPERS DE FORMATO Y VALIDACIÓN ----------
 
         private void ActualizarDireccionCompleta(object sender, EventArgs e)
         {
@@ -183,61 +113,13 @@ namespace HardAdmin
             string ciudad = txtCiudad.Text.Trim();
 
             string direccion = $"{calle} {numero}".Trim();
-
-            if (!string.IsNullOrWhiteSpace(dpto))
-            {
-                direccion += $" Dpto {dpto}";
-            }
-
+            if (!string.IsNullOrWhiteSpace(dpto)) direccion += $" Dpto {dpto}";
             if (!string.IsNullOrWhiteSpace(ciudad))
             {
-                if (direccion.Length > 0)
-                    direccion += $", {ciudad}";
-                else
-                    direccion = $"{ciudad}";
+                direccion = direccion.Length > 0 ? direccion + $", {ciudad}" : ciudad;
             }
-
             txtDireccion.Text = direccion;
         }
-
-        private void CapitalizarTexto_Leave(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            if (txt == null || string.IsNullOrWhiteSpace(txt.Text)) return;
-
-            TextInfo textInfo = CultureInfo.GetCultureInfo("es-AR").TextInfo;
-            txt.Text = textInfo.ToTitleCase(txt.Text.Trim().ToLower(CultureInfo.GetCultureInfo("es-AR")));
-        }
-
-        private bool EsEmailValido(string email)
-        {
-            try
-            {
-                var direccion = new MailAddress(email);
-                return direccion.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        // CRÍTICO PARA MODIFICACIÓN: Chequea repetidos pero ignora el ID de este mismo cliente.
-        // Si no hacemos esto, siempre rebotaría sus propios datos al querer guardar otra cosa.
-        private bool ExisteEnClienteModificacion(string columna, string valor)
-        {
-            string query = $"SELECT COUNT(1) FROM Cliente WHERE {columna} = @valor AND id_cliente != @idActual";
-            using (SqlConnection con = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, con))
-            {
-                cmd.Parameters.AddWithValue("@valor", valor);
-                cmd.Parameters.AddWithValue("@idActual", this.idCliente);
-                con.Open();
-                return (int)cmd.ExecuteScalar() > 0;
-            }
-        }
-
-        // ---------- SISTEMA DE ERRORES VISUALES ----------
 
         private void Marcar(Control control, bool condicionValida, string mensajeError)
         {
@@ -250,10 +132,7 @@ namespace HardAdmin
             {
                 errorProvider.SetError(control, mensajeError);
                 formularioValido = false;
-                if (!controlesInvalidos.Contains(control))
-                {
-                    controlesInvalidos.Add(control);
-                }
+                if (!controlesInvalidos.Contains(control)) controlesInvalidos.Add(control);
             }
         }
 
@@ -262,8 +141,6 @@ namespace HardAdmin
             Control primero = controlesInvalidos.OrderBy(c => c.TabIndex).FirstOrDefault();
             primero?.Focus();
         }
-
-        // ---------- VALIDACIONES ESPECÍFICAS ----------
 
         private bool ValidarNombre()
         {
@@ -296,7 +173,8 @@ namespace HardAdmin
                 return false;
             }
 
-            bool disponible = !ExisteEnClienteModificacion("dni", valor);
+            // Validamos contra la BD usando la capa de Negocio (pasando el ID actual para no chocar con sí mismo)
+            bool disponible = servicio.DniDisponible(valor, this.idCliente);
             Marcar(txtDNI, disponible, "El DNI/CUIT ya está registrado en otro cliente.");
             return disponible;
         }
@@ -316,13 +194,14 @@ namespace HardAdmin
                 Marcar(txtEmail, false, "Debe ingresar un email.");
                 return false;
             }
-            if (!EsEmailValido(valor))
+
+            if (!Validaciones.EsEmailValido(valor))
             {
                 Marcar(txtEmail, false, "Debe ingresar un correo electrónico válido.");
                 return false;
             }
 
-            bool disponible = !ExisteEnClienteModificacion("email", valor);
+            bool disponible = servicio.EmailDisponible(valor, this.idCliente);
             Marcar(txtEmail, disponible, "El email ya se encuentra registrado en otro cliente.");
             return disponible;
         }
@@ -365,8 +244,6 @@ namespace HardAdmin
         private void txtCiudad_Leave(object sender, EventArgs e) => ValidarCiudad();
         private void txtCodigoPostal_Leave(object sender, EventArgs e) => ValidarCodigoPostal();
 
-        // ---------- BOTONES GUARDAR Y CANCELAR ----------
-
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             formularioValido = true;
@@ -388,63 +265,30 @@ namespace HardAdmin
                 return;
             }
 
-            // Traducimos el radio button a un bit
-            int baja = rbActivoSi.Checked ? 0 : 1;
-
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                Cliente clienteEditado = new Cliente
                 {
-                    string query = @"UPDATE Cliente 
-                                     SET nombre = @nombre, 
-                                         apellido = @apellido, 
-                                         dni = @dni, 
-                                         email = @email, 
-                                         telefono = @telefono, 
-                                         calle = @calle, 
-                                         numero = @numero, 
-                                         piso_depto = @piso_depto, 
-                                         ciudad = @ciudad, 
-                                         codigo_postal = @codigo_postal, 
-                                         baja = @baja
-                                     WHERE id_cliente = @id";
+                    IdCliente = this.idCliente,
+                    Nombre = txtNombre.Text.Trim(),
+                    Apellido = txtApellido.Text.Trim(),
+                    Dni = txtDNI.Text.Trim(),
+                    Email = txtEmail.Text.Trim(),
+                    Telefono = txtTelefono.Text.Trim(),
+                    Calle = txtCalle.Text.Trim(),
+                    Numero = txtNumero.Text.Trim(),
+                    PisoDpto = txtPisoDpto.Text.Trim(),
+                    Ciudad = txtCiudad.Text.Trim(),
+                    CodigoPostal = txtCodigoPostal.Text.Trim(),
+                    Baja = rbActivoSi.Checked ? 0 : 1
+                };
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", this.idCliente);
-                        cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
-                        cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
-                        cmd.Parameters.AddWithValue("@dni", txtDNI.Text.Trim());
-                        cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
-                        cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
-                        cmd.Parameters.AddWithValue("@calle", txtCalle.Text.Trim());
-                        cmd.Parameters.AddWithValue("@numero", txtNumero.Text.Trim());
-                        cmd.Parameters.AddWithValue("@ciudad", txtCiudad.Text.Trim());
-                        cmd.Parameters.AddWithValue("@codigo_postal", txtCodigoPostal.Text.Trim());
-                        cmd.Parameters.AddWithValue("@baja", baja);
-
-                        // Null explícito para evitar problemas en DB
-                        cmd.Parameters.AddWithValue("@piso_depto", string.IsNullOrWhiteSpace(txtPisoDpto.Text) ? (object)DBNull.Value : txtPisoDpto.Text.Trim());
-
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                // Enviamos el objeto a la Capa de Negocio
+                servicio.Modificar(clienteEditado);
 
                 MessageBox.Show("Cliente modificado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
-            }
-            catch (SqlException ex)
-            {
-                if (ex.Number == 2627 || ex.Number == 2601)
-                {
-                    MessageBox.Show("El DNI o Email ya se encuentra registrado en otro cliente.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    MessageBox.Show("Error de base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
             catch (Exception ex)
             {

@@ -31,17 +31,17 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.labDatos = new System.Windows.Forms.Label();
-            this.labCodigoPostal = new System.Windows.Forms.Label();
-            this.labCiudad = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labNumeroCalle = new System.Windows.Forms.Label();
-            this.labCalle = new System.Windows.Forms.Label();
-            this.labEmail = new System.Windows.Forms.Label();
-            this.labTelefono = new System.Windows.Forms.Label();
-            this.labDNI = new System.Windows.Forms.Label();
-            this.labNombre = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblCodigoPostal = new System.Windows.Forms.Label();
+            this.lblCiudad = new System.Windows.Forms.Label();
+            this.lblDireccion = new System.Windows.Forms.Label();
+            this.lblPistoDpto = new System.Windows.Forms.Label();
+            this.lblNumeroCalle = new System.Windows.Forms.Label();
+            this.lblCalle = new System.Windows.Forms.Label();
+            this.lblEmail = new System.Windows.Forms.Label();
+            this.lblTelefono = new System.Windows.Forms.Label();
+            this.lblDNI = new System.Windows.Forms.Label();
+            this.lblNombre = new System.Windows.Forms.Label();
+            this.lblApellido = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.pnlTitulo = new System.Windows.Forms.Panel();
@@ -169,104 +169,104 @@
             this.labDatos.TabIndex = 98;
             this.labDatos.Visible = false;
             // 
-            // labCodigoPostal
+            // lblCodigoPostal
             // 
-            this.labCodigoPostal.AutoSize = true;
-            this.labCodigoPostal.Location = new System.Drawing.Point(290, 113);
-            this.labCodigoPostal.Name = "labCodigoPostal";
-            this.labCodigoPostal.Size = new System.Drawing.Size(25, 15);
-            this.labCodigoPostal.TabIndex = 10;
-            this.labCodigoPostal.Text = "CP:";
+            this.lblCodigoPostal.AutoSize = true;
+            this.lblCodigoPostal.Location = new System.Drawing.Point(290, 113);
+            this.lblCodigoPostal.Name = "lblCodigoPostal";
+            this.lblCodigoPostal.Size = new System.Drawing.Size(25, 15);
+            this.lblCodigoPostal.TabIndex = 10;
+            this.lblCodigoPostal.Text = "CP:";
             // 
-            // labCiudad
+            // lblCiudad
             // 
-            this.labCiudad.AutoSize = true;
-            this.labCiudad.Location = new System.Drawing.Point(15, 113);
-            this.labCiudad.Name = "labCiudad";
-            this.labCiudad.Size = new System.Drawing.Size(48, 15);
-            this.labCiudad.TabIndex = 9;
-            this.labCiudad.Text = "Ciudad:";
+            this.lblCiudad.AutoSize = true;
+            this.lblCiudad.Location = new System.Drawing.Point(15, 113);
+            this.lblCiudad.Name = "lblCiudad";
+            this.lblCiudad.Size = new System.Drawing.Size(48, 15);
+            this.lblCiudad.TabIndex = 9;
+            this.lblCiudad.Text = "Ciudad:";
             // 
-            // label3
+            // lblDireccion
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 73);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 15);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Dirección:";
+            this.lblDireccion.AutoSize = true;
+            this.lblDireccion.Location = new System.Drawing.Point(15, 73);
+            this.lblDireccion.Name = "lblDireccion";
+            this.lblDireccion.Size = new System.Drawing.Size(60, 15);
+            this.lblDireccion.TabIndex = 8;
+            this.lblDireccion.Text = "Dirección:";
             // 
-            // label2
+            // lblPistoDpto
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(345, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 15);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Piso/Dpto:";
+            this.lblPistoDpto.AutoSize = true;
+            this.lblPistoDpto.Location = new System.Drawing.Point(345, 33);
+            this.lblPistoDpto.Name = "lblPistoDpto";
+            this.lblPistoDpto.Size = new System.Drawing.Size(63, 15);
+            this.lblPistoDpto.TabIndex = 7;
+            this.lblPistoDpto.Text = "Piso/Dpto:";
             // 
-            // labNumeroCalle
+            // lblNumeroCalle
             // 
-            this.labNumeroCalle.AutoSize = true;
-            this.labNumeroCalle.Location = new System.Drawing.Point(220, 33);
-            this.labNumeroCalle.Name = "labNumeroCalle";
-            this.labNumeroCalle.Size = new System.Drawing.Size(54, 15);
-            this.labNumeroCalle.TabIndex = 6;
-            this.labNumeroCalle.Text = "Número:";
+            this.lblNumeroCalle.AutoSize = true;
+            this.lblNumeroCalle.Location = new System.Drawing.Point(220, 33);
+            this.lblNumeroCalle.Name = "lblNumeroCalle";
+            this.lblNumeroCalle.Size = new System.Drawing.Size(54, 15);
+            this.lblNumeroCalle.TabIndex = 6;
+            this.lblNumeroCalle.Text = "Número:";
             // 
-            // labCalle
+            // lblCalle
             // 
-            this.labCalle.AutoSize = true;
-            this.labCalle.Location = new System.Drawing.Point(15, 33);
-            this.labCalle.Name = "labCalle";
-            this.labCalle.Size = new System.Drawing.Size(36, 15);
-            this.labCalle.TabIndex = 5;
-            this.labCalle.Text = "Calle:";
+            this.lblCalle.AutoSize = true;
+            this.lblCalle.Location = new System.Drawing.Point(15, 33);
+            this.lblCalle.Name = "lblCalle";
+            this.lblCalle.Size = new System.Drawing.Size(36, 15);
+            this.lblCalle.TabIndex = 5;
+            this.lblCalle.Text = "Calle:";
             // 
-            // labEmail
+            // lblEmail
             // 
-            this.labEmail.AutoSize = true;
-            this.labEmail.Location = new System.Drawing.Point(15, 33);
-            this.labEmail.Name = "labEmail";
-            this.labEmail.Size = new System.Drawing.Size(39, 15);
-            this.labEmail.TabIndex = 4;
-            this.labEmail.Text = "Email:";
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(15, 33);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(39, 15);
+            this.lblEmail.TabIndex = 4;
+            this.lblEmail.Text = "Email:";
             // 
-            // labTelefono
+            // lblTelefono
             // 
-            this.labTelefono.AutoSize = true;
-            this.labTelefono.Location = new System.Drawing.Point(280, 33);
-            this.labTelefono.Name = "labTelefono";
-            this.labTelefono.Size = new System.Drawing.Size(47, 15);
-            this.labTelefono.TabIndex = 3;
-            this.labTelefono.Text = "Tel/Cel:";
+            this.lblTelefono.AutoSize = true;
+            this.lblTelefono.Location = new System.Drawing.Point(280, 33);
+            this.lblTelefono.Name = "lblTelefono";
+            this.lblTelefono.Size = new System.Drawing.Size(47, 15);
+            this.lblTelefono.TabIndex = 3;
+            this.lblTelefono.Text = "Tel/Cel:";
             // 
-            // labDNI
+            // lblDNI
             // 
-            this.labDNI.AutoSize = true;
-            this.labDNI.Location = new System.Drawing.Point(360, 33);
-            this.labDNI.Name = "labDNI";
-            this.labDNI.Size = new System.Drawing.Size(30, 15);
-            this.labDNI.TabIndex = 2;
-            this.labDNI.Text = "DNI:";
+            this.lblDNI.AutoSize = true;
+            this.lblDNI.Location = new System.Drawing.Point(360, 33);
+            this.lblDNI.Name = "lblDNI";
+            this.lblDNI.Size = new System.Drawing.Size(30, 15);
+            this.lblDNI.TabIndex = 2;
+            this.lblDNI.Text = "DNI:";
             // 
-            // labNombre
+            // lblNombre
             // 
-            this.labNombre.AutoSize = true;
-            this.labNombre.Location = new System.Drawing.Point(15, 33);
-            this.labNombre.Name = "labNombre";
-            this.labNombre.Size = new System.Drawing.Size(54, 15);
-            this.labNombre.TabIndex = 1;
-            this.labNombre.Text = "Nombre:";
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(15, 33);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(54, 15);
+            this.lblNombre.TabIndex = 1;
+            this.lblNombre.Text = "Nombre:";
             // 
-            // label1
+            // lblApellido
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(185, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Apellido:";
+            this.lblApellido.AutoSize = true;
+            this.lblApellido.Location = new System.Drawing.Point(185, 33);
+            this.lblApellido.Name = "lblApellido";
+            this.lblApellido.Size = new System.Drawing.Size(54, 15);
+            this.lblApellido.TabIndex = 0;
+            this.lblApellido.Text = "Apellido:";
             // 
             // btnGuardar
             // 
@@ -300,11 +300,11 @@
             // 
             // gbDatosPersonales
             // 
-            this.gbDatosPersonales.Controls.Add(this.labNombre);
+            this.gbDatosPersonales.Controls.Add(this.lblNombre);
             this.gbDatosPersonales.Controls.Add(this.txtNombre);
-            this.gbDatosPersonales.Controls.Add(this.label1);
+            this.gbDatosPersonales.Controls.Add(this.lblApellido);
             this.gbDatosPersonales.Controls.Add(this.txtApellido);
-            this.gbDatosPersonales.Controls.Add(this.labDNI);
+            this.gbDatosPersonales.Controls.Add(this.lblDNI);
             this.gbDatosPersonales.Controls.Add(this.txtDNI);
             this.gbDatosPersonales.Location = new System.Drawing.Point(15, 60);
             this.gbDatosPersonales.Name = "gbDatosPersonales";
@@ -315,9 +315,9 @@
             // 
             // gbContacto
             // 
-            this.gbContacto.Controls.Add(this.labEmail);
+            this.gbContacto.Controls.Add(this.lblEmail);
             this.gbContacto.Controls.Add(this.txtEmail);
-            this.gbContacto.Controls.Add(this.labTelefono);
+            this.gbContacto.Controls.Add(this.lblTelefono);
             this.gbContacto.Controls.Add(this.txtTelefono);
             this.gbContacto.Location = new System.Drawing.Point(15, 145);
             this.gbContacto.Name = "gbContacto";
@@ -328,17 +328,17 @@
             // 
             // gbDireccion
             // 
-            this.gbDireccion.Controls.Add(this.labCalle);
+            this.gbDireccion.Controls.Add(this.lblCalle);
             this.gbDireccion.Controls.Add(this.txtCalle);
-            this.gbDireccion.Controls.Add(this.labNumeroCalle);
+            this.gbDireccion.Controls.Add(this.lblNumeroCalle);
             this.gbDireccion.Controls.Add(this.txtNumero);
-            this.gbDireccion.Controls.Add(this.label2);
+            this.gbDireccion.Controls.Add(this.lblPistoDpto);
             this.gbDireccion.Controls.Add(this.txtPisoDpto);
-            this.gbDireccion.Controls.Add(this.label3);
+            this.gbDireccion.Controls.Add(this.lblDireccion);
             this.gbDireccion.Controls.Add(this.txtDireccion);
-            this.gbDireccion.Controls.Add(this.labCiudad);
+            this.gbDireccion.Controls.Add(this.lblCiudad);
             this.gbDireccion.Controls.Add(this.txtCiudad);
-            this.gbDireccion.Controls.Add(this.labCodigoPostal);
+            this.gbDireccion.Controls.Add(this.lblCodigoPostal);
             this.gbDireccion.Controls.Add(this.txtCodigoPostal);
             this.gbDireccion.Location = new System.Drawing.Point(15, 230);
             this.gbDireccion.Name = "gbDireccion";
@@ -385,17 +385,17 @@
 
         private System.Windows.Forms.Label labTitulo;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label labTelefono;
-        private System.Windows.Forms.Label labDNI;
-        private System.Windows.Forms.Label labNombre;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label labCodigoPostal;
-        private System.Windows.Forms.Label labCiudad;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label labNumeroCalle;
-        private System.Windows.Forms.Label labCalle;
-        private System.Windows.Forms.Label labEmail;
+        private System.Windows.Forms.Label lblTelefono;
+        private System.Windows.Forms.Label lblDNI;
+        private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.Label lblApellido;
+        private System.Windows.Forms.Label lblCodigoPostal;
+        private System.Windows.Forms.Label lblCiudad;
+        private System.Windows.Forms.Label lblDireccion;
+        private System.Windows.Forms.Label lblPistoDpto;
+        private System.Windows.Forms.Label lblNumeroCalle;
+        private System.Windows.Forms.Label lblCalle;
+        private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.Label labDatos;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtTelefono;

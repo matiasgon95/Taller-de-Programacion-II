@@ -36,14 +36,22 @@ namespace HardAdmin.Datos
             return roles;
         }
 
-        public bool ExisteUsuario(string columna, string valor)
+        public bool ExisteUsuario(string columna, string valor, int? idExcluir = null)
         {
             string query = $"SELECT COUNT(1) FROM Usuario WHERE {columna} = @valor";
+
+            // Si nos pasan un ID para excluir (cuando estamos modificando), lo agregamos al WHERE
+            if (idExcluir.HasValue)
+                query += " AND id_usuario != @idExcluir";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))
             {
                 cmd.Parameters.AddWithValue("@valor", valor);
+
+                if (idExcluir.HasValue)
+                    cmd.Parameters.AddWithValue("@idExcluir", idExcluir.Value);
+
                 con.Open();
                 return (int)cmd.ExecuteScalar() > 0;
             }
@@ -80,6 +88,99 @@ namespace HardAdmin.Datos
 
                 con.Open();
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public Usuario ObtenerPorId(int id)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT id_usuario, nombre_usuario, email, id_rol, baja, 
+                                nombre, apellido, dni, fecha_nacimiento, 
+                                calle, altura, dpto, localidad 
+                         FROM Usuario WHERE id_usuario = @id";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    con.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Usuario
+                            {
+                                IdUsuario = Convert.ToInt32(reader["id_usuario"]),
+                                NombreUsuario = reader["nombre_usuario"].ToString(),
+                                Email = reader["email"].ToString(),
+                                IdRol = Convert.ToInt32(reader["id_rol"]),
+                                Baja = Convert.ToBoolean(reader["baja"]),
+                                Nombre = reader["nombre"].ToString(),
+                                Apellido = reader["apellido"].ToString(),
+                                Dni = reader["dni"].ToString(),
+                                FechaNacimiento = reader["fecha_nacimiento"] != DBNull.Value ? Convert.ToDateTime(reader["fecha_nacimiento"]) : DateTime.Today,
+                                Calle = reader["calle"].ToString(),
+                                Altura = reader["altura"].ToString(),
+                                Dpto = reader["dpto"].ToString(),
+                                Localidad = reader["localidad"].ToString()
+                            };
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+
+        public void Modificar(Usuario obj, string nuevaContrasenaHasheada)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"UPDATE Usuario 
+                         SET nombre_usuario = @usuario, 
+                             email = @email, 
+                             id_rol = @idRol, 
+                             baja = @baja,
+                             nombre = @nombre, 
+                             apellido = @apellido, 
+                             dni = @dni, 
+                             fecha_nacimiento = @fechaNacimiento,
+                             calle = @calle, 
+                             altura = @altura, 
+                             dpto = @dpto, 
+                             localidad = @localidad";
+
+                if (nuevaContrasenaHasheada != null)
+                {
+                    query += ", contrasena = @contrasena";
+                }
+
+                query += " WHERE id_usuario = @id";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@id", obj.IdUsuario);
+                    cmd.Parameters.AddWithValue("@usuario", obj.NombreUsuario);
+                    cmd.Parameters.AddWithValue("@email", obj.Email);
+                    cmd.Parameters.AddWithValue("@idRol", obj.IdRol);
+                    cmd.Parameters.AddWithValue("@baja", obj.Baja ? 1 : 0);
+                    cmd.Parameters.AddWithValue("@nombre", obj.Nombre);
+                    cmd.Parameters.AddWithValue("@apellido", obj.Apellido);
+                    cmd.Parameters.AddWithValue("@dni", obj.Dni);
+                    cmd.Parameters.AddWithValue("@fechaNacimiento", obj.FechaNacimiento);
+                    cmd.Parameters.AddWithValue("@calle", obj.Calle);
+                    cmd.Parameters.AddWithValue("@altura", obj.Altura);
+                    cmd.Parameters.AddWithValue("@dpto", string.IsNullOrWhiteSpace(obj.Dpto) ? (object)DBNull.Value : obj.Dpto);
+                    cmd.Parameters.AddWithValue("@localidad", obj.Localidad);
+
+                    if (nuevaContrasenaHasheada != null)
+                    {
+                        cmd.Parameters.AddWithValue("@contrasena", nuevaContrasenaHasheada);
+                    }
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }
