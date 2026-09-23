@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HardAdmin.Negocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -106,7 +107,7 @@ namespace HardAdmin
         private void AplicarPermisos()
         {
             btnUsuarios.Enabled =
-                PermisosSistema.TienePermisoModulo("Usuarios");
+                Negocio.PermisosSistema.TienePermisoModulo("Usuarios");
 
             btnProductos.Enabled =
                 PermisosSistema.TienePermisoModulo("Productos");

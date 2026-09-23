@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HardAdmin.Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;

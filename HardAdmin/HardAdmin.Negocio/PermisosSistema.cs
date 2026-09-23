@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HardAdmin.Entidades;
 
-namespace HardAdmin
+namespace HardAdmin.Negocio
 {
-    internal class PermisosSistema
+    public static class PermisosSistema
     {
         //Determina segun el tipo de rol a que funciones tiene acceso el usuario que ingresa al sistema.
         public static bool TienePermisoModulo(string modulo)
