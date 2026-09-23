@@ -29,7 +29,7 @@ namespace HardAdmin
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
             // Hash de la contraseña ingresada
-            string contrasenaIngresadaHash = Seguridad.HashearContrasena(txtContrasena.Text);
+            string contrasenaIngresadaHash = HardAdmin.Negocio.Seguridad.HashearContrasena(txtContrasena.Text);
 
             // Consulta con JOIN a Rol para traer el nombre del rol además de los IDs
             string query = @"SELECT u.id_usuario, u.id_rol, r.nombre_rol 

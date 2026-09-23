@@ -588,7 +588,7 @@ namespace HardAdmin
                         // Si marcamos el tilde de cambiar clave, hacemos el hash y lo agregamos como parámetro.
                         if (chkCambiarClave.Checked)
                         {
-                            string nuevaContrasenaHash = Seguridad.HashearContrasena(txtContrasena.Text);
+                            string nuevaContrasenaHash = HardAdmin.Negocio.Seguridad.HashearContrasena(txtContrasena.Text);
                             cmd.Parameters.AddWithValue("@contrasena", nuevaContrasenaHash);
                         }
 

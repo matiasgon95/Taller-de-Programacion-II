@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Net.Mail;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
+using HardAdmin.Entidades;
+using HardAdmin.Negocio;
 
 namespace HardAdmin
 {
     public partial class FormAgregarUsuario : Form
     {
-        // Lee la conexión desde el App.config
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        // Única dependencia hacia afuera de la UI: la capa de Negocio.
+        // Este formulario ya no sabe que existe SQL Server.
+        private UsuarioServicio servicio = new UsuarioServicio();
 
         // Edad mínima requerida para dar de alta un usuario.
         private const int EDAD_MINIMA = 18;
@@ -96,23 +95,11 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT * FROM Rol";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        con.Open();
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
+                List<Rol> roles = servicio.ObtenerRoles();
 
-                            cmbRol.DataSource = dt;
-                            cmbRol.DisplayMember = "nombre_rol";
-                            cmbRol.ValueMember = "id_rol";
-                        }
-                    }
-                }
+                cmbRol.DisplayMember = "NombreRol";
+                cmbRol.ValueMember = "IdRol";
+                cmbRol.DataSource = roles;
             }
             catch (Exception ex)
             {
@@ -153,7 +140,7 @@ namespace HardAdmin
             txtDireccionCompleta.Text = direccion;
         }
 
-        // ---------- Helpers de formato ----------
+        // ---------- Helpers de formato (puramente visuales, se quedan en la UI) ----------
 
         // Bloquea en tiempo real cualquier tecla que no sea letra, espacio o control (backspace, etc.)
         private void SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
@@ -191,42 +178,6 @@ namespace HardAdmin
             txtConfirmarContrasena.UseSystemPasswordChar = !chkVerClave.Checked;
         }
 
-        // Solo letras (incluye acentos y ñ) y espacios, sin dejarlo vacío
-        private bool EsSoloLetras(string texto)
-        {
-            return Regex.IsMatch(texto, @"^[\p{L}\s]+$");
-        }
-
-        // DNI: solo dígitos, entre 7 y 8 caracteres.
-        private bool EsDniValido(string dni)
-        {
-            return Regex.IsMatch(dni, @"^\d{7,8}$");
-        }
-
-        private bool EsEmailValido(string email)
-        {
-            try
-            {
-                var direccion = new MailAddress(email);
-                return direccion.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private bool CumpleEdadMinima(DateTime fechaNacimiento)
-        {
-            DateTime hoy = DateTime.Today;
-            if (fechaNacimiento.Date > hoy) return false; // fecha futura
-
-            int edad = hoy.Year - fechaNacimiento.Year;
-            if (fechaNacimiento.Date > hoy.AddYears(-edad)) edad--;
-
-            return edad >= EDAD_MINIMA;
-        }
-
         // Marca (o limpia) el error de un control puntual y actualiza el estado general
         // del formulario, sin cortar la ejecución. Así se revisan todos los campos de una.
         private void Marcar(Control control, bool condicionValida, string mensajeError)
@@ -255,25 +206,13 @@ namespace HardAdmin
             primero?.Focus();
         }
 
-        // Verifica si ya existe un valor cargado en una columna de Usuario (usuario/email/dni)
-        private bool ExisteEnUsuario(string columna, string valor)
-        {
-            string query = $"SELECT COUNT(1) FROM Usuario WHERE {columna} = @valor";
-            using (SqlConnection con = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, con))
-            {
-                cmd.Parameters.AddWithValue("@valor", valor);
-                con.Open();
-                return (int)cmd.ExecuteScalar() > 0;
-            }
-        }
-
-        // ---------- Validación por campo (se usan tanto al salir del campo como al guardar) ----------
+        // ---------- Validación por campo: la UI arma el mensaje y prende/apaga el ícono,
+        // pero quién decide si el valor es válido es siempre UsuarioServicio (capa de Negocio) ----------
 
         private bool ValidarNombre()
         {
             string valor = txtNombre.Text.Trim();
-            bool ok = !string.IsNullOrWhiteSpace(valor) && EsSoloLetras(valor);
+            bool ok = servicio.EsNombreValido(valor);
             Marcar(txtNombre, ok, "El nombre es obligatorio y solo puede contener letras.");
             return ok;
         }
@@ -281,7 +220,7 @@ namespace HardAdmin
         private bool ValidarApellido()
         {
             string valor = txtApellido.Text.Trim();
-            bool ok = !string.IsNullOrWhiteSpace(valor) && EsSoloLetras(valor);
+            bool ok = servicio.EsApellidoValido(valor);
             Marcar(txtApellido, ok, "El apellido es obligatorio y solo puede contener letras.");
             return ok;
         }
@@ -289,42 +228,41 @@ namespace HardAdmin
         private bool ValidarDni()
         {
             string valor = txtDni.Text.Trim();
-            if (string.IsNullOrWhiteSpace(valor) || !EsDniValido(valor))
+            if (!servicio.EsDniValido(valor))
             {
                 Marcar(txtDni, false, "El DNI es obligatorio y debe tener entre 7 y 8 números, sin letras ni puntos.");
                 return false;
             }
 
-            bool disponible = !ExisteEnUsuario("dni", valor);
+            bool disponible = servicio.DniDisponible(valor);
             Marcar(txtDni, disponible, "El DNI ya se encuentra registrado.");
             return disponible;
         }
 
         private bool ValidarFechaNacimiento()
         {
-            bool ok = CumpleEdadMinima(dtpFechaNacimiento.Value);
+            bool ok = servicio.EsFechaNacimientoValida(dtpFechaNacimiento.Value);
             Marcar(dtpFechaNacimiento, ok, $"La fecha no puede ser futura y el usuario debe ser mayor de {EDAD_MINIMA} años.");
             return ok;
         }
 
         private bool ValidarCalle()
         {
-            bool ok = !string.IsNullOrWhiteSpace(txtCalle.Text.Trim());
+            bool ok = servicio.EsCalleValida(txtCalle.Text.Trim());
             Marcar(txtCalle, ok, "Debe ingresar la calle.");
             return ok;
         }
 
         private bool ValidarAltura()
         {
-            string valor = txtAltura.Text.Trim();
-            bool ok = !string.IsNullOrWhiteSpace(valor) && Regex.IsMatch(valor, @"^\d+$");
+            bool ok = servicio.EsAlturaValida(txtAltura.Text.Trim());
             Marcar(txtAltura, ok, "El número de altura es obligatorio y debe ser numérico.");
             return ok;
         }
 
         private bool ValidarLocalidad()
         {
-            bool ok = !string.IsNullOrWhiteSpace(txtLocalidad.Text.Trim());
+            bool ok = servicio.EsLocalidadValida(txtLocalidad.Text.Trim());
             Marcar(txtLocalidad, ok, "Debe ingresar la localidad.");
             return ok;
         }
@@ -332,13 +270,13 @@ namespace HardAdmin
         private bool ValidarUsuario()
         {
             string valor = txtUsuario.Text.Trim();
-            if (string.IsNullOrWhiteSpace(valor) || valor.Length < 4)
+            if (!servicio.EsNombreUsuarioValido(valor))
             {
                 Marcar(txtUsuario, false, "El nombre de usuario es obligatorio y debe tener al menos 4 caracteres.");
                 return false;
             }
 
-            bool disponible = !ExisteEnUsuario("nombre_usuario", valor);
+            bool disponible = servicio.NombreUsuarioDisponible(valor);
             Marcar(txtUsuario, disponible, "El nombre de usuario ya se encuentra registrado.");
             return disponible;
         }
@@ -346,21 +284,20 @@ namespace HardAdmin
         private bool ValidarEmail()
         {
             string valor = txtEmail.Text.Trim();
-            if (string.IsNullOrWhiteSpace(valor) || !EsEmailValido(valor))
+            if (!servicio.EsEmailValido(valor))
             {
                 Marcar(txtEmail, false, "Debe ingresar un email con formato válido.");
                 return false;
             }
 
-            bool disponible = !ExisteEnUsuario("email", valor);
+            bool disponible = servicio.EmailDisponible(valor);
             Marcar(txtEmail, disponible, "El email ya se encuentra registrado.");
             return disponible;
         }
 
         private bool ValidarContrasena()
         {
-            string valor = txtContrasena.Text;
-            bool ok = !string.IsNullOrWhiteSpace(valor) && valor.Length >= 6;
+            bool ok = servicio.EsContrasenaValida(txtContrasena.Text);
             Marcar(txtContrasena, ok, "La contraseña es obligatoria y debe tener al menos 6 caracteres.");
             return ok;
         }
@@ -431,74 +368,34 @@ namespace HardAdmin
                 return;
             }
 
-            string nombre = txtNombre.Text.Trim();
-            string apellido = txtApellido.Text.Trim();
-            string dni = txtDni.Text.Trim();
-            string calle = txtCalle.Text.Trim();
-            string altura = txtAltura.Text.Trim();
-            string dpto = txtDpto.Text.Trim();
-            string localidad = txtLocalidad.Text.Trim();
-            string usuario = txtUsuario.Text.Trim();
-            string email = txtEmail.Text.Trim();
-            string contrasena = txtContrasena.Text;
+            // Armamos la entidad con lo que hay en pantalla. De acá para abajo,
+            // el formulario no vuelve a tocar ninguna regla de negocio ni SQL.
+            Usuario usuario = new Usuario
+            {
+                NombreUsuario = txtUsuario.Text.Trim(),
+                Email = txtEmail.Text.Trim(),
+                IdRol = (int)cmbRol.SelectedValue,
+                Nombre = txtNombre.Text.Trim(),
+                Apellido = txtApellido.Text.Trim(),
+                Dni = txtDni.Text.Trim(),
+                FechaNacimiento = dtpFechaNacimiento.Value.Date,
+                Calle = txtCalle.Text.Trim(),
+                Altura = txtAltura.Text.Trim(),
+                Dpto = txtDpto.Text.Trim(),
+                Localidad = txtLocalidad.Text.Trim()
+            };
 
-            // --- Inserción en la base de datos ---
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = @"INSERT INTO Usuario
-                                     (nombre_usuario, email, contrasena, id_rol, baja,
-                                      nombre, apellido, dni, fecha_nacimiento,
-                                      calle, altura, dpto, localidad)
-                                     VALUES
-                                     (@usuario, @email, @contrasena, @idRol, 0,
-                                      @nombre, @apellido, @dni, @fechaNacimiento,
-                                      @calle, @altura, @dpto, @localidad)";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        // Hasheamos la contraseña antes de guardarla en la base de datos
-                        string contrasenaHasheada = Seguridad.HashearContrasena(contrasena);
-
-                        cmd.Parameters.AddWithValue("@usuario", usuario);
-                        cmd.Parameters.AddWithValue("@email", email);
-                        cmd.Parameters.AddWithValue("@contrasena", contrasenaHasheada);
-                        cmd.Parameters.AddWithValue("@idRol", (int)cmbRol.SelectedValue);
-
-                        cmd.Parameters.AddWithValue("@nombre", nombre);
-                        cmd.Parameters.AddWithValue("@apellido", apellido);
-                        cmd.Parameters.AddWithValue("@dni", dni);
-                        cmd.Parameters.AddWithValue("@fechaNacimiento", dtpFechaNacimiento.Value.Date);
-
-                        cmd.Parameters.AddWithValue("@calle", calle);
-                        cmd.Parameters.AddWithValue("@altura", altura);
-                        cmd.Parameters.AddWithValue("@dpto", string.IsNullOrWhiteSpace(dpto) ? (object)DBNull.Value : dpto);
-                        cmd.Parameters.AddWithValue("@localidad", localidad);
-
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                servicio.Registrar(usuario, txtContrasena.Text);
 
                 MessageBox.Show("Usuario registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-            catch (SqlException ex)
-            {
-                if (ex.Number == 2627 || ex.Number == 2601) // Esto es para el UNIQUE constraint violation (nombre_usuario, email o dni duplicados)
-                {
-                    MessageBox.Show("El nombre de usuario, email o DNI ya se encuentra registrado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    MessageBox.Show("Error de base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al registrar el usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -194,7 +194,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Seguridad.cs" />
     <Compile Include="SesionActual.cs" />
     <EmbeddedResource Include="FormAgregarCliente.resx">
       <DependentUpon>FormAgregarCliente.cs</DependentUpon>
@@ -284,6 +283,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HardAdmin.Entidades\HardAdmin.Entidades.csproj">
+      <Project>{9ca7c9f8-0f44-4d12-8952-45bd0c3b7e3a}</Project>
+      <Name>HardAdmin.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HardAdmin.Negocio\HardAdmin.Negocio.csproj">
+      <Project>{ed57bea0-5fc8-4d9b-91df-32b930d0366c}</Project>
+      <Name>HardAdmin.Negocio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
