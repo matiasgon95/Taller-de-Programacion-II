@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlTitulo = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.pnlFiltros = new System.Windows.Forms.Panel();
@@ -121,17 +121,18 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(670, 25);
+            this.btnLimpiar.Location = new System.Drawing.Point(680, 25);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(118, 23);
             this.btnLimpiar.TabIndex = 6;
             this.btnLimpiar.Text = "Limpiar Filtros";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // cmbVendedores
             // 
             this.cmbVendedores.FormattingEnabled = true;
-            this.cmbVendedores.Location = new System.Drawing.Point(522, 25);
+            this.cmbVendedores.Location = new System.Drawing.Point(536, 25);
             this.cmbVendedores.Name = "cmbVendedores";
             this.cmbVendedores.Size = new System.Drawing.Size(128, 21);
             this.cmbVendedores.TabIndex = 5;
@@ -139,7 +140,7 @@
             // lblVendedor
             // 
             this.lblVendedor.AutoSize = true;
-            this.lblVendedor.Location = new System.Drawing.Point(456, 33);
+            this.lblVendedor.Location = new System.Drawing.Point(470, 33);
             this.lblVendedor.Name = "lblVendedor";
             this.lblVendedor.Size = new System.Drawing.Size(60, 13);
             this.lblVendedor.TabIndex = 4;
@@ -147,7 +148,7 @@
             // 
             // txtBuscar
             // 
-            this.txtBuscar.Location = new System.Drawing.Point(294, 24);
+            this.txtBuscar.Location = new System.Drawing.Point(319, 24);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(137, 22);
             this.txtBuscar.TabIndex = 3;
@@ -155,11 +156,11 @@
             // lblBuscar
             // 
             this.lblBuscar.AutoSize = true;
-            this.lblBuscar.Location = new System.Drawing.Point(244, 32);
+            this.lblBuscar.Location = new System.Drawing.Point(230, 33);
             this.lblBuscar.Name = "lblBuscar";
-            this.lblBuscar.Size = new System.Drawing.Size(44, 13);
+            this.lblBuscar.Size = new System.Drawing.Size(83, 13);
             this.lblBuscar.TabIndex = 2;
-            this.lblBuscar.Text = "Buscar:";
+            this.lblBuscar.Text = "Buscar Cliente:";
             // 
             // dtpHasta
             // 
@@ -257,10 +258,10 @@
             // 
             // colFecha
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colFecha.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            this.colFecha.DefaultCellStyle = dataGridViewCellStyle1;
             this.colFecha.HeaderText = "Fecha";
             this.colFecha.Name = "colFecha";
             this.colFecha.ReadOnly = true;
@@ -268,8 +269,8 @@
             // colNroFactura
             // 
             this.colNroFactura.DataPropertyName = "nro_factura";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colNroFactura.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colNroFactura.DefaultCellStyle = dataGridViewCellStyle2;
             this.colNroFactura.HeaderText = "Nro de Factura";
             this.colNroFactura.Name = "colNroFactura";
             this.colNroFactura.ReadOnly = true;
@@ -289,18 +290,18 @@
             // 
             // colMedioPago
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colMedioPago.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colMedioPago.DefaultCellStyle = dataGridViewCellStyle3;
             this.colMedioPago.HeaderText = "Medio de Pago";
             this.colMedioPago.Name = "colMedioPago";
             this.colMedioPago.ReadOnly = true;
             // 
             // colTotal
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "C2";
-            dataGridViewCellStyle8.NullValue = null;
-            this.colTotal.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colTotal.DefaultCellStyle = dataGridViewCellStyle4;
             this.colTotal.HeaderText = "Total";
             this.colTotal.Name = "colTotal";
             this.colTotal.ReadOnly = true;

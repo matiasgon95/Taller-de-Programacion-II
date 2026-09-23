@@ -1,39 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HardAdmin.Entidades;
 
 namespace HardAdmin.Negocio
 {
     public static class PermisosSistema
     {
-        //Determina segun el tipo de rol a que funciones tiene acceso el usuario que ingresa al sistema.
         public static bool TienePermisoModulo(string modulo)
         {
-            // El Administrador tiene acceso a todos los módulos.
+            // El Administrador gestiona el sistema y audita, pero no opera.
             if (SesionActual.EsAdmin)
-                return true;
-
-            // El Operador puede trabajar con productos,
-            // clientes y reportes.
-            if (SesionActual.EsOperador)
             {
-                return modulo == "Productos"
-                    || modulo == "Clientes"
-                    || modulo == "Reportes";
-            }
-
-            // El Vendedor puede trabajar con clientes y ventas.
-            if (SesionActual.EsVendedor)
-            {
-                return modulo == "Clientes"
+                return modulo == "Usuarios"
+                    || modulo == "Configuracion"
+                    || modulo == "Reportes"
                     || modulo == "Ventas";
             }
 
-            // Si el rol no coincide con ninguno conocido,
-            // se deniega el acceso.
+            // El Operador mantiene el inventario y la base de clientes.
+            if (SesionActual.EsOperador)
+            {
+                return modulo == "Productos"
+                    || modulo == "Clientes";
+            }
+
+            // El Vendedor solo atiende el mostrador.
+            if (SesionActual.EsVendedor)
+            {
+                return modulo == "Ventas";
+            }
+
             return false;
         }
     }

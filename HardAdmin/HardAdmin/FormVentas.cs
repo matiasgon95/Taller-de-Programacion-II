@@ -1,14 +1,11 @@
 ﻿using HardAdmin.Entidades;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
+using System.Globalization; // Necesario para el formato de las fechas del filtro
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HardAdmin
@@ -16,21 +13,47 @@ namespace HardAdmin
     public partial class FormVentas : Form
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        private DataTable dtVentas;
 
         public FormVentas()
         {
             InitializeComponent();
 
-            // Configuraciones iniciales de la grilla para que se vea prolija y no la puedan editar
+            // Configuraciones de la grilla
             dgvVentas.AutoGenerateColumns = true;
-            dgvVentas.Columns.Clear(); // Saca las columnas que hubiera definidas desde el diseñador
-            dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
+            dgvVentas.Columns.Clear();
+            dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvVentas.MultiSelect = false;
             dgvVentas.ReadOnly = true;
+
+            // Enganchamos los eventos de los filtros para que reaccionen al instante
+            txtBuscar.TextChanged += (s, e) => AplicarFiltros();
+            dtpDesde.ValueChanged += (s, e) => AplicarFiltros();
+            dtpHasta.ValueChanged += (s, e) => AplicarFiltros();
+            cmbVendedores.SelectedIndexChanged += (s, e) => AplicarFiltros();
         }
 
-        // Variable para guardar los datos en memoria y poder hacer cálculos rápidos (como la suma)
-        private DataTable dtVentas;
+        private void FormVentas_Load(object sender, EventArgs e)
+        {
+            // CRÍTICO DE SEGURIDAD: El Administrador entra como auditor, no como operador.
+            btnNuevaVenta.Visible = !SesionActual.EsAdmin;
+            cmbVendedores.Visible = SesionActual.EsAdmin;
+            lblVendedor.Visible = SesionActual.EsAdmin;
+
+            // Configuramos las fechas por defecto (últimos 30 días)
+            dtpDesde.Value = DateTime.Today.AddDays(-30);
+            dtpHasta.Value = DateTime.Today;
+
+            // Si es Admin, cargamos los vendedores para el filtro
+            if (SesionActual.EsAdmin)
+            {
+                CargarVendedores();
+            }
+
+            CargarVentas();
+        }
+
+        // ---------- CONEXIÓN A BASE DE DATOS ----------
 
         private void CargarVentas()
         {
@@ -39,7 +62,7 @@ namespace HardAdmin
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     string query = @"SELECT 
-                                         v.id_venta,
+                                        v.id_venta,
                                         'F-' + RIGHT('00000000' + CAST(v.id_venta AS VARCHAR(8)), 8) AS nro_factura,
                                         v.fecha,
                                         (c.apellido + ', ' + c.nombre) AS cliente,
@@ -52,13 +75,12 @@ namespace HardAdmin
                                     INNER JOIN Usuario u ON v.id_usuario = u.id_usuario
                                     INNER JOIN Metodo_pago mp ON v.id_metodo_pago = mp.id_metodo_pago";
 
-                    // Regla de negocio: si no es admin, solo puede ver sus propias ventas
+                    // Si no es admin, filtramos directo desde SQL para que solo baje sus propias ventas
                     if (!SesionActual.EsAdmin)
                     {
                         query += " WHERE v.id_usuario = @idUsuario";
                     }
 
-                    // Ordenamos para que las ventas más nuevas salgan arriba de todo
                     query += " ORDER BY v.fecha DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -77,9 +99,8 @@ namespace HardAdmin
                     }
                 }
 
-                // Llamamos a los métodos que acomodan la vista y calculan los totales
                 ConfigurarColumnasGrid();
-                ActualizarTotalVentas();
+                AplicarFiltros(); // Aplicamos los filtros iniciales (fechas)
             }
             catch (Exception ex)
             {
@@ -87,13 +108,94 @@ namespace HardAdmin
             }
         }
 
-        // Prolija el grid una vez que ya tiene los datos: oculta las columnas que solo
-        // sirven internamente, pone encabezados legibles y formatea la plata y la fecha.
+        private void CargarVendedores()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    // Buscamos solo los usuarios que tengan al menos una venta para no ensuciar el combo
+                    string query = "SELECT DISTINCT u.nombre_usuario FROM Venta v INNER JOIN Usuario u ON v.id_usuario = u.id_usuario ORDER BY u.nombre_usuario";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            cmbVendedores.Items.Clear();
+                            cmbVendedores.Items.Add("Todos"); // Opción 0: Sin filtro
+
+                            while (reader.Read())
+                            {
+                                cmbVendedores.Items.Add(reader["nombre_usuario"].ToString());
+                            }
+
+                            if (cmbVendedores.Items.Count > 0)
+                                cmbVendedores.SelectedIndex = 0;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar vendedores: " + ex.Message, "Error");
+            }
+        }
+
+        // ---------- LÓGICA DE FILTROS EN MEMORIA ----------
+
+        private void AplicarFiltros()
+        {
+            if (dtVentas == null) return;
+
+            List<string> filtros = new List<string>();
+
+            // 1. Filtro por Rango de Fechas (Desde las 00:00:00 hasta las 23:59:59)
+            // Se usa InvariantCulture para que el filtro interno de DataView lo entienda siempre igual
+            string fechaDesde = dtpDesde.Value.Date.ToString("MM/dd/yyyy 00:00:00", CultureInfo.InvariantCulture);
+            string fechaHasta = dtpHasta.Value.Date.ToString("MM/dd/yyyy 23:59:59", CultureInfo.InvariantCulture);
+            filtros.Add($"fecha >= #{fechaDesde}# AND fecha <= #{fechaHasta}#");
+
+            // 2. Filtro de Texto Dinámico (Busca en Factura, Cliente o Medio de Pago)
+            string textoBuscar = txtBuscar.Text.Trim().Replace("'", "''"); // Replace evita errores si escriben una comilla simple
+            if (!string.IsNullOrWhiteSpace(textoBuscar))
+            {
+                filtros.Add($"(nro_factura LIKE '%{textoBuscar}%' OR cliente LIKE '%{textoBuscar}%' OR medio_pago LIKE '%{textoBuscar}%')");
+            }
+
+            // 3. Filtro por Vendedor (Solo aplicable si es Admin y seleccionó alguien distinto de "Todos")
+            if (SesionActual.EsAdmin && cmbVendedores.SelectedIndex > 0)
+            {
+                string vendedor = cmbVendedores.Text.Replace("'", "''");
+                filtros.Add($"vendedor = '{vendedor}'");
+            }
+
+            // Unimos todos los filtros con un "AND" y se los aplicamos a la vista del DataTable
+            string filtroFinal = string.Join(" AND ", filtros);
+            dtVentas.DefaultView.RowFilter = filtroFinal;
+
+            // Como cambiaron las filas visibles, recalculamos la plata
+            ActualizarTotalVentas();
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            // Reseteamos los controles a sus valores por defecto
+            txtBuscar.Clear();
+            dtpDesde.Value = DateTime.Today.AddDays(-30);
+            dtpHasta.Value = DateTime.Today;
+
+            if (cmbVendedores.Items.Count > 0)
+                cmbVendedores.SelectedIndex = 0;
+
+            // La limpieza dispara los eventos Changed automáticamente, así que la grilla se refresca sola.
+        }
+
+        // ---------- VISUAL Y TOTALES ----------
+
         private void ConfigurarColumnasGrid()
         {
             if (!dgvVentas.Columns.Contains("id_venta")) return;
 
-            // Ocultamos el ID real y el estado si no nos hace falta mostrarlo directo en la grilla
             dgvVentas.Columns["id_venta"].Visible = false;
             dgvVentas.Columns["estado"].Visible = false;
 
@@ -104,12 +206,10 @@ namespace HardAdmin
             dgvVentas.Columns["medio_pago"].HeaderText = "Medio de Pago";
             dgvVentas.Columns["total"].HeaderText = "Total";
 
-            // Formatos específicos
             dgvVentas.Columns["fecha"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
-            dgvVentas.Columns["total"].DefaultCellStyle.Format = "C2"; // Formato moneda
+            dgvVentas.Columns["total"].DefaultCellStyle.Format = "C2";
             dgvVentas.Columns["total"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-            // Ocultar la columna vendedor si el usuario no es Admin (total, todas las ventas serían de él mismo)
             if (!SesionActual.EsAdmin && dgvVentas.Columns.Contains("vendedor"))
             {
                 dgvVentas.Columns["vendedor"].Visible = false;
@@ -120,41 +220,41 @@ namespace HardAdmin
         {
             if (dtVentas == null) return;
 
-            // Suma la columna 'total' mágicamente directo desde el DataTable. 
-            // Respeta los filtros que haya activos (RowFilter)
+            // La magia del RowFilter: Compute solo suma las filas que sobrevivieron a los filtros visibles
             object suma = dtVentas.Compute("SUM(total)", dtVentas.DefaultView.RowFilter);
-
             decimal total = (suma != DBNull.Value && suma != null) ? Convert.ToDecimal(suma) : 0m;
+
             lblTotalVentas.Text = $"Total de ventas: {total:C2}";
         }
 
-        private void FormVentas_Load(object sender, EventArgs e)
-        {
-            // Ocultar filtro de vendedor si no es Admin, porque no le corresponde ver al resto
-            cmbVendedores.Visible = SesionActual.EsAdmin;
-            lblVendedor.Visible = SesionActual.EsAdmin;
-
-            CargarVentas();
-        }
+        // ---------- EVENTOS DE ACCIÓN ----------
 
         private void btnNuevaVenta_Click(object sender, EventArgs e)
         {
             using (FormNuevaVenta formNueva = new FormNuevaVenta())
             {
-                // Se abre como diálogo modal bloqueando la ventana de fondo para evitar macanas
-                DialogResult resultado = formNueva.ShowDialog();
-
-                // Si la venta se guardó correctamente, refrescamos la grilla para que aparezca la nueva
-                if (resultado == DialogResult.OK)
+                if (formNueva.ShowDialog() == DialogResult.OK)
                 {
-                    CargarVentas();
+                    CargarVentas(); // Recargamos para que traiga la nueva venta a la memoria
                 }
             }
         }
 
         private void btnVerDetalle_Click(object sender, EventArgs e)
         {
-            // Validamos que realmente haya tocado una fila antes de intentar abrir el detalle
+            AbrirDetalleVenta();
+        }
+
+        private void dgvVentas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                AbrirDetalleVenta();
+            }
+        }
+
+        private void AbrirDetalleVenta()
+        {
             if (dgvVentas.CurrentRow == null)
             {
                 MessageBox.Show("Seleccioná una venta para ver el detalle.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -166,19 +266,6 @@ namespace HardAdmin
             using (FormDetalleVenta frm = new FormDetalleVenta(idVenta))
             {
                 frm.ShowDialog();
-            }
-        }
-
-        private void dgvVentas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Verificamos que no haya hecho doble clic en los títulos de las columnas (eso es e.RowIndex = -1)
-            if (e.RowIndex >= 0)
-            {
-                int idVenta = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["id_venta"].Value);
-                using (FormDetalleVenta frm = new FormDetalleVenta(idVenta))
-                {
-                    frm.ShowDialog();
-                }
             }
         }
     }
