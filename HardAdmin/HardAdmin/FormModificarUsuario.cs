@@ -12,7 +12,7 @@ namespace HardAdmin
     {
         private UsuarioServicio servicio = new UsuarioServicio();
         private int idUsuario;
-        private const int EDAD_MINIMA = 18;
+        private const int edadRequerida = UsuarioServicio.EDAD_MINIMA;
         private ErrorProvider errorProvider = new ErrorProvider();
         private bool formularioValido;
         private List<Control> controlesInvalidos = new List<Control>();
@@ -216,7 +216,7 @@ namespace HardAdmin
         private bool ValidarFechaNacimiento()
         {
             bool ok = servicio.EsFechaNacimientoValida(dtpFechaNacimiento.Value);
-            Marcar(dtpFechaNacimiento, ok, $"La fecha no puede ser futura y el usuario debe ser mayor de {EDAD_MINIMA} años.");
+            Marcar(dtpFechaNacimiento, ok, $"La fecha no puede ser futura y el usuario debe ser mayor de {edadRequerida} años.");
             return ok;
         }
 
