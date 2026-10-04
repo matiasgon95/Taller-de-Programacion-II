@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HardAdmin.Negocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -15,9 +16,9 @@ namespace HardAdmin
 {
     public partial class FormGestionProductos : Form
     {
-        // Traemos la cadena de conexión desde el archivo de configuración (App.config).
-        // Es mejor tenerla ahí centralizada por si el día de mañana cambiamos de servidor.
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        // Traemos la cadena de conexión desde el archivo de la capa de Servcio de producto.
+        private ProductoServicio servicio = new ProductoServicio();
+        private DataTable dtProductos;
 
         public FormGestionProductos()
         {
@@ -122,35 +123,13 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    // Hacemos el SELECT uniendo Producto y Categoria.
-                    // Usamos un CASE para transformar el 'bit' (0 o 1) de la columna baja a un 'Sí' o 'No' más amigable.
-                    string query = @"SELECT 
-                                        p.id_producto,
-                                        p.codigo,
-                                        p.nombre_producto,
-                                        p.descripcion,
-                                        p.precio,
-                                        p.stock,
-                                        p.stock_minimo,
-                                        p.foto_producto,
-                                        c.nombre_categoria,
-                                        CASE WHEN p.baja = 0 THEN 'Sí' ELSE 'No' END AS activo 
-                                     FROM Producto p
-                                     INNER JOIN Categoria c ON p.id_categoria = c.id_categoria";
+                //Obtenemos la grilla llamando al servicio de dicha capa.
+                dtProductos = servicio.ObtenerParaGrilla();
 
-                    using (SqlDataAdapter da = new SqlDataAdapter(query, con))
-                    {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-
-                        // Esta propiedad en false es CLAVE: le dice a la grilla que no invente columnas nuevas 
-                        // basándose en SQL, sino que acomode los datos en las columnas visuales que nosotros armamos.
-                        dgvProductos.AutoGenerateColumns = false;
-                        dgvProductos.DataSource = dt;
-                    }
-                }
+                // Esta propiedad en false es CLAVE: le dice a la grilla que no invente columnas nuevas 
+                // basándose en SQL, sino que acomode los datos en las columnas visuales que nosotros armamos.
+                dgvProductos.AutoGenerateColumns = false;
+                dgvProductos.DataSource = dtProductos;
             }
             catch (Exception ex)
             {

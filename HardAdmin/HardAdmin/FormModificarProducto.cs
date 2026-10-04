@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HardAdmin.Entidades;
+using HardAdmin.Negocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -15,9 +17,10 @@ namespace HardAdmin
 {
     public partial class FormModificarProducto : Form
     {
-        // Traemos la cadena de conexión desde el archivo de configuración (App.config).
-        // Es mejor tenerla ahí centralizada por si el día de mañana cambiamos de servidor.
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        // Traemos la cadena de conexión desde el archivo de la capa de Servcio de producto.
+        private ProductoServicio servicio = new ProductoServicio();
+
+        private CategoriaServicio servicioCategoria = new CategoriaServicio();
 
         // Se crea por código para no depender de agregarlo desde el diseñador.
         private ErrorProvider errorProvider = new ErrorProvider();
@@ -70,31 +73,31 @@ namespace HardAdmin
             CargarProducto();
         }
 
+        // Carga en el combobox las categorías activas disponibles.
+        // usando el servicio de categoria
         private void CargarCategorias()
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT id_categoria, nombre_categoria FROM Categoria WHERE baja = 0";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        con.Open();
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
+                DataTable dt = servicioCategoria.ObtenerParaGrilla();
 
-                            cmbCategoria.DataSource = dt;
-                            cmbCategoria.DisplayMember = "nombre_categoria";
-                            cmbCategoria.ValueMember = "id_categoria";
-                        }
-                    }
-                }
+                // El método ObtenerParaGrilla() también trae el estado
+                // de la categoría, pero para este combobox solamente necesitamos las categorías activas.
+                DataView vista = new DataView(dt);
+                vista.RowFilter = "activa = true";
+
+                cmbCategoria.DataSource = vista;
+                cmbCategoria.DisplayMember = "nombre_categoria";
+                cmbCategoria.ValueMember = "id_categoria";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las categorias: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar las categorías: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -125,21 +128,6 @@ namespace HardAdmin
         {
             Control primero = controlesInvalidos.OrderBy(c => c.TabIndex).FirstOrDefault();
             primero?.Focus();
-        }
-
-        // Verifica si ya existe un valor cargado en una columna de Producto (nombre/codigo)
-        // Y tambien descarta el codigo actualmente usado para la modificacion actual.
-        private bool ExisteEnProducto(string columna, string valor)
-        {
-            string query = $"SELECT COUNT(1) FROM Producto WHERE {columna} = @valor AND id_producto <> @idProducto";
-            using (SqlConnection con = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, con))
-            {
-                cmd.Parameters.AddWithValue("@valor", valor);
-                cmd.Parameters.AddWithValue("@idProducto", idProducto);
-                con.Open();
-                return (int)cmd.ExecuteScalar() > 0;
-            }
         }
 
         // ---------- Validación por campo (se usan tanto al salir del campo como al guardar) ----------
@@ -182,7 +170,7 @@ namespace HardAdmin
                 );
                 return false;
             }
-            bool disponible = !ExisteEnProducto("codigo", valor);
+            bool disponible = !servicio.ExisteCodigo(valor, idProducto);
             Marcar(
                 txtCodigo,
                 disponible,
@@ -388,79 +376,45 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                Producto producto = servicio.ObtenerPorId(idProducto);
+
+                if (producto == null)
                 {
-                    string query = @"
-                SELECT
-                    id_producto,
-                    codigo,
-                    nombre_producto,
-                    descripcion,
-                    precio,
-                    stock,
-                    stock_minimo,
-                    foto_producto,
-                    baja,
-                    id_categoria
-                FROM Producto
-                WHERE id_producto = @idProducto";
+                    MessageBox.Show(
+                        "No se encontró el producto seleccionado.",
+                        "Atención",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@idProducto", idProducto);
+                    this.DialogResult = DialogResult.Cancel;
+                    this.Close();
 
-                        con.Open();
+                    return;
+                }
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            // Verificamos que el producto exista.
-                            if (reader.Read())
-                            {
-                                // Cargamos los datos de texto.
-                                txtCodigo.Text = reader["codigo"].ToString();
-                                txtNombre.Text = reader["nombre_producto"].ToString();
-                                txtDescripcion.Text = reader["descripcion"].ToString();
+                txtCodigo.Text = producto.Codigo;
 
-                                // Cargamos los valores numéricos.
-                                nupPrecio.Value = Convert.ToDecimal(reader["precio"]);
-                                nupStockActual.Value = Convert.ToDecimal(reader["stock"]);
-                                nupStockMinimo.Value = Convert.ToDecimal(reader["stock_minimo"]);
+                txtNombre.Text = producto.NombreProducto;
 
-                                // Seleccionamos la categoría correspondiente.
-                                cmbCategoria.SelectedValue =
-                                    Convert.ToInt32(reader["id_categoria"]);
+                txtDescripcion.Text = producto.Descripcion;
 
-                                // Cargamos el estado del producto.
-                                // En la base de datos: baja = 0 significa activo,
-                                // mientras que baja = 1 significa dado de baja.
-                                bool productoDadoDeBaja = Convert.ToBoolean(reader["baja"]);
+                nupPrecio.Value = producto.Precio;
 
-                                rbSi.Checked = !productoDadoDeBaja;
-                                rbNo.Checked = productoDadoDeBaja;
+                nupStockActual.Value = producto.Stock;
 
-                                // La imagen la cargaremos por separado.
-                                // Primero obtenemos la ruta almacenada en la BD.
-                                if (reader["foto_producto"] != DBNull.Value)
-                                {
-                                    string rutaFoto = reader["foto_producto"].ToString();
+                nupStockMinimo.Value = producto.StockMinimo;
 
-                                    CargarImagenProducto(rutaFoto);
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show(
-                                    "No se encontró el producto seleccionado.",
-                                    "Atención",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning
-                                );
+                cmbCategoria.SelectedValue = producto.IdCategoria;
 
-                                this.DialogResult = DialogResult.Cancel;
-                                this.Close();
-                            }
-                        }
-                    }
+                bool productoDadoDeBaja = producto.Baja == 1;
+
+                rbSi.Checked = !productoDadoDeBaja;
+                rbNo.Checked = productoDadoDeBaja;
+
+                if (!string.IsNullOrWhiteSpace(producto.FotoProducto))
+                {
+                    CargarImagenProducto(producto.FotoProducto);
                 }
             }
             catch (Exception ex)
@@ -596,7 +550,7 @@ namespace HardAdmin
             formularioValido = true;
             controlesInvalidos.Clear();
 
-            // Ejecutamos las validaciones del formulario.
+            // Ejecutamos las validaciones visuales del formulario.
             ValidarNombre();
             ValidarCodigo();
             ValidarDescripcion();
@@ -605,105 +559,53 @@ namespace HardAdmin
             ValidarStockMinimo();
             ValidarStockActual();
 
+            // Si algún campo es inválido, no continuamos con la modificación.
             if (!formularioValido)
             {
                 EnfocarPrimerInvalidoPorTabOrder();
                 return;
             }
 
-            // A partir de acá sabemos que los datos son válidos.
+            // Creamos la entidad Producto con los datos ingresados.
+            Producto producto = new Producto
+            {
+                IdProducto = idProducto,
+                Codigo = txtCodigo.Text.Trim(),
+                NombreProducto = txtNombre.Text.Trim(),
+                Descripcion = txtDescripcion.Text.Trim(),
+                Precio = nupPrecio.Value,
+                Stock = (int)nupStockActual.Value,
+                StockMinimo = (int)nupStockMinimo.Value,
+                IdCategoria = (int)cmbCategoria.SelectedValue,
 
-            string nombre = txtNombre.Text.Trim();
-            string codigo = txtCodigo.Text.Trim();
-            string descripcion = txtDescripcion.Text.Trim();
-
-            int idCategoria = (int)cmbCategoria.SelectedValue;
-
-            decimal precio = nupPrecio.Value;
-            int stockMinimo = (int)nupStockMinimo.Value;
-            int stockActual = (int)nupStockActual.Value;
-
-            // rbSi significa que el producto está activo.
-            // En la base de datos, baja = 0 significa activo.
-            int baja = rbNo.Checked ? 1 : 0;
+                // rbSi significa activo.
+                // En la base de datos, baja = 0 significa activo.
+                Baja = rbNo.Checked ? 1 : 0
+            };
 
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                // Si el usuario seleccionó una nueva imagen,
+                // la guardamos y actualizamos su ruta.
+                if (rutaImagenSeleccionada != null)
                 {
-                    string query;
-
-                    // Si el usuario seleccionó una imagen nueva,
-                    // primero debemos guardarla y luego actualizar la ruta.
-                    if (rutaImagenSeleccionada != null)
-                    {
-                        string rutaFoto = GuardarImagenProducto(codigo);
-
-                        query = @"
-                    UPDATE Producto
-                    SET
-                        codigo = @codigo,
-                        nombre_producto = @nombre,
-                        descripcion = @descripcion,
-                        precio = @precio,
-                        stock = @stock,
-                        stock_minimo = @stockMinimo,
-                        foto_producto = @foto,
-                        baja = @baja,
-                        id_categoria = @idCategoria
-                    WHERE id_producto = @idProducto";
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.Parameters.AddWithValue("@codigo", codigo);
-                            cmd.Parameters.AddWithValue("@nombre", nombre);
-                            cmd.Parameters.AddWithValue("@descripcion", descripcion);
-                            cmd.Parameters.Add("@precio", SqlDbType.Decimal).Value = precio;
-                            cmd.Parameters.AddWithValue("@stock", stockActual);
-                            cmd.Parameters.AddWithValue("@stockMinimo", stockMinimo);
-                            cmd.Parameters.AddWithValue("@foto", rutaFoto);
-                            cmd.Parameters.AddWithValue("@baja", baja);
-                            cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
-                            cmd.Parameters.AddWithValue("@idProducto", idProducto);
-
-                            con.Open();
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        // Si no seleccionamos una imagen nueva,
-                        // mantenemos la imagen que ya tenía el producto.
-                        query = @"
-                    UPDATE Producto
-                    SET
-                        codigo = @codigo,
-                        nombre_producto = @nombre,
-                        descripcion = @descripcion,
-                        precio = @precio,
-                        stock = @stock,
-                        stock_minimo = @stockMinimo,
-                        baja = @baja,
-                        id_categoria = @idCategoria
-                    WHERE id_producto = @idProducto";
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.Parameters.AddWithValue("@codigo", codigo);
-                            cmd.Parameters.AddWithValue("@nombre", nombre);
-                            cmd.Parameters.AddWithValue("@descripcion", descripcion);
-                            cmd.Parameters.Add("@precio", SqlDbType.Decimal).Value = precio;
-                            cmd.Parameters.AddWithValue("@stock", stockActual);
-                            cmd.Parameters.AddWithValue("@stockMinimo", stockMinimo);
-                            cmd.Parameters.AddWithValue("@baja", baja);
-                            cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
-                            cmd.Parameters.AddWithValue("@idProducto", idProducto);
-
-                            con.Open();
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
+                    producto.FotoProducto =
+                        GuardarImagenProducto(producto.Codigo);
                 }
+                else
+                {
+                    // Si no seleccionó una imagen nueva, conservamos
+                    // la imagen que ya tenía el producto.
+                    Producto productoActual =
+                        servicio.ObtenerPorId(idProducto);
+
+                    producto.FotoProducto =
+                        productoActual?.FotoProducto;
+                }
+
+                // El servicio se encarga de validar las reglas de negocio
+                // y solicitar la modificación al repositorio.
+                servicio.Modificar(producto);
 
                 MessageBox.Show(
                     "Producto modificado con éxito.",
@@ -739,8 +641,8 @@ namespace HardAdmin
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error inesperado: " + ex.Message,
-                    "Error",
+                    ex.Message,
+                    "Error al modificar el producto",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
