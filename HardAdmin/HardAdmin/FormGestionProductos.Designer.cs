@@ -56,6 +56,10 @@
             this.lbNombre = new System.Windows.Forms.Label();
             this.lbCodigo = new System.Windows.Forms.Label();
             this.pbImagen = new System.Windows.Forms.PictureBox();
+            this.lbBuscar = new System.Windows.Forms.Label();
+            this.txtBuscarProducto = new System.Windows.Forms.TextBox();
+            this.lbCategoriaFiltro = new System.Windows.Forms.Label();
+            this.cmbFiltroCategoria = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             this.gbProducto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImagen)).BeginInit();
@@ -65,7 +69,7 @@
             // 
             this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(270, 20);
+            this.lblTitulo.Location = new System.Drawing.Point(258, 9);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(305, 31);
             this.lblTitulo.TabIndex = 1;
@@ -349,11 +353,51 @@
             this.pbImagen.TabIndex = 0;
             this.pbImagen.TabStop = false;
             // 
+            // lbBuscar
+            // 
+            this.lbBuscar.AutoSize = true;
+            this.lbBuscar.Location = new System.Drawing.Point(32, 44);
+            this.lbBuscar.Name = "lbBuscar";
+            this.lbBuscar.Size = new System.Drawing.Size(43, 13);
+            this.lbBuscar.TabIndex = 7;
+            this.lbBuscar.Text = "Buscar:";
+            // 
+            // txtBuscarProducto
+            // 
+            this.txtBuscarProducto.Location = new System.Drawing.Point(81, 41);
+            this.txtBuscarProducto.Name = "txtBuscarProducto";
+            this.txtBuscarProducto.Size = new System.Drawing.Size(193, 22);
+            this.txtBuscarProducto.TabIndex = 8;
+            this.txtBuscarProducto.TextChanged += new System.EventHandler(this.txtBuscarProducto_TextChanged);
+            // 
+            // lbCategoriaFiltro
+            // 
+            this.lbCategoriaFiltro.AutoSize = true;
+            this.lbCategoriaFiltro.Location = new System.Drawing.Point(280, 44);
+            this.lbCategoriaFiltro.Name = "lbCategoriaFiltro";
+            this.lbCategoriaFiltro.Size = new System.Drawing.Size(60, 13);
+            this.lbCategoriaFiltro.TabIndex = 9;
+            this.lbCategoriaFiltro.Text = "Categoria:";
+            // 
+            // cmbFiltroCategoria
+            // 
+            this.cmbFiltroCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiltroCategoria.FormattingEnabled = true;
+            this.cmbFiltroCategoria.Location = new System.Drawing.Point(346, 41);
+            this.cmbFiltroCategoria.Name = "cmbFiltroCategoria";
+            this.cmbFiltroCategoria.Size = new System.Drawing.Size(197, 21);
+            this.cmbFiltroCategoria.TabIndex = 10;
+            this.cmbFiltroCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbFiltroCategoria_SelectedIndexChanged);
+            // 
             // FormGestionProductos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 511);
+            this.Controls.Add(this.cmbFiltroCategoria);
+            this.Controls.Add(this.lbCategoriaFiltro);
+            this.Controls.Add(this.txtBuscarProducto);
+            this.Controls.Add(this.lbBuscar);
             this.Controls.Add(this.gbProducto);
             this.Controls.Add(this.btnModificarFila);
             this.Controls.Add(this.btnMovimientos);
@@ -370,6 +414,7 @@
             this.gbProducto.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImagen)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -403,5 +448,9 @@
         private System.Windows.Forms.Label lbStockInfo;
         private System.Windows.Forms.Label lbCategoriaInfo;
         private System.Windows.Forms.Label lbCodigoInfo;
+        private System.Windows.Forms.Label lbBuscar;
+        private System.Windows.Forms.TextBox txtBuscarProducto;
+        private System.Windows.Forms.Label lbCategoriaFiltro;
+        private System.Windows.Forms.ComboBox cmbFiltroCategoria;
     }
 }

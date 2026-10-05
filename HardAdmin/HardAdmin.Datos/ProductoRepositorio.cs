@@ -31,6 +31,7 @@ namespace HardAdmin.Datos
                                     p.stock,
                                     p.stock_minimo,
                                     p.foto_producto,
+                                    p.id_categoria,
                                     c.nombre_categoria,
                                     CASE WHEN p.baja = 0 THEN 'Sí' ELSE 'No' END AS activo
                                  FROM Producto p

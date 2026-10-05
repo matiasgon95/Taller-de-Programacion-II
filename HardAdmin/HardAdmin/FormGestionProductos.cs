@@ -18,6 +18,10 @@ namespace HardAdmin
     {
         // Traemos la cadena de conexión desde el archivo de la capa de Servcio de producto.
         private ProductoServicio servicio = new ProductoServicio();
+
+        // Llamamos al servicio encargado de las categorías.
+        private CategoriaServicio servicioCategoria = new CategoriaServicio();
+
         private DataTable dtProductos;
 
         public FormGestionProductos()
@@ -27,6 +31,8 @@ namespace HardAdmin
 
         private void FormGestionProductos_Load(object sender, EventArgs e)
         {
+            // Cargamos las categorias para el filtro de busqueda
+            CargarCategoriasFiltro();
             // Vamos a la base de datos y llenamos la grilla apenas arranca la pantalla.
             CargarGrillaProductos();
 
@@ -130,6 +136,9 @@ namespace HardAdmin
                 // basándose en SQL, sino que acomode los datos en las columnas visuales que nosotros armamos.
                 dgvProductos.AutoGenerateColumns = false;
                 dgvProductos.DataSource = dtProductos;
+
+                // Si hay texto en el buscador, volvemos a aplicar el filtro.
+                FiltrarProductos();
             }
             catch (Exception ex)
             {
@@ -278,12 +287,110 @@ namespace HardAdmin
             }
         }
 
+        // Filtra los productos mostrados en la grilla según el texto ingresado en el buscador.
+        private void FiltrarProductos()
+        {
+            // Si todavía no tenemos productos cargados, no hacemos nada.
+            if (dtProductos == null)
+                return;
+
+            List<string> filtros = new List<string>();
+
+            string texto = txtBuscarProducto.Text.Trim();
+
+            // Si el buscador está vacío, mostramos todos los productos.
+            if (!string.IsNullOrWhiteSpace(texto))
+            {
+                // Escapamos caracteres especiales para evitar problemas
+                // al utilizar el texto dentro del filtro.
+                string textoFiltro = texto
+                    .Replace("'", "''")
+                    .Replace("[", "[[]")
+                    .Replace("%", "[%]")
+                    .Replace("*", "[*]");
+
+                // Filtro por código o nombre.
+                filtros.Add(
+                    $"(codigo LIKE '%{textoFiltro}%' " +
+                    $"OR nombre_producto LIKE '%{textoFiltro}%')"
+                );
+            }
+
+            // Filtro por categoría.
+            if (cmbFiltroCategoria.SelectedValue != null)
+            {
+                int idCategoria = Convert.ToInt32(
+                    cmbFiltroCategoria.SelectedValue
+                );
+
+                // ID 0 significa "Todas las categorías".
+                if (idCategoria != 0)
+                {
+                    filtros.Add($"id_categoria = {idCategoria}");
+                }
+            }
+
+            // Si hay filtros, los combinamos utilizando AND.
+            // Si no hay ninguno, mostramos todos los productos.
+            dtProductos.DefaultView.RowFilter =
+                string.Join(" AND ", filtros);
+        }
+
+        //Carga las categorias para las opciones de filtrado.
+        private void CargarCategoriasFiltro()
+        {
+            try
+            {
+                DataTable dtCategorias = servicioCategoria.ObtenerParaGrilla();
+
+                DataView vista = new DataView(dtCategorias);
+                vista.RowFilter = "activa = true";
+
+                DataTable dtFiltrado = vista.ToTable();
+
+                DataRow filaTodas = dtFiltrado.NewRow();
+                filaTodas["id_categoria"] = 0;
+                filaTodas["nombre_categoria"] = "Todas las categorías";
+                filaTodas["activa"] = true;
+
+                dtFiltrado.Rows.InsertAt(filaTodas, 0);
+
+                cmbFiltroCategoria.DataSource = dtFiltrado;
+                cmbFiltroCategoria.DisplayMember = "nombre_categoria";
+                cmbFiltroCategoria.ValueMember = "id_categoria";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al cargar las categorías: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void txtBuscarProducto_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarProductos();
+        }
+
+        private void cmbFiltroCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarProductos();
+        }
+
 
         private void btnMovimientos_Click(object sender, EventArgs e)
         {
             FormMovimientosStock frm = new FormMovimientosStock();
             frm.ShowDialog();
         }
+
+
+
+
+
 
         // Dejamos vacíos estos métodos temporales para que no se rompa el diseñador si había quedado algún rastro.
         // Después podés borrar estas dos líneas tranquilamente.
