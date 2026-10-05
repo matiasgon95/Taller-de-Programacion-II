@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HardAdmin.Entidades;
+using HardAdmin.Negocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -15,8 +17,10 @@ namespace HardAdmin
 {
     public partial class FormAgregarProducto : Form
     {
-        // Lee la conexión desde el App.config
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        // Traemos la cadena de conexión desde el archivo de la capa de Servcio de producto.
+        private ProductoServicio servicio = new ProductoServicio();
+
+        private CategoriaServicio servicioCategoria = new CategoriaServicio();
 
         // Se crea por código para no depender de agregarlo desde el diseñador.
         private ErrorProvider errorProvider = new ErrorProvider();
@@ -66,27 +70,25 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT id_categoria, nombre_categoria FROM Categoria WHERE baja = 0";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        con.Open();
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
+                DataTable dt = servicioCategoria.ObtenerParaGrilla();
 
-                            cmbCategoria.DataSource = dt;
-                            cmbCategoria.DisplayMember = "nombre_categoria";
-                            cmbCategoria.ValueMember = "id_categoria";
-                        }
-                    }
-                }
+                // El método ObtenerParaGrilla() también trae el estado
+                // de la categoría, pero para este combobox solamente necesitamos las categorías activas.
+                DataView vista = new DataView(dt);
+                vista.RowFilter = "activa = true";
+
+                cmbCategoria.DataSource = vista;
+                cmbCategoria.DisplayMember = "nombre_categoria";
+                cmbCategoria.ValueMember = "id_categoria";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las categorias: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar las categorías: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -116,19 +118,6 @@ namespace HardAdmin
         {
             Control primero = controlesInvalidos.OrderBy(c => c.TabIndex).FirstOrDefault();
             primero?.Focus();
-        }
-
-        // Verifica si ya existe un valor cargado en una columna de Producto (nombre/codigo)
-        private bool ExisteEnProducto(string columna, string valor)
-        {
-            string query = $"SELECT COUNT(1) FROM Producto WHERE {columna} = @valor";
-            using (SqlConnection con = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, con))
-            {
-                cmd.Parameters.AddWithValue("@valor", valor);
-                con.Open();
-                return (int)cmd.ExecuteScalar() > 0;
-            }
         }
 
         // ---------- Validación por campo (se usan tanto al salir del campo como al guardar) ----------
@@ -171,7 +160,7 @@ namespace HardAdmin
                 );
                 return false;
             }
-            bool disponible = !ExisteEnProducto("codigo", valor);
+            bool disponible = !servicio.ExisteCodigo(valor, 0);
             Marcar(
                 txtCodigo,
                 disponible,
@@ -400,60 +389,31 @@ namespace HardAdmin
 
             // A partir de acá sabemos que los datos son válidos.
 
-            string nombre = txtNombre.Text.Trim();
-            string codigo = txtCodigo.Text.Trim();
-            string descripcion = txtDescripcion.Text.Trim();
+            // Armamos la entidad Producto con los datos ingresados en el formulario.
+            Producto producto = new Producto
+            {
+                Codigo = txtCodigo.Text.Trim(),
+                NombreProducto = txtNombre.Text.Trim(),
+                Descripcion = txtDescripcion.Text.Trim(),
+                Precio = nupPrecio.Value,
+                Stock = (int)nupStockActual.Value,
+                StockMinimo = (int)nupStockMinimo.Value,
+                IdCategoria = (int)cmbCategoria.SelectedValue,
 
-            int idCategoria = (int)cmbCategoria.SelectedValue;
-
-            decimal precio = nupPrecio.Value;
-            int stockMinimo = (int)nupStockMinimo.Value;
-            int stockActual = (int)nupStockActual.Value;
-
-
+                // Un producto nuevo se registra como activo.
+                Baja = 0
+            };
 
             try
             {
                 // Guarda la imagen seleccionada en el proyecto y obtiene
                 // la ruta relativa que será almacenada en la base de datos.
-                string rutaFoto = GuardarImagenProducto(codigo);
+                producto.FotoProducto = GuardarImagenProducto(producto.Codigo);
 
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = @"INSERT INTO Producto
-                             (codigo, nombre_producto, descripcion,
-                              precio, stock, stock_minimo,
-                              foto_producto, baja, id_categoria)
-                             VALUES
-                             (@codigo, @nombre, @descripcion,
-                              @precio, @stock, @stockMinimo,
-                              @foto, 0, @idCategoria)";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@codigo", codigo);
-                        cmd.Parameters.AddWithValue("@nombre", nombre);
-                        cmd.Parameters.AddWithValue("@descripcion", descripcion);
-                        cmd.Parameters.Add("@precio", SqlDbType.Decimal).Value = precio;
-                        cmd.Parameters.AddWithValue("@stock", stockActual);
-                        cmd.Parameters.AddWithValue("@stockMinimo", stockMinimo);
-                        cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
-
-                        // Si no se seleccionó una imagen, guardamos NULL.
-                        // De lo contrario, guardamos la ruta relativa del archivo.
-                        if (rutaFoto == null)
-                        {
-                            cmd.Parameters.AddWithValue("@foto", DBNull.Value);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@foto", rutaFoto);
-                        }
-
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                // El formulario no ejecuta SQL directamente.
+                // El servicio se encarga de validar las reglas de negocio
+                // y luego guardar el producto mediante el repositorio.
+                servicio.Guardar(producto);
 
                 MessageBox.Show(
                     "Producto registrado con éxito.",
@@ -489,8 +449,8 @@ namespace HardAdmin
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error inesperado: " + ex.Message,
-                    "Error",
+                    ex.Message,
+                    "Error al guardar el producto",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
