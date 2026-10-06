@@ -1,8 +1,9 @@
-﻿using System;
+﻿using HardAdmin.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
-using HardAdmin.Entidades;
 
 namespace HardAdmin.Datos
 {
@@ -183,5 +184,32 @@ namespace HardAdmin.Datos
                 }
             }
         }
+
+        public DataTable AutenticarLogin(string usuario, string contrasenaHash)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT u.id_usuario, u.id_rol, r.nombre_rol 
+                         FROM Usuario u 
+                         INNER JOIN Rol r ON u.id_rol = r.id_rol 
+                         WHERE u.nombre_usuario = @usuario 
+                           AND u.contrasena = @contrasena 
+                           AND u.baja = 0";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@usuario", usuario);
+                    comando.Parameters.AddWithValue("@contrasena", contrasenaHash);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(comando))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
     }
 }

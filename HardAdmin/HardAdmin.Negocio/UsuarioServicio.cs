@@ -1,8 +1,9 @@
-﻿using System;
+﻿using HardAdmin.Datos;
+using HardAdmin.Entidades;
+using System;
+using System.Data;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using HardAdmin.Datos;
-using HardAdmin.Entidades;
 
 namespace HardAdmin.Negocio
 {
@@ -119,5 +120,14 @@ namespace HardAdmin.Negocio
 
             repositorio.Modificar(usuario, contrasenaHasheada);
         }
+
+        public DataTable AutenticarLogin(string usuario, string contrasenaPura)
+        {
+            // El hash de seguridad se hace en la capa de Negocio
+            string hash = Seguridad.HashearContrasena(contrasenaPura);
+
+            return repositorio.AutenticarLogin(usuario, hash);
+        }
+
     }
 }
