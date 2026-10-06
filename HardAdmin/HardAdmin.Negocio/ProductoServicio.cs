@@ -105,5 +105,6 @@ namespace HardAdmin.Negocio
         {
             return repositorio.ObtenerProductosParaSeleccion(filtro);
         }
+
     }
 }
