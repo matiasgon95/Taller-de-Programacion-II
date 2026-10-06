@@ -45,7 +45,9 @@ namespace HardAdmin
 
             txtCodigo.Leave += txtCodigo_Leave;
 
-            nudCantidad.Minimum = 1;
+            nudCantidad.Minimum = 0;
+            nudCantidad.Maximum = 99999; // Le damos un límite alto para que no nos baje el número solo
+            nudCantidad.KeyPress += Validaciones.SoloNumeros_KeyPress; // Bloquea escribir negativos o símbolos
 
             dgvDetalle.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDetalle.MultiSelect = false;
@@ -250,24 +252,31 @@ namespace HardAdmin
             precioProductoActual = precio;
             stockProductoActual = stock;
 
+            int disponible = stock - CantidadYaCargada(idProducto);
+
             txtCodigo.Text = codigo;
             lblNombreProducto.Text = nombre;
             txtPrecio.Text = precio.ToString("C2", CulturaMoneda);
-            lblStock.Text = "Stock: " + stock;
+            lblStock.Text = "Stock: " + Math.Max(disponible, 0);
 
-            int disponible = stock - CantidadYaCargada(idProducto);
 
-            if (disponible <= 0)
+            if (stock == 0)
             {
-                nudCantidad.Maximum = 1;
                 nudCantidad.Value = 1;
                 nudCantidad.Enabled = false;
-                MessageBox.Show("Ya tenés cargada toda la cantidad disponible de este producto.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Este producto no tiene stock disponible.", "Sin stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (disponible <= 0)
+            {
+                nudCantidad.Value = 1;
+                nudCantidad.Enabled = false;
+                MessageBox.Show("Ya agregaste toda la cantidad disponible de este producto a la venta.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
                 nudCantidad.Enabled = true;
-                nudCantidad.Maximum = disponible;
+                // No tocamos el Maximum acá. Dejamos que el usuario escriba, 
+                // así el btnAgregar ataja el error y muestra el mensaje.
                 nudCantidad.Value = 1;
             }
         }
@@ -283,7 +292,7 @@ namespace HardAdmin
             txtPrecio.Text = 0m.ToString("C2", CulturaMoneda);
             lblStock.Text = "Stock: -";
             nudCantidad.Enabled = true;
-            nudCantidad.Maximum = 1;
+            nudCantidad.Maximum = 99999;
             nudCantidad.Value = 1;
         }
 
@@ -316,12 +325,18 @@ namespace HardAdmin
             }
 
             int cantidad = (int)nudCantidad.Value;
+            if (cantidad <= 0)
+            {
+                MessageBox.Show("La cantidad a agregar debe ser mayor a 0.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                nudCantidad.Focus();
+                return;
+            }
             int cantidadYaCargada = CantidadYaCargada(idProductoActual.Value);
 
             if (cantidadYaCargada + cantidad > stockProductoActual)
             {
                 int disponible = stockProductoActual - cantidadYaCargada;
-                MessageBox.Show($"No hay stock suficiente. Disponible: {Math.Max(disponible, 0)} unidad(es).",
+                MessageBox.Show($"No hay stock suficiente. Solo quedan {Math.Max(disponible, 0)} unidad(es) disponibles.",
                     "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
