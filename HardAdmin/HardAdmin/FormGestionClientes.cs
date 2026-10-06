@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
+using HardAdmin.Negocio;
 
 namespace HardAdmin
 {
     public partial class FormGestionClientes : Form
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        private ClienteServicio servicio = new ClienteServicio();
 
         public FormGestionClientes()
         {
@@ -23,10 +16,8 @@ namespace HardAdmin
 
         private void FormGestionClientes_Load(object sender, EventArgs e)
         {
-            // Cargar los clientes desde la base de datos
             CargarGrillaClientes();
 
-            // Deseleccionar cualquier fila por defecto
             dgvClientes.ClearSelection();
 
             // ---------- DISEÑO VISUAL DE LA GRILLA ----------
@@ -34,7 +25,6 @@ namespace HardAdmin
             dgvClientes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvClientes.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
-            // Centrar columnas específicas
             if (dgvClientes.Columns["colActivo"] != null)
                 dgvClientes.Columns["colActivo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -62,7 +52,6 @@ namespace HardAdmin
 
         private void btnNuevoCliente_Click(object sender, EventArgs e)
         {
-            // Usamos ShowDialog para que cuando se cierre la ventana, podamos recargar la grilla
             using (FormAgregarCliente frm = new FormAgregarCliente())
             {
                 if (frm.ShowDialog() == DialogResult.OK)
@@ -85,8 +74,6 @@ namespace HardAdmin
             DataRowView filaSeleccionada = (DataRowView)dgvClientes.CurrentRow.DataBoundItem;
             int idCliente = Convert.ToInt32(filaSeleccionada["id_cliente"]);
 
-            // Descomentá esto cuando tengas creado tu FormModificarCliente
-            
             using (FormModificarCliente frm = new FormModificarCliente(idCliente))
             {
                 if (frm.ShowDialog() == DialogResult.OK)
@@ -94,7 +81,6 @@ namespace HardAdmin
                     CargarGrillaClientes();
                 }
             }
-            
         }
 
         // ---------- CONEXIÓN A BASE DE DATOS ----------
@@ -103,27 +89,11 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = @"SELECT 
-                                id_cliente, 
-                                apellido + ', ' + nombre AS cliente,
-                                dni, 
-                                telefono,
-                                email, 
-                                calle + ' ' + numero + ISNULL(' Dpto ' + piso_depto, '') + ', ' + ciudad AS direccion,
-                                CASE WHEN baja = 0 THEN 'Sí' ELSE 'No' END AS activo
-                             FROM Cliente";
+                // Ahora la UI solo pide los datos al servicio
+                DataTable dt = servicio.ObtenerParaGrilla();
 
-                    using (SqlDataAdapter da = new SqlDataAdapter(query, con))
-                    {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-
-                        dgvClientes.AutoGenerateColumns = false;
-                        dgvClientes.DataSource = dt;
-                    }
-                }
+                dgvClientes.AutoGenerateColumns = false;
+                dgvClientes.DataSource = dt;
             }
             catch (Exception ex)
             {

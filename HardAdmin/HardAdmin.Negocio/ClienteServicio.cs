@@ -71,5 +71,11 @@ namespace HardAdmin.Negocio
         {
             return repositorio.ObtenerClientesParaSeleccion(filtro);
         }
+
+        public DataTable ObtenerParaGrilla()
+        {
+            return repositorio.ObtenerParaGrilla();
+        }
+
     }
 }

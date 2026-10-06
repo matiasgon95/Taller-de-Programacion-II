@@ -253,5 +253,28 @@ namespace HardAdmin.Datos
             }
         }
 
+        public DataTable ObtenerParaGrilla()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT 
+                            id_cliente, 
+                            apellido + ', ' + nombre AS cliente,
+                            dni, 
+                            telefono,
+                            email, 
+                            calle + ' ' + numero + ISNULL(' Dpto ' + piso_depto, '') + ', ' + ciudad AS direccion,
+                            CASE WHEN baja = 0 THEN 'Sí' ELSE 'No' END AS activo
+                         FROM Cliente";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(query, con))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+        }
+
     }
 }
