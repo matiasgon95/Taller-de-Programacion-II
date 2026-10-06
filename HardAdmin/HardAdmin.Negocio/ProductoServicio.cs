@@ -87,5 +87,10 @@ namespace HardAdmin.Negocio
 
         public DataTable ObtenerProductoPorCodigo(string codigo) => repositorio.ObtenerProductoPorCodigo(codigo);
 
+        public DataTable ObtenerProductosParaSeleccion(string filtro = null)
+        {
+            return repositorio.ObtenerProductosParaSeleccion(filtro);
+        }
+
     }
 }

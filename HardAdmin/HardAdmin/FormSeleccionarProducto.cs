@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
+﻿using HardAdmin.Negocio;
+using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HardAdmin
@@ -16,7 +9,7 @@ namespace HardAdmin
     // un producto y devolverlo a FormNuevaVenta.
     public partial class FormSeleccionarProducto : Form
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        private ProductoServicio servicio = new ProductoServicio();
 
         public int IdProductoSeleccionado { get; private set; }
         public string CodigoProductoSeleccionado { get; private set; }
@@ -45,34 +38,9 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = @"SELECT id_producto, codigo, nombre_producto, precio, stock
-                                     FROM Producto
-                                     WHERE baja = 0";
-
-                    if (!string.IsNullOrWhiteSpace(filtro))
-                    {
-                        query += " AND (codigo LIKE @filtro OR nombre_producto LIKE @filtro)";
-                    }
-
-                    query += " ORDER BY nombre_producto";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        if (!string.IsNullOrWhiteSpace(filtro))
-                        {
-                            cmd.Parameters.AddWithValue("@filtro", "%" + filtro.Trim() + "%");
-                        }
-
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-                            dgvProductos.DataSource = dt;
-                        }
-                    }
-                }
+                // Le pedimos los datos limpios a la capa de Negocio
+                DataTable dt = servicio.ObtenerProductosParaSeleccion(filtro);
+                dgvProductos.DataSource = dt;
 
                 ConfigurarColumnas();
             }

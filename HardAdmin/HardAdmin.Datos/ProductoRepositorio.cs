@@ -257,5 +257,37 @@ namespace HardAdmin.Datos
             }
         }
 
+        public DataTable ObtenerProductosParaSeleccion(string filtro = null)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT id_producto, codigo, nombre_producto, precio, stock
+                         FROM Producto
+                         WHERE baja = 0";
+
+                if (!string.IsNullOrWhiteSpace(filtro))
+                {
+                    query += " AND (codigo LIKE @filtro OR nombre_producto LIKE @filtro)";
+                }
+
+                query += " ORDER BY nombre_producto";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    if (!string.IsNullOrWhiteSpace(filtro))
+                    {
+                        cmd.Parameters.AddWithValue("@filtro", "%" + filtro.Trim() + "%");
+                    }
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
     }
 }
