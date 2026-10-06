@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,20 +14,16 @@ namespace HardAdmin.Negocio
     {
         private ProductoRepositorio repositorio = new ProductoRepositorio();
 
-        // Obtiene los productos para mostrarlos en la grilla.
         public DataTable ObtenerParaGrilla()
         {
             return repositorio.ObtenerParaGrilla();
         }
 
-
-        // Obtiene un producto por su identificador.
         public Producto ObtenerPorId(int idProducto)
         {
             return repositorio.ObtenerPorId(idProducto);
         }
 
-        // Comprueba que los datos básicos del producto sean válidos.
         private void ValidarProducto(Producto producto)
         {
             if (string.IsNullOrWhiteSpace(producto.Codigo))
@@ -51,8 +48,6 @@ namespace HardAdmin.Negocio
                 throw new Exception("Debe seleccionar una categoría.");
         }
 
-
-        // Modifica un producto luego de validar sus datos.
         public void Modificar(Producto producto)
         {
             ValidarProducto(producto);
@@ -62,7 +57,18 @@ namespace HardAdmin.Negocio
                 throw new Exception("Ya existe otro producto con el mismo código o nombre.");
             }
 
-            repositorio.Modificar(producto);
+            try
+            {
+                repositorio.Modificar(producto);
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    throw new Exception("El código del producto ya se encuentra registrado.");
+                }
+                throw new Exception("Error de base de datos: " + ex.Message);
+            }
         }
 
         public bool ExisteCodigo(string codigo, int idExcluir)
@@ -70,19 +76,27 @@ namespace HardAdmin.Negocio
             return repositorio.ExisteCodigo(codigo, idExcluir);
         }
 
-        // Valida y guarda un nuevo producto.
         public void Guardar(Producto producto)
         {
             ValidarProducto(producto);
 
             if (repositorio.ExisteCodigo(producto.Codigo, 0))
             {
-                throw new Exception(
-                    "El código del producto ya se encuentra registrado."
-                );
+                throw new Exception("El código del producto ya se encuentra registrado.");
             }
 
-            repositorio.Guardar(producto);
+            try
+            {
+                repositorio.Guardar(producto);
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    throw new Exception("El código del producto ya se encuentra registrado.");
+                }
+                throw new Exception("Error de base de datos: " + ex.Message);
+            }
         }
 
         public DataTable ObtenerProductoPorCodigo(string codigo) => repositorio.ObtenerProductoPorCodigo(codigo);
@@ -91,6 +105,5 @@ namespace HardAdmin.Negocio
         {
             return repositorio.ObtenerProductosParaSeleccion(filtro);
         }
-
     }
 }

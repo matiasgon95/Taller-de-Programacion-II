@@ -242,23 +242,18 @@ namespace HardAdmin
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-            catch (System.Data.SqlClient.SqlException ex)
-            {
-                if (ex.Number == 2627 || ex.Number == 2601)
-                    MessageBox.Show("El DNI o Email ya se encuentra registrado en otro cliente.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                else
-                    MessageBox.Show("Error de base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
         }
+
     }
 }

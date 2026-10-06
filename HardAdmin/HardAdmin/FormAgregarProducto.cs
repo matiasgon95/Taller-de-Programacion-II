@@ -3,9 +3,7 @@ using HardAdmin.Negocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -31,7 +29,7 @@ namespace HardAdmin
 
         // Ruta de la imagen que el usuario seleccionara mediante el OpenFileDialog.
         // Se mantiene temporalmente hasta que el usuario confirme el registro.
-        private string rutaImagenSeleccionada = null;    
+        private string rutaImagenSeleccionada = null;
 
 
         public FormAgregarProducto()
@@ -289,9 +287,6 @@ namespace HardAdmin
                     // Hace que la imagen se adapte al tamaño del PictureBox
                     // manteniendo sus proporciones.
                     pbImagen.SizeMode = PictureBoxSizeMode.Zoom;
-
-                    // Mostramos el nombre del archivo en el Label.
-                    //lblImagen.Text = Path.GetFileName(rutaImagenSeleccionada);
                 }
             }
         }
@@ -425,73 +420,21 @@ namespace HardAdmin
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-            catch (SqlException ex)
-            {
-                if (ex.Number == 2627 || ex.Number == 2601)
-                {
-                    MessageBox.Show(
-                        "El código del producto ya se encuentra registrado.",
-                        "Atención",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "Error de base de datos: " + ex.Message,
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-                }
-            }
             catch (Exception ex)
             {
                 MessageBox.Show(
                     ex.Message,
-                    "Error al guardar el producto",
+                    "Atención",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
+                    MessageBoxIcon.Warning
                 );
             }
         }
-
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void txtCodigo_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void LB_Codigo_Click(object sender, EventArgs e)
-        {
-
         }
 
     }

@@ -1,6 +1,8 @@
 ﻿using HardAdmin.Datos;
 using HardAdmin.Entidades;
+using System;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace HardAdmin.Negocio
 {
@@ -8,7 +10,6 @@ namespace HardAdmin.Negocio
     {
         private ClienteRepositorio repositorio = new ClienteRepositorio();
 
-        // Validamos duplicidad delegando la pregunta a la capa de datos
         public bool DniDisponible(string dni, int? idExcluir = null)
         {
             return !repositorio.ExisteDni(dni, idExcluir);
@@ -21,7 +22,19 @@ namespace HardAdmin.Negocio
 
         public void Registrar(Cliente cliente)
         {
-            repositorio.Insertar(cliente);
+            try
+            {
+                repositorio.Insertar(cliente);
+            }
+            catch (SqlException ex)
+            {
+                // 2627 y 2601 son los códigos de error de SQL Server para claves duplicadas (Unique)
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    throw new Exception("El DNI o Email ingresado ya se encuentra registrado en otro cliente.");
+                }
+                throw new Exception("Error de base de datos: " + ex.Message);
+            }
         }
 
         public DataTable ObtenerTodos()
@@ -36,7 +49,18 @@ namespace HardAdmin.Negocio
 
         public void Modificar(Cliente cliente)
         {
-            repositorio.Modificar(cliente);
+            try
+            {
+                repositorio.Modificar(cliente);
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    throw new Exception("El DNI o Email ingresado ya se encuentra registrado en otro cliente.");
+                }
+                throw new Exception("Error de base de datos: " + ex.Message);
+            }
         }
 
         public DataTable ObtenerClientePorId(int id) => repositorio.ObtenerClientePorId(id);
@@ -47,6 +71,5 @@ namespace HardAdmin.Negocio
         {
             return repositorio.ObtenerClientesParaSeleccion(filtro);
         }
-
     }
 }

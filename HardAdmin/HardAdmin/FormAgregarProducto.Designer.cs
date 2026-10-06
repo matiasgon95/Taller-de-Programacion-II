@@ -150,7 +150,6 @@
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(195, 20);
             this.txtCodigo.TabIndex = 9;
-            this.txtCodigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
             this.txtCodigo.Leave += new System.EventHandler(this.txtCodigo_Leave);
             // 
             // txtNombre
@@ -160,7 +159,6 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(195, 20);
             this.txtNombre.TabIndex = 8;
-            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // lbImagen
@@ -238,7 +236,6 @@
             this.LB_Codigo.Size = new System.Drawing.Size(54, 16);
             this.LB_Codigo.TabIndex = 1;
             this.LB_Codigo.Text = "Codigo:";
-            this.LB_Codigo.Click += new System.EventHandler(this.LB_Codigo_Click);
             // 
             // LB_Nombre
             // 
