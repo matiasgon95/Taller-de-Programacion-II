@@ -6,19 +6,22 @@ namespace HardAdmin.Negocio
 {
     public class VentaServicio
     {
-        private VentaRepositorio repo = new VentaRepositorio();
+        private VentaRepositorio repositorio = new VentaRepositorio();
 
         public DataTable ObtenerVentasResumen(bool esAdmin, int idUsuario)
         {
             // Regla de negocio: Si es admin no filtramos (null), si es vendedor pasamos su ID
             int? parametroId = esAdmin ? (int?)null : idUsuario;
 
-            return repo.ObtenerVentas(parametroId);
+            return repositorio.ObtenerVentas(parametroId);
         }
 
         public List<string> ObtenerVendedoresConVentas()
         {
-            return repo.ObtenerVendedoresConVentas();
+            return repositorio.ObtenerVendedoresConVentas();
         }
+
+        public int ObtenerProximoId() => repositorio.ObtenerProximoId();
+        public DataTable ObtenerMetodosPagoActivos() => repositorio.ObtenerMetodosPagoActivos();
     }
 }

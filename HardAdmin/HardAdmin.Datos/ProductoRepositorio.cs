@@ -239,9 +239,23 @@ namespace HardAdmin.Datos
             }
         }
 
-
-
-
+        public DataTable ObtenerProductoPorCodigo(string codigo)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id_producto, codigo, nombre_producto, precio, stock FROM Producto WHERE codigo = @codigo AND baja = 0";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@codigo", codigo);
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
 
     }
 }

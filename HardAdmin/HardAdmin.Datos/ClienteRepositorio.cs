@@ -172,5 +172,56 @@ namespace HardAdmin.Datos
                 }
             }
         }
+
+        public DataTable ObtenerClientePorId(int id)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id_cliente, nombre, apellido, dni FROM Cliente WHERE id_cliente = @id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
+        public DataTable ObtenerClientePorDni(string dni)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id_cliente, nombre, apellido FROM Cliente WHERE dni = @dni AND baja = 0";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@dni", dni);
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
+        public int ObtenerUltimoId()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT TOP 1 id_cliente FROM Cliente ORDER BY id_cliente DESC";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    object resultado = cmd.ExecuteScalar();
+                    return resultado != null ? Convert.ToInt32(resultado) : 0;
+                }
+            }
+        }
+
     }
 }

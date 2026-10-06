@@ -11,19 +11,19 @@ namespace HardAdmin.Negocio
 {
     public class ProductoServicio
     {
-        private ProductoRepositorio repo = new ProductoRepositorio();
+        private ProductoRepositorio repositorio = new ProductoRepositorio();
 
         // Obtiene los productos para mostrarlos en la grilla.
         public DataTable ObtenerParaGrilla()
         {
-            return repo.ObtenerParaGrilla();
+            return repositorio.ObtenerParaGrilla();
         }
 
 
         // Obtiene un producto por su identificador.
         public Producto ObtenerPorId(int idProducto)
         {
-            return repo.ObtenerPorId(idProducto);
+            return repositorio.ObtenerPorId(idProducto);
         }
 
         // Comprueba que los datos básicos del producto sean válidos.
@@ -57,17 +57,17 @@ namespace HardAdmin.Negocio
         {
             ValidarProducto(producto);
 
-            if (repo.ExisteProducto(producto.Codigo, producto.NombreProducto, producto.IdProducto))
+            if (repositorio.ExisteProducto(producto.Codigo, producto.NombreProducto, producto.IdProducto))
             {
                 throw new Exception("Ya existe otro producto con el mismo código o nombre.");
             }
 
-            repo.Modificar(producto);
+            repositorio.Modificar(producto);
         }
 
         public bool ExisteCodigo(string codigo, int idExcluir)
         {
-            return repo.ExisteCodigo(codigo, idExcluir);
+            return repositorio.ExisteCodigo(codigo, idExcluir);
         }
 
         // Valida y guarda un nuevo producto.
@@ -75,17 +75,17 @@ namespace HardAdmin.Negocio
         {
             ValidarProducto(producto);
 
-            if (repo.ExisteCodigo(producto.Codigo, 0))
+            if (repositorio.ExisteCodigo(producto.Codigo, 0))
             {
                 throw new Exception(
                     "El código del producto ya se encuentra registrado."
                 );
             }
 
-            repo.Guardar(producto);
+            repositorio.Guardar(producto);
         }
 
-
+        public DataTable ObtenerProductoPorCodigo(string codigo) => repositorio.ObtenerProductoPorCodigo(codigo);
 
     }
 }

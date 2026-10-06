@@ -74,5 +74,33 @@ namespace HardAdmin.Datos
             }
             return vendedores;
         }
+
+        public int ObtenerProximoId()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT ISNULL(MAX(id_venta), 0) + 1 FROM Venta";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    return (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public DataTable ObtenerMetodosPagoActivos()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id_metodo_pago, nombre_metodo FROM Metodo_pago WHERE baja = 0";
+                using (SqlDataAdapter da = new SqlDataAdapter(query, con))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+        }
+
     }
 }

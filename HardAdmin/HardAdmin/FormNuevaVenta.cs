@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
+﻿using HardAdmin.Entidades;
+using HardAdmin.Negocio;
+using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HardAdmin
 {
     public partial class FormNuevaVenta : Form
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        // Instancias de la capa de Negocio
+        private VentaServicio ventaServicio = new VentaServicio();
+        private ClienteServicio clienteServicio = new ClienteServicio();
+        private ProductoServicio productoServicio = new ProductoServicio();
 
         // Cultura usada para dar formato y para volver a parsear los importes que
         // se muestran en la grilla (columnas de texto, no numéricas).
@@ -40,7 +38,8 @@ namespace HardAdmin
             txtNroComprobante.ReadOnly = true;
             txtPrecio.ReadOnly = true;
 
-            txtDni.KeyPress += SoloNumeros_KeyPress;
+            // Reutilizamos el método centralizado de la clase Validaciones
+            txtDni.KeyPress += Validaciones.SoloNumeros_KeyPress;
             txtDni.MaxLength = 8;
             txtDni.Leave += txtDni_Leave;
 
@@ -71,22 +70,12 @@ namespace HardAdmin
 
         // ---------- Comprobante ----------
 
-        // El número real lo define SQL Server al insertar (IDENTITY), pero mostramos
-        // una vista previa tomando el próximo id_venta disponible.
         private void CargarProximoComprobante()
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT ISNULL(MAX(id_venta), 0) + 1 FROM Venta";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        con.Open();
-                        int proximoId = (int)cmd.ExecuteScalar();
-                        txtNroComprobante.Text = "F-" + proximoId.ToString().PadLeft(8, '0');
-                    }
-                }
+                int proximoId = ventaServicio.ObtenerProximoId();
+                txtNroComprobante.Text = "F-" + proximoId.ToString().PadLeft(8, '0');
             }
             catch (Exception ex)
             {
@@ -100,19 +89,11 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT id_metodo_pago, nombre_metodo FROM Metodo_pago WHERE baja = 0";
-                    using (SqlDataAdapter da = new SqlDataAdapter(query, con))
-                    {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
+                DataTable dt = ventaServicio.ObtenerMetodosPagoActivos();
 
-                        cmbMetodoPago.DisplayMember = "nombre_metodo";
-                        cmbMetodoPago.ValueMember = "id_metodo_pago";
-                        cmbMetodoPago.DataSource = dt;
-                    }
-                }
+                cmbMetodoPago.DisplayMember = "nombre_metodo";
+                cmbMetodoPago.ValueMember = "id_metodo_pago";
+                cmbMetodoPago.DataSource = dt;
             }
             catch (Exception ex)
             {
@@ -131,24 +112,13 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                DataTable dt = clienteServicio.ObtenerClientePorId(idCliente);
+                if (dt.Rows.Count > 0)
                 {
-                    string query = "SELECT nombre, apellido, dni FROM Cliente WHERE id_cliente = @id";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", idCliente);
-                        con.Open();
-
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                idClienteSeleccionado = idCliente;
-                                txtCliente.Text = $"{reader["nombre"]} {reader["apellido"]}";
-                                txtDni.Text = reader["dni"].ToString();
-                            }
-                        }
-                    }
+                    DataRow fila = dt.Rows[0];
+                    idClienteSeleccionado = idCliente;
+                    txtCliente.Text = $"{fila["nombre"]} {fila["apellido"]}";
+                    txtDni.Text = fila["dni"].ToString();
                 }
             }
             catch (Exception ex)
@@ -181,25 +151,14 @@ namespace HardAdmin
             }
         }
 
-        // FormAgregarCliente todavía no expone el registro recién creado, así que lo
-        // traemos buscando el id_cliente más alto. Si más adelante agregás una propiedad
-        // pública en FormAgregarCliente con el id insertado, conviene usar esa en vez de esto.
         private void CargarUltimoClienteCreado()
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                int ultimoId = clienteServicio.ObtenerUltimoId();
+                if (ultimoId > 0)
                 {
-                    string query = "SELECT TOP 1 id_cliente FROM Cliente ORDER BY id_cliente DESC";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        con.Open();
-                        object resultado = cmd.ExecuteScalar();
-                        if (resultado != null)
-                        {
-                            CargarClientePorId(Convert.ToInt32(resultado));
-                        }
-                    }
+                    CargarClientePorId(ultimoId);
                 }
             }
             catch (Exception ex)
@@ -208,7 +167,6 @@ namespace HardAdmin
             }
         }
 
-        // Busca el cliente por DNI apenas se sale del campo, sin pasar por el selector.
         private void txtDni_Leave(object sender, EventArgs e)
         {
             string dni = txtDni.Text.Trim();
@@ -220,41 +178,22 @@ namespace HardAdmin
 
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                DataTable dt = clienteServicio.ObtenerClientePorDni(dni);
+                if (dt.Rows.Count > 0)
                 {
-                    string query = "SELECT id_cliente, nombre, apellido FROM Cliente WHERE dni = @dni AND baja = 0";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@dni", dni);
-                        con.Open();
-
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                idClienteSeleccionado = Convert.ToInt32(reader["id_cliente"]);
-                                txtCliente.Text = $"{reader["nombre"]} {reader["apellido"]}";
-                            }
-                            else
-                            {
-                                MessageBox.Show("No se encontró ningún cliente con ese DNI. Podés buscarlo o darlo de alta con los botones de al lado.",
-                                    "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                        }
-                    }
+                    DataRow fila = dt.Rows[0];
+                    idClienteSeleccionado = Convert.ToInt32(fila["id_cliente"]);
+                    txtCliente.Text = $"{fila["nombre"]} {fila["apellido"]}";
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró ningún cliente con ese DNI. Podés buscarlo o darlo de alta con los botones de al lado.",
+                        "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al buscar el cliente por DNI: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
             }
         }
 
@@ -282,32 +221,21 @@ namespace HardAdmin
 
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                DataTable dt = productoServicio.ObtenerProductoPorCodigo(codigo);
+                if (dt.Rows.Count > 0)
                 {
-                    string query = "SELECT id_producto, codigo, nombre_producto, precio, stock FROM Producto WHERE codigo = @codigo AND baja = 0";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@codigo", codigo);
-                        con.Open();
-
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                CargarProductoEnPanel(
-                                    Convert.ToInt32(reader["id_producto"]),
-                                    reader["codigo"].ToString(),
-                                    reader["nombre_producto"].ToString(),
-                                    Convert.ToDecimal(reader["precio"]),
-                                    Convert.ToInt32(reader["stock"]));
-                            }
-                            else
-                            {
-                                MessageBox.Show("No se encontró ningún producto con ese código.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                LimpiarPanelCargaRapida();
-                            }
-                        }
-                    }
+                    DataRow fila = dt.Rows[0];
+                    CargarProductoEnPanel(
+                        Convert.ToInt32(fila["id_producto"]),
+                        fila["codigo"].ToString(),
+                        fila["nombre_producto"].ToString(),
+                        Convert.ToDecimal(fila["precio"]),
+                        Convert.ToInt32(fila["stock"]));
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró ningún producto con ese código.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    LimpiarPanelCargaRapida();
                 }
             }
             catch (Exception ex)
@@ -361,8 +289,6 @@ namespace HardAdmin
 
         // ---------- Grilla de detalle ----------
 
-        // Suma la cantidad que ya está cargada en la grilla para un producto puntual,
-        // para no dejar pasar un total que supere el stock entre varias líneas.
         private int CantidadYaCargada(int idProducto)
         {
             int cantidad = 0;
