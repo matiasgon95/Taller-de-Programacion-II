@@ -43,5 +43,10 @@ namespace HardAdmin.Negocio
         public DataTable ObtenerClientePorDni(string dni) => repositorio.ObtenerClientePorDni(dni);
         public int ObtenerUltimoId() => repositorio.ObtenerUltimoId();
 
+        public DataTable ObtenerClientesParaSeleccion(string filtro = null)
+        {
+            return repositorio.ObtenerClientesParaSeleccion(filtro);
+        }
+
     }
 }

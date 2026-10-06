@@ -223,5 +223,35 @@ namespace HardAdmin.Datos
             }
         }
 
+        public DataTable ObtenerClientesParaSeleccion(string filtro = null)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT id_cliente, nombre, apellido, dni, telefono FROM Cliente WHERE baja = 0";
+
+                if (!string.IsNullOrWhiteSpace(filtro))
+                {
+                    query += " AND (nombre LIKE @filtro OR apellido LIKE @filtro OR dni LIKE @filtro)";
+                }
+
+                query += " ORDER BY apellido, nombre";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    if (!string.IsNullOrWhiteSpace(filtro))
+                    {
+                        cmd.Parameters.AddWithValue("@filtro", "%" + filtro.Trim() + "%");
+                    }
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
     }
 }

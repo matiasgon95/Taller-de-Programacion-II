@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
+﻿using HardAdmin.Negocio;
+using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HardAdmin
@@ -17,7 +10,7 @@ namespace HardAdmin
     // para eso ya está FormGestionClientes.
     public partial class FormSeleccionarCliente : Form
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
+        private ClienteServicio servicio = new ClienteServicio();
 
         public int IdClienteSeleccionado { get; private set; }
         public string NombreClienteSeleccionado { get; private set; }
@@ -45,32 +38,9 @@ namespace HardAdmin
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT id_cliente, nombre, apellido, dni, telefono FROM Cliente WHERE baja = 0";
-
-                    if (!string.IsNullOrWhiteSpace(filtro))
-                    {
-                        query += " AND (nombre LIKE @filtro OR apellido LIKE @filtro OR dni LIKE @filtro)";
-                    }
-
-                    query += " ORDER BY apellido, nombre";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        if (!string.IsNullOrWhiteSpace(filtro))
-                        {
-                            cmd.Parameters.AddWithValue("@filtro", "%" + filtro.Trim() + "%");
-                        }
-
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-                            dgvClientes.DataSource = dt;
-                        }
-                    }
-                }
+                // Pedimos los datos filtrados directamente a la capa de Negocio
+                DataTable dt = servicio.ObtenerClientesParaSeleccion(filtro);
+                dgvClientes.DataSource = dt;
 
                 ConfigurarColumnas();
             }
