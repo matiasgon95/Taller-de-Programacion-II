@@ -211,5 +211,31 @@ namespace HardAdmin.Datos
             }
         }
 
+        public DataTable ObtenerParaGrilla()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT 
+                            u.id_usuario, 
+                            u.dni AS dni,
+                            u.apellido + ', ' + u.nombre AS nombre_completo,
+                            u.nombre_usuario, 
+                            u.email, 
+                            r.nombre_rol, 
+                            u.fecha_nacimiento AS fecha_nac,
+                            u.calle + ' ' + u.altura + ISNULL(' Dpto ' + u.dpto, '') + ', ' + u.localidad AS direccion,
+                            CASE WHEN u.baja = 0 THEN 'Sí' ELSE 'No' END AS activo
+                         FROM Usuario u
+                         INNER JOIN Rol r ON u.id_rol = r.id_rol";
+
+                using (SqlDataAdapter da = new SqlDataAdapter(query, con))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+        }
+
     }
 }

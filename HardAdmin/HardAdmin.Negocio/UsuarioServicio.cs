@@ -129,5 +129,10 @@ namespace HardAdmin.Negocio
             return repositorio.AutenticarLogin(usuario, hash);
         }
 
+        public DataTable ObtenerParaGrilla()
+        {
+            return repositorio.ObtenerParaGrilla();
+        }
+
     }
 }
