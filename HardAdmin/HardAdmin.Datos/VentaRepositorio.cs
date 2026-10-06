@@ -102,5 +102,71 @@ namespace HardAdmin.Datos
             }
         }
 
+        // Trae los datos principales de la venta y del cliente
+        public DataTable ObtenerCabeceraVenta(int idVenta)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT 
+                            'F-' + RIGHT('00000000' + CAST(v.id_venta AS VARCHAR(8)), 8) AS nro_factura,
+                            v.fecha,
+                            v.estado,
+                            c.nombre AS cliente_nombre,
+                            c.apellido AS cliente_apellido,
+                            c.dni,
+                            c.calle,
+                            c.numero,
+                            c.piso_depto,
+                            c.ciudad,
+                            u.nombre_usuario AS vendedor,
+                            mp.nombre_metodo AS medio_pago
+                        FROM Venta v
+                        INNER JOIN Cliente c ON v.id_cliente = c.id_cliente
+                        INNER JOIN Usuario u ON v.id_usuario = u.id_usuario
+                        INNER JOIN Metodo_pago mp ON v.id_metodo_pago = mp.id_metodo_pago
+                        WHERE v.id_venta = @idVenta";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
+        // Trae los productos específicos que componen el detalle de la venta
+        public DataTable ObtenerDetalleVenta(int idVenta)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT 
+                            vd.id_producto,
+                            p.codigo,
+                            p.nombre_producto,
+                            vd.cantidad,
+                            vd.precio_unitario,
+                            vd.subtotal
+                        FROM Venta_detalle vd
+                        INNER JOIN Producto p ON vd.id_producto = p.id_producto
+                        WHERE vd.id_venta = @idVenta";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
     }
 }

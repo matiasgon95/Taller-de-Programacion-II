@@ -23,5 +23,10 @@ namespace HardAdmin.Negocio
 
         public int ObtenerProximoId() => repositorio.ObtenerProximoId();
         public DataTable ObtenerMetodosPagoActivos() => repositorio.ObtenerMetodosPagoActivos();
+
+        public DataTable ObtenerCabeceraVenta(int idVenta) => repositorio.ObtenerCabeceraVenta(idVenta);
+        public DataTable ObtenerDetalleVenta(int idVenta) => repositorio.ObtenerDetalleVenta(idVenta);
     }
+
+
 }
