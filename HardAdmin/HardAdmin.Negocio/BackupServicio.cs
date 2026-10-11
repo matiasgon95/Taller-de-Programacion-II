@@ -57,7 +57,32 @@ namespace HardAdmin.Negocio
         // Coordina la restauración de una copia de seguridad.
         public void RestaurarBackup(string rutaArchivo)
         {
-            // Aqui se llamara luego al repositorio para realizar el restore.
+            // Verifica que se haya seleccionado un archivo.
+            if (string.IsNullOrWhiteSpace(rutaArchivo))
+            {
+                throw new ArgumentException(
+                    "Debe seleccionar un archivo de backup.");
+            }
+
+            // Comprueba que la ruta corresponda a un archivo existente.
+            if (!File.Exists(rutaArchivo))
+            {
+                throw new FileNotFoundException(
+                    "El archivo de backup seleccionado no existe.");
+            }
+
+            // Verifica la extensión del archivo.
+            if (!string.Equals(
+                Path.GetExtension(rutaArchivo),
+                ".bak",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException(
+                    "El archivo seleccionado debe tener extensión .bak.");
+            }
+
+            // Solicita al repositorio ejecutar la restauración.
+            repositorio.RestaurarBackup(rutaArchivo);
         }
 
     }

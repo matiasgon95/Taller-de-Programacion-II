@@ -95,6 +95,7 @@
             this.btnRestaurar.TabIndex = 4;
             this.btnRestaurar.Text = "Restaurar";
             this.btnRestaurar.UseVisualStyleBackColor = true;
+            this.btnRestaurar.Click += new System.EventHandler(this.btnRestaurar_Click);
             // 
             // lblDescRestauracion
             // 
