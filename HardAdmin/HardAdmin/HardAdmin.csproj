@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormGestionBackups.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGestionBackups.Designer.cs">
+      <DependentUpon>FormGestionBackups.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormGestionMetodosPago.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDetalleVenta.resx">
       <DependentUpon>FormDetalleVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGestionBackups.resx">
+      <DependentUpon>FormGestionBackups.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormGestionCategorias.resx">
       <DependentUpon>FormGestionCategorias.cs</DependentUpon>

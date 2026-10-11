@@ -24,8 +24,12 @@
             this.gbMetodosPago = new System.Windows.Forms.GroupBox();
             this.lblDescMetodos = new System.Windows.Forms.Label();
             this.btnMetodosPago = new System.Windows.Forms.Button();
+            this.gpBackups = new System.Windows.Forms.GroupBox();
+            this.btnBackUps = new System.Windows.Forms.Button();
+            this.lblDescBackups = new System.Windows.Forms.Label();
             this.gbCategorias.SuspendLayout();
             this.gbMetodosPago.SuspendLayout();
+            this.gpBackups.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitulo
@@ -86,7 +90,7 @@
             this.gbMetodosPago.Controls.Add(this.lblDescMetodos);
             this.gbMetodosPago.Controls.Add(this.btnMetodosPago);
             this.gbMetodosPago.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbMetodosPago.Location = new System.Drawing.Point(100, 240);
+            this.gbMetodosPago.Location = new System.Drawing.Point(100, 236);
             this.gbMetodosPago.Name = "gbMetodosPago";
             this.gbMetodosPago.Size = new System.Drawing.Size(600, 110);
             this.gbMetodosPago.TabIndex = 2;
@@ -118,11 +122,51 @@
             this.btnMetodosPago.UseVisualStyleBackColor = true;
             this.btnMetodosPago.Click += new System.EventHandler(this.btnMetodosPago_Click);
             // 
+            // gpBackups
+            // 
+            this.gpBackups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gpBackups.Controls.Add(this.btnBackUps);
+            this.gpBackups.Controls.Add(this.lblDescBackups);
+            this.gpBackups.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold);
+            this.gpBackups.Location = new System.Drawing.Point(100, 368);
+            this.gpBackups.Name = "gpBackups";
+            this.gpBackups.Size = new System.Drawing.Size(599, 95);
+            this.gpBackups.TabIndex = 3;
+            this.gpBackups.TabStop = false;
+            this.gpBackups.Text = "Copias de Seguridad";
+            // 
+            // btnBackUps
+            // 
+            this.btnBackUps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBackUps.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.btnBackUps.Location = new System.Drawing.Point(440, 34);
+            this.btnBackUps.Name = "btnBackUps";
+            this.btnBackUps.Size = new System.Drawing.Size(140, 40);
+            this.btnBackUps.TabIndex = 3;
+            this.btnBackUps.Text = "Gestionar Backups";
+            this.btnBackUps.UseVisualStyleBackColor = true;
+            this.btnBackUps.Click += new System.EventHandler(this.btnBackUps_Click);
+            // 
+            // lblDescBackups
+            // 
+            this.lblDescBackups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDescBackups.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDescBackups.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblDescBackups.Location = new System.Drawing.Point(25, 34);
+            this.lblDescBackups.Name = "lblDescBackups";
+            this.lblDescBackups.Size = new System.Drawing.Size(400, 36);
+            this.lblDescBackups.TabIndex = 2;
+            this.lblDescBackups.Text = "Administra las copias de seguridad de la base de datos y la capacidad de restaura" +
+    "r la misma.";
+            // 
             // FormConfiguracion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 500);
+            this.Controls.Add(this.gpBackups);
             this.Controls.Add(this.gbMetodosPago);
             this.Controls.Add(this.gbCategorias);
             this.Controls.Add(this.lblTitulo);
@@ -132,6 +176,7 @@
             this.Text = "HardAdmin - Configuración";
             this.gbCategorias.ResumeLayout(false);
             this.gbMetodosPago.ResumeLayout(false);
+            this.gpBackups.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,5 +191,8 @@
         private System.Windows.Forms.GroupBox gbMetodosPago;
         private System.Windows.Forms.Label lblDescMetodos;
         private System.Windows.Forms.Button btnMetodosPago;
+        private System.Windows.Forms.GroupBox gpBackups;
+        private System.Windows.Forms.Button btnBackUps;
+        private System.Windows.Forms.Label lblDescBackups;
     }
 }

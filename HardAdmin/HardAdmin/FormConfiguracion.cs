@@ -21,5 +21,11 @@ namespace HardAdmin
             FormGestionMetodosPago frm = new FormGestionMetodosPago();
             frm.ShowDialog();
         }
+
+        private void btnBackUps_Click(object sender, EventArgs e)
+        {
+            FormGestionBackups frm = new FormGestionBackups();
+            frm.ShowDialog();
+        }
     }
 }
