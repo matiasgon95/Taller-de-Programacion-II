@@ -135,7 +135,7 @@ namespace HardAdmin
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Funcionalidad de impresión no implementada aún.", "Información");
+            ImpresionComprobante.Imprimir(this, idVenta);
         }
     }
 }

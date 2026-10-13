@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.6, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.6\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +49,7 @@
   <ItemGroup>
     <Compile Include="CategoriaServicio.cs" />
     <Compile Include="BackupServicio.cs" />
+    <Compile Include="ComprobanteServicio.cs" />
     <Compile Include="MovimientoStockServicio.cs" />
     <Compile Include="ProductoServicio.cs" />
     <Compile Include="ClienteServicio.cs" />
@@ -62,6 +69,9 @@
       <Project>{9ca7c9f8-0f44-4d12-8952-45bd0c3b7e3a}</Project>
       <Name>HardAdmin.Entidades</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

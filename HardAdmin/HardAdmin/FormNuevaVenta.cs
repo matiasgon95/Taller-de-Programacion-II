@@ -417,26 +417,38 @@ namespace HardAdmin
                 });
             }
 
+            int idVenta;
+
             try
             {
-                int idVenta = ventaServicio.RegistrarVenta(venta);
-
-                MessageBox.Show("Venta registrada con éxito.\nComprobante: F-" + idVenta.ToString().PadLeft(8, '0'),
-                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // FormVentas recarga su grilla cuando este formulario cierra con OK.
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                idVenta = ventaServicio.RegistrarVenta(venta);
             }
             catch (InvalidOperationException ex)
             {
                 // Reglas de negocio incumplidas (por ejemplo, falta de stock): es un aviso, no un fallo del sistema.
                 MessageBox.Show(ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al registrar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+
+            // Desde acá la venta ya está guardada. Preguntamos por el comprobante fuera del try de arriba
+            // para que un problema al generar el PDF nunca parezca que falló el registro de la venta.
+            DialogResult imprimir = MessageBox.Show(
+                "Venta registrada con éxito.\nComprobante: F-" + idVenta.ToString().PadLeft(8, '0') + "\n\n¿Desea imprimir el comprobante?",
+                "Venta registrada", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (imprimir == DialogResult.Yes)
+            {
+                ImpresionComprobante.Imprimir(this, idVenta);
+            }
+
+            // FormVentas recarga su grilla cuando este formulario cierra con OK.
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
