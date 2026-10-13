@@ -408,7 +408,7 @@ namespace HardAdmin
                 // El formulario no ejecuta SQL directamente.
                 // El servicio se encarga de validar las reglas de negocio
                 // y luego guardar el producto mediante el repositorio.
-                servicio.Guardar(producto);
+                servicio.Guardar(producto, SesionActual.IdUsuario);
 
                 MessageBox.Show(
                     "Producto registrado con éxito.",

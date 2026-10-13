@@ -181,60 +181,129 @@ namespace HardAdmin.Datos
         }
 
 
-        // Guarda un nuevo producto en la base de datos.
-        public void Guardar(Producto producto)
+        // Guarda un nuevo producto en la base de datos y, si tiene stock inicial mayor que cero,
+        // registra su ingreso inicial de stock en la misma transacción.
+        public void Guardar(Producto producto, int idUsuario)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = @"
-            INSERT INTO Producto
-            (
-                codigo,
-                nombre_producto,
-                descripcion,
-                precio,
-                stock,
-                stock_minimo,
-                foto_producto,
-                baja,
-                id_categoria
-            )
-            VALUES
-            (
-                @codigo,
-                @nombre,
-                @descripcion,
-                @precio,
-                @stock,
-                @stockMinimo,
-                @foto,
-                @baja,
-                @idCategoria
-            )";
+                con.Open();
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                // Ambas operaciones se confirman juntas o se revierten juntas.
+                using (SqlTransaction transaccion = con.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@codigo", producto.Codigo);
-                    cmd.Parameters.AddWithValue("@nombre", producto.NombreProducto);
-                    cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);
+                    try
+                    {
+                        string queryProducto = @"
+                    INSERT INTO Producto
+                    (
+                        codigo,
+                        nombre_producto,
+                        descripcion,
+                        precio,
+                        stock,
+                        stock_minimo,
+                        foto_producto,
+                        baja,
+                        id_categoria
+                    )
+                    OUTPUT INSERTED.id_producto
+                    VALUES
+                    (
+                        @codigo,
+                        @nombre,
+                        @descripcion,
+                        @precio,
+                        @stock,
+                        @stockMinimo,
+                        @foto,
+                        @baja,
+                        @idCategoria
+                    );";
 
-                    cmd.Parameters.Add("@precio", SqlDbType.Decimal).Value =
-                        producto.Precio;
+                        int idProducto;
 
-                    cmd.Parameters.AddWithValue("@stock", producto.Stock);
-                    cmd.Parameters.AddWithValue("@stockMinimo", producto.StockMinimo);
+                        using (SqlCommand cmd = new SqlCommand(
+                            queryProducto, con, transaccion))
+                        {
+                            cmd.Parameters.AddWithValue("@codigo", producto.Codigo);
+                            cmd.Parameters.AddWithValue("@nombre", producto.NombreProducto);
+                            cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);
 
-                    // Si el producto no tiene imagen, se guarda NULL.
-                    cmd.Parameters.AddWithValue(
-                        "@foto",
-                        (object)producto.FotoProducto ?? DBNull.Value
-                    );
+                            cmd.Parameters.Add("@precio", SqlDbType.Decimal).Value =
+                                producto.Precio;
 
-                    cmd.Parameters.AddWithValue("@baja", producto.Baja);
-                    cmd.Parameters.AddWithValue("@idCategoria", producto.IdCategoria);
+                            cmd.Parameters.AddWithValue("@stock", producto.Stock);
+                            cmd.Parameters.AddWithValue(
+                                "@stockMinimo", producto.StockMinimo);
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
+                            // Si no hay imagen, se almacena NULL.
+                            cmd.Parameters.AddWithValue(
+                                "@foto",
+                                (object)producto.FotoProducto ?? DBNull.Value);
+
+                            cmd.Parameters.AddWithValue("@baja", producto.Baja);
+                            cmd.Parameters.AddWithValue(
+                                "@idCategoria", producto.IdCategoria);
+
+                            // Recupera el ID asignado al producto recién insertado.
+                            idProducto = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
+
+                        // El stock inicial se registra solamente si es mayor que cero.
+                        if (producto.Stock > 0)
+                        {
+                            string queryMovimiento = @"
+                        INSERT INTO Movimiento_stock
+                        (
+                            cantidad,
+                            fecha,
+                            id_producto,
+                            id_usuario,
+                            id_tipo_movimiento
+                        )
+                        VALUES
+                        (
+                            @cantidad,
+                            GETDATE(),
+                            @idProducto,
+                            @idUsuario,
+                            @idTipoMovimiento
+                        );";
+
+                            using (SqlCommand cmdMovimiento = new SqlCommand(
+                                queryMovimiento, con, transaccion))
+                            {
+                                cmdMovimiento.Parameters.Add(
+                                    "@cantidad", SqlDbType.Int).Value =
+                                    producto.Stock;
+
+                                cmdMovimiento.Parameters.Add(
+                                    "@idProducto", SqlDbType.Int).Value =
+                                    idProducto;
+
+                                cmdMovimiento.Parameters.Add(
+                                    "@idUsuario", SqlDbType.Int).Value =
+                                    idUsuario;
+
+                                // Tipo de movimiento de stock 1
+                                cmdMovimiento.Parameters.Add(
+                                    "@idTipoMovimiento", SqlDbType.Int).Value = 1;
+
+                                cmdMovimiento.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Confirma el alta y el movimiento inicial.
+                        transaccion.Commit();
+                    }
+                    catch
+                    {
+                        // Si falla cualquiera de las operaciones, no se guarda
+                        // parcialmente el producto ni su movimiento.
+                        transaccion.Rollback();
+                        throw;
+                    }
                 }
             }
         }

@@ -30,16 +30,16 @@
         {
             this.lbTitulo = new System.Windows.Forms.Label();
             this.gbDatosSeguimiento = new System.Windows.Forms.GroupBox();
-            this.lbFiltrar = new System.Windows.Forms.Label();
-            this.lbCategoria = new System.Windows.Forms.Label();
-            this.lbProducto = new System.Windows.Forms.Label();
-            this.lbFecha = new System.Windows.Forms.Label();
-            this.lbHasta = new System.Windows.Forms.Label();
-            this.btnMostrar = new System.Windows.Forms.Button();
-            this.cmbCategoria = new System.Windows.Forms.ComboBox();
-            this.cmbProducto = new System.Windows.Forms.ComboBox();
-            this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
             this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
+            this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
+            this.cmbProducto = new System.Windows.Forms.ComboBox();
+            this.cmbCategoria = new System.Windows.Forms.ComboBox();
+            this.btnMostrar = new System.Windows.Forms.Button();
+            this.lbHasta = new System.Windows.Forms.Label();
+            this.lbFecha = new System.Windows.Forms.Label();
+            this.lbProducto = new System.Windows.Forms.Label();
+            this.lbCategoria = new System.Windows.Forms.Label();
+            this.lbFiltrar = new System.Windows.Forms.Label();
             this.dgvMovimientos = new System.Windows.Forms.DataGridView();
             this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,10 +54,10 @@
             // lbTitulo
             // 
             this.lbTitulo.AutoSize = true;
-            this.lbTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbTitulo.Location = new System.Drawing.Point(220, 28);
             this.lbTitulo.Name = "lbTitulo";
-            this.lbTitulo.Size = new System.Drawing.Size(299, 31);
+            this.lbTitulo.Size = new System.Drawing.Size(303, 37);
             this.lbTitulo.TabIndex = 0;
             this.lbTitulo.Text = "Movimientos de Stock";
             // 
@@ -80,73 +80,24 @@
             this.gbDatosSeguimiento.TabStop = false;
             this.gbDatosSeguimiento.Text = "Datos de Seguimiento";
             // 
-            // lbFiltrar
+            // dtpFechaHasta
             // 
-            this.lbFiltrar.AutoSize = true;
-            this.lbFiltrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFiltrar.Location = new System.Drawing.Point(6, 31);
-            this.lbFiltrar.Name = "lbFiltrar";
-            this.lbFiltrar.Size = new System.Drawing.Size(66, 16);
-            this.lbFiltrar.TabIndex = 0;
-            this.lbFiltrar.Text = "Filtrar por:";
+            this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaHasta.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dtpFechaHasta.Location = new System.Drawing.Point(373, 110);
+            this.dtpFechaHasta.Name = "dtpFechaHasta";
+            this.dtpFechaHasta.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaHasta.TabIndex = 99;
             // 
-            // lbCategoria
+            // dtpFechaDesde
             // 
-            this.lbCategoria.AutoSize = true;
-            this.lbCategoria.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCategoria.Location = new System.Drawing.Point(6, 59);
-            this.lbCategoria.Name = "lbCategoria";
-            this.lbCategoria.Size = new System.Drawing.Size(76, 16);
-            this.lbCategoria.TabIndex = 1;
-            this.lbCategoria.Text = "Categorias:";
-            // 
-            // lbProducto
-            // 
-            this.lbProducto.AutoSize = true;
-            this.lbProducto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbProducto.Location = new System.Drawing.Point(410, 59);
-            this.lbProducto.Name = "lbProducto";
-            this.lbProducto.Size = new System.Drawing.Size(64, 16);
-            this.lbProducto.TabIndex = 2;
-            this.lbProducto.Text = "Producto:";
-            // 
-            // lbFecha
-            // 
-            this.lbFecha.AutoSize = true;
-            this.lbFecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFecha.Location = new System.Drawing.Point(6, 112);
-            this.lbFecha.Name = "lbFecha";
-            this.lbFecha.Size = new System.Drawing.Size(92, 16);
-            this.lbFecha.TabIndex = 3;
-            this.lbFecha.Text = "Fecha Desde:";
-            // 
-            // lbHasta
-            // 
-            this.lbHasta.AutoSize = true;
-            this.lbHasta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHasta.Location = new System.Drawing.Point(318, 112);
-            this.lbHasta.Name = "lbHasta";
-            this.lbHasta.Size = new System.Drawing.Size(46, 16);
-            this.lbHasta.TabIndex = 4;
-            this.lbHasta.Text = "Hasta:";
-            // 
-            // btnMostrar
-            // 
-            this.btnMostrar.Location = new System.Drawing.Point(641, 107);
-            this.btnMostrar.Name = "btnMostrar";
-            this.btnMostrar.Size = new System.Drawing.Size(75, 23);
-            this.btnMostrar.TabIndex = 5;
-            this.btnMostrar.Text = "Mostrar";
-            this.btnMostrar.UseVisualStyleBackColor = true;
-            // 
-            // cmbCategoria
-            // 
-            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCategoria.FormattingEnabled = true;
-            this.cmbCategoria.Location = new System.Drawing.Point(105, 56);
-            this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(178, 21);
-            this.cmbCategoria.TabIndex = 6;
+            this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaDesde.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dtpFechaDesde.Location = new System.Drawing.Point(105, 110);
+            this.dtpFechaDesde.Name = "dtpFechaDesde";
+            this.dtpFechaDesde.Size = new System.Drawing.Size(178, 20);
+            this.dtpFechaDesde.TabIndex = 99;
+            this.dtpFechaDesde.TabStop = false;
             // 
             // cmbProducto
             // 
@@ -157,24 +108,75 @@
             this.cmbProducto.Size = new System.Drawing.Size(236, 21);
             this.cmbProducto.TabIndex = 7;
             // 
-            // dtpFechaDesde
+            // cmbCategoria
             // 
-            this.dtpFechaDesde.Enabled = false;
-            this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaDesde.Location = new System.Drawing.Point(105, 110);
-            this.dtpFechaDesde.Name = "dtpFechaDesde";
-            this.dtpFechaDesde.Size = new System.Drawing.Size(178, 20);
-            this.dtpFechaDesde.TabIndex = 99;
-            this.dtpFechaDesde.TabStop = false;
+            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCategoria.FormattingEnabled = true;
+            this.cmbCategoria.Location = new System.Drawing.Point(105, 56);
+            this.cmbCategoria.Name = "cmbCategoria";
+            this.cmbCategoria.Size = new System.Drawing.Size(178, 21);
+            this.cmbCategoria.TabIndex = 6;
+            this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
             // 
-            // dtpFechaHasta
+            // btnMostrar
             // 
-            this.dtpFechaHasta.Enabled = false;
-            this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaHasta.Location = new System.Drawing.Point(373, 110);
-            this.dtpFechaHasta.Name = "dtpFechaHasta";
-            this.dtpFechaHasta.Size = new System.Drawing.Size(200, 20);
-            this.dtpFechaHasta.TabIndex = 99;
+            this.btnMostrar.Location = new System.Drawing.Point(641, 107);
+            this.btnMostrar.Name = "btnMostrar";
+            this.btnMostrar.Size = new System.Drawing.Size(75, 23);
+            this.btnMostrar.TabIndex = 5;
+            this.btnMostrar.Text = "Mostrar";
+            this.btnMostrar.UseVisualStyleBackColor = true;
+            this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
+            // 
+            // lbHasta
+            // 
+            this.lbHasta.AutoSize = true;
+            this.lbHasta.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbHasta.Location = new System.Drawing.Point(323, 109);
+            this.lbHasta.Name = "lbHasta";
+            this.lbHasta.Size = new System.Drawing.Size(44, 17);
+            this.lbHasta.TabIndex = 4;
+            this.lbHasta.Text = "Hasta:";
+            // 
+            // lbFecha
+            // 
+            this.lbFecha.AutoSize = true;
+            this.lbFecha.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFecha.Location = new System.Drawing.Point(6, 109);
+            this.lbFecha.Name = "lbFecha";
+            this.lbFecha.Size = new System.Drawing.Size(85, 17);
+            this.lbFecha.TabIndex = 3;
+            this.lbFecha.Text = "Fecha Desde:";
+            // 
+            // lbProducto
+            // 
+            this.lbProducto.AutoSize = true;
+            this.lbProducto.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbProducto.Location = new System.Drawing.Point(410, 56);
+            this.lbProducto.Name = "lbProducto";
+            this.lbProducto.Size = new System.Drawing.Size(64, 17);
+            this.lbProducto.TabIndex = 2;
+            this.lbProducto.Text = "Producto:";
+            // 
+            // lbCategoria
+            // 
+            this.lbCategoria.AutoSize = true;
+            this.lbCategoria.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbCategoria.Location = new System.Drawing.Point(6, 56);
+            this.lbCategoria.Name = "lbCategoria";
+            this.lbCategoria.Size = new System.Drawing.Size(74, 17);
+            this.lbCategoria.TabIndex = 1;
+            this.lbCategoria.Text = "Categorias:";
+            // 
+            // lbFiltrar
+            // 
+            this.lbFiltrar.AutoSize = true;
+            this.lbFiltrar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFiltrar.Location = new System.Drawing.Point(6, 26);
+            this.lbFiltrar.Name = "lbFiltrar";
+            this.lbFiltrar.Size = new System.Drawing.Size(69, 17);
+            this.lbFiltrar.TabIndex = 0;
+            this.lbFiltrar.Text = "Filtrar por:";
             // 
             // dgvMovimientos
             // 
@@ -203,30 +205,35 @@
             // 
             // colCategoria
             // 
+            this.colCategoria.DataPropertyName = "Categoria";
             this.colCategoria.HeaderText = "Categoria";
             this.colCategoria.Name = "colCategoria";
             this.colCategoria.ReadOnly = true;
             // 
             // colProducto
             // 
+            this.colProducto.DataPropertyName = "Producto";
             this.colProducto.HeaderText = "Producto";
             this.colProducto.Name = "colProducto";
             this.colProducto.ReadOnly = true;
             // 
             // colFecha
             // 
+            this.colFecha.DataPropertyName = "Fecha";
             this.colFecha.HeaderText = "Fecha";
             this.colFecha.Name = "colFecha";
             this.colFecha.ReadOnly = true;
             // 
             // colUsuario
             // 
+            this.colUsuario.DataPropertyName = "Usuario";
             this.colUsuario.HeaderText = "Usuario";
             this.colUsuario.Name = "colUsuario";
             this.colUsuario.ReadOnly = true;
             // 
             // colTipoMovimiento
             // 
+            this.colTipoMovimiento.DataPropertyName = "TipoMovimiento";
             this.colTipoMovimiento.HeaderText = "Tipo de Movimiento";
             this.colTipoMovimiento.Name = "colTipoMovimiento";
             this.colTipoMovimiento.ReadOnly = true;
@@ -252,6 +259,7 @@
             this.Controls.Add(this.lbTitulo);
             this.Name = "FormMovimientosStock";
             this.Text = "HardAdmin - Movimientos de Stock";
+            this.Load += new System.EventHandler(this.FormMovimientosStock_Load);
             this.gbDatosSeguimiento.ResumeLayout(false);
             this.gbDatosSeguimiento.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMovimientos)).EndInit();
@@ -275,11 +283,11 @@
         private System.Windows.Forms.Button btnMostrar;
         private System.Windows.Forms.DateTimePicker dtpFechaHasta;
         private System.Windows.Forms.DataGridView dgvMovimientos;
+        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFecha;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUsuario;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTipoMovimiento;
-        private System.Windows.Forms.Button btnCerrar;
     }
 }

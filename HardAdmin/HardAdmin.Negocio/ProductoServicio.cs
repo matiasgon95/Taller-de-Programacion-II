@@ -76,26 +76,42 @@ namespace HardAdmin.Negocio
             return repositorio.ExisteCodigo(codigo, idExcluir);
         }
 
-        public void Guardar(Producto producto)
+        // Valida y guarda un producto nuevo, registrando también su
+        // ingreso inicial de stock cuando corresponde.
+        public void Guardar(Producto producto, int idUsuario)
         {
+            // Comprueba las reglas de negocio del producto.
             ValidarProducto(producto);
 
+            if (idUsuario <= 0)
+            {
+                throw new Exception(
+                    "No se pudo identificar al usuario que registra el producto.");
+            }
+
+            // Evita registrar un código que ya pertenece a otro producto.
             if (repositorio.ExisteCodigo(producto.Codigo, 0))
             {
-                throw new Exception("El código del producto ya se encuentra registrado.");
+                throw new Exception(
+                    "El código del producto ya se encuentra registrado.");
             }
 
             try
             {
-                repositorio.Guardar(producto);
+                // El repositorio guarda el producto y su movimiento inicial
+                // dentro de una única transacción.
+                repositorio.Guardar(producto, idUsuario);
             }
             catch (SqlException ex)
             {
                 if (ex.Number == 2627 || ex.Number == 2601)
                 {
-                    throw new Exception("El código del producto ya se encuentra registrado.");
+                    throw new Exception(
+                        "El código del producto ya se encuentra registrado.");
                 }
-                throw new Exception("Error de base de datos: " + ex.Message);
+
+                throw new Exception(
+                    "Error de base de datos: " + ex.Message);
             }
         }
 
