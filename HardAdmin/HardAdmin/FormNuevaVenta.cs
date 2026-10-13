@@ -395,14 +395,48 @@ namespace HardAdmin
                 return;
             }
 
-            string cliente = string.IsNullOrWhiteSpace(txtCliente.Text) ? "Consumidor Final" : txtCliente.Text;
-            string medioPago = cmbMetodoPago.Text;
+            // Armamos la entidad con lo que hay en pantalla. Los importes de la grilla son texto
+            // formateado ("$ 1.234,56"), por eso se vuelven a parsear igual que en ActualizarTotales.
+            // El subtotal y el total no los mandamos: los calcula la capa de Negocio.
+            Venta venta = new Venta
+            {
+                IdCliente = idClienteSeleccionado ?? ID_CLIENTE_CONSUMIDOR_FINAL,
+                IdUsuario = SesionActual.IdUsuario,
+                IdMetodoPago = Convert.ToInt32(cmbMetodoPago.SelectedValue)
+            };
 
-            // Todavía no se persiste en la base de datos: esto es solo una vista previa
-            // de lo que se va a registrar cuando conectemos el INSERT.
-            MessageBox.Show(
-                $"Comprobante: {txtNroComprobante.Text}\nCliente: {cliente}\nMétodo de pago: {medioPago}\nItems: {dgvDetalle.Rows.Count}\nTotal: {lblMontoTotal.Text}\n\n(Simulación: todavía no se guardó nada en la base de datos)",
-                "Vista previa de la venta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            foreach (DataGridViewRow fila in dgvDetalle.Rows)
+            {
+                if (fila.IsNewRow) continue;
+
+                venta.Detalles.Add(new VentaDetalle
+                {
+                    IdProducto = Convert.ToInt32(fila.Cells["colIdProducto"].Value),
+                    Cantidad = Convert.ToInt32(fila.Cells["colCantidad"].Value),
+                    PrecioUnitario = decimal.Parse(fila.Cells["colPrecio"].Value.ToString(), NumberStyles.Currency, CulturaMoneda)
+                });
+            }
+
+            try
+            {
+                int idVenta = ventaServicio.RegistrarVenta(venta);
+
+                MessageBox.Show("Venta registrada con éxito.\nComprobante: F-" + idVenta.ToString().PadLeft(8, '0'),
+                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // FormVentas recarga su grilla cuando este formulario cierra con OK.
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Reglas de negocio incumplidas (por ejemplo, falta de stock): es un aviso, no un fallo del sistema.
+                MessageBox.Show(ex.Message, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al registrar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
