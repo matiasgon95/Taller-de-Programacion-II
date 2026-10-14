@@ -1,16 +1,9 @@
 ﻿namespace HardAdmin
 {
-    partial class FormReportesFinanzas
+    partial class FormReporteFinanzas
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,285 +15,295 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.gbFiltros = new System.Windows.Forms.GroupBox();
-            this.lbTitulo = new System.Windows.Forms.Label();
-            this.lbDesde = new System.Windows.Forms.Label();
-            this.lbHasta = new System.Windows.Forms.Label();
-            this.dtpDesde = new System.Windows.Forms.DateTimePicker();
-            this.dtpHasta = new System.Windows.Forms.DateTimePicker();
-            this.lbMetodoPago = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.btnGenerar = new System.Windows.Forms.Button();
-            this.gbTotalVentas = new System.Windows.Forms.GroupBox();
-            this.gbCantidadVentas = new System.Windows.Forms.GroupBox();
-            this.gbPromedio = new System.Windows.Forms.GroupBox();
-            this.gbMayorVenta = new System.Windows.Forms.GroupBox();
-            this.lbTotalVentas = new System.Windows.Forms.Label();
-            this.lbPromedioVentas = new System.Windows.Forms.Label();
-            this.lbMayorVenta = new System.Windows.Forms.Label();
-            this.lbCantidadVentas = new System.Windows.Forms.Label();
-            this.dtgReporteFinanzas = new System.Windows.Forms.DataGridView();
-            this.colMes = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVentas = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnExportar = new System.Windows.Forms.Button();
-            this.gbFiltros.SuspendLayout();
-            this.gbTotalVentas.SuspendLayout();
-            this.gbCantidadVentas.SuspendLayout();
-            this.gbPromedio.SuspendLayout();
-            this.gbMayorVenta.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgReporteFinanzas)).BeginInit();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+
+            // Período 1
+            this.dtpDesde1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpHasta1 = new System.Windows.Forms.DateTimePicker();
+            this.lblDesde1 = new System.Windows.Forms.Label();
+            this.lblHasta1 = new System.Windows.Forms.Label();
+
+            // Período 2
+            this.dtpDesde2 = new System.Windows.Forms.DateTimePicker();
+            this.dtpHasta2 = new System.Windows.Forms.DateTimePicker();
+            this.lblDesde2 = new System.Windows.Forms.Label();
+            this.lblHasta2 = new System.Windows.Forms.Label();
+
+            this.btnFiltrar = new System.Windows.Forms.Button();
+            this.btnCerrar = new System.Windows.Forms.Button();
+            this.dgvFinanzas = new System.Windows.Forms.DataGridView();
+            this.chartFinanzas = new System.Windows.Forms.DataVisualization.Charting.Chart();
+
+            // Tarjetas KPI
+            this.panelAcumulado = new System.Windows.Forms.Panel();
+            this.lblTituloAcumulado = new System.Windows.Forms.Label();
+            this.lblValorAcumulado = new System.Windows.Forms.Label();
+
+            this.panelOperaciones = new System.Windows.Forms.Panel();
+            this.lblTituloOperaciones = new System.Windows.Forms.Label();
+            this.lblValorOperaciones = new System.Windows.Forms.Label();
+
+            this.panelTicket = new System.Windows.Forms.Panel();
+            this.lblTituloTicket = new System.Windows.Forms.Label();
+            this.lblValorTicket = new System.Windows.Forms.Label();
+
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFinanzas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartFinanzas)).BeginInit();
+            this.panelAcumulado.SuspendLayout();
+            this.panelOperaciones.SuspendLayout();
+            this.panelTicket.SuspendLayout();
             this.SuspendLayout();
             // 
-            // gbFiltros
+            // lblDesde1
             // 
-            this.gbFiltros.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblDesde1.AutoSize = true;
+            this.lblDesde1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesde1.Location = new System.Drawing.Point(22, 17);
+            this.lblDesde1.Name = "lblDesde1";
+            this.lblDesde1.Size = new System.Drawing.Size(63, 13);
+            this.lblDesde1.TabIndex = 0;
+            this.lblDesde1.Text = "Período 1:";
+            // 
+            // dtpDesde1
+            // 
+            this.dtpDesde1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDesde1.Location = new System.Drawing.Point(90, 14);
+            this.dtpDesde1.Name = "dtpDesde1";
+            this.dtpDesde1.Size = new System.Drawing.Size(95, 20);
+            this.dtpDesde1.TabIndex = 1;
+            // 
+            // lblHasta1
+            // 
+            this.lblHasta1.AutoSize = true;
+            this.lblHasta1.Location = new System.Drawing.Point(192, 17);
+            this.lblHasta1.Name = "lblHasta1";
+            this.lblHasta1.Size = new System.Drawing.Size(38, 13);
+            this.lblHasta1.TabIndex = 2;
+            this.lblHasta1.Text = "hasta:";
+            // 
+            // dtpHasta1
+            // 
+            this.dtpHasta1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpHasta1.Location = new System.Drawing.Point(232, 14);
+            this.dtpHasta1.Name = "dtpHasta1";
+            this.dtpHasta1.Size = new System.Drawing.Size(95, 20);
+            this.dtpHasta1.TabIndex = 3;
+            // 
+            // lblDesde2
+            // 
+            this.lblDesde2.AutoSize = true;
+            this.lblDesde2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesde2.Location = new System.Drawing.Point(22, 45);
+            this.lblDesde2.Name = "lblDesde2";
+            this.lblDesde2.Size = new System.Drawing.Size(63, 13);
+            this.lblDesde2.TabIndex = 4;
+            this.lblDesde2.Text = "Período 2:";
+            // 
+            // dtpDesde2
+            // 
+            this.dtpDesde2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDesde2.Location = new System.Drawing.Point(90, 42);
+            this.dtpDesde2.Name = "dtpDesde2";
+            this.dtpDesde2.Size = new System.Drawing.Size(95, 20);
+            this.dtpDesde2.TabIndex = 5;
+            // 
+            // lblHasta2
+            // 
+            this.lblHasta2.AutoSize = true;
+            this.lblHasta2.Location = new System.Drawing.Point(192, 45);
+            this.lblHasta2.Name = "lblHasta2";
+            this.lblHasta2.Size = new System.Drawing.Size(38, 13);
+            this.lblHasta2.TabIndex = 6;
+            this.lblHasta2.Text = "hasta:";
+            // 
+            // dtpHasta2
+            // 
+            this.dtpHasta2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpHasta2.Location = new System.Drawing.Point(232, 42);
+            this.dtpHasta2.Name = "dtpHasta2";
+            this.dtpHasta2.Size = new System.Drawing.Size(95, 20);
+            this.dtpHasta2.TabIndex = 7;
+            // 
+            // btnFiltrar
+            // 
+            this.btnFiltrar.Location = new System.Drawing.Point(345, 26);
+            this.btnFiltrar.Name = "btnFiltrar";
+            this.btnFiltrar.Size = new System.Drawing.Size(85, 28);
+            this.btnFiltrar.TabIndex = 8;
+            this.btnFiltrar.Text = "Filtrar";
+            this.btnFiltrar.UseVisualStyleBackColor = true;
+            this.btnFiltrar.Click += new System.EventHandler(this.btnFiltrar_Click);
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.Location = new System.Drawing.Point(845, 26);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(85, 28);
+            this.btnCerrar.TabIndex = 9;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
+            // dgvFinanzas
+            // 
+            this.dgvFinanzas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgvFinanzas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFinanzas.Location = new System.Drawing.Point(25, 80);
+            this.dgvFinanzas.Name = "dgvFinanzas";
+            this.dgvFinanzas.Size = new System.Drawing.Size(430, 270);
+            this.dgvFinanzas.TabIndex = 10;
+            // 
+            // chartFinanzas
+            // 
+            this.chartFinanzas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbFiltros.Controls.Add(this.gbMayorVenta);
-            this.gbFiltros.Controls.Add(this.gbPromedio);
-            this.gbFiltros.Controls.Add(this.gbCantidadVentas);
-            this.gbFiltros.Controls.Add(this.gbTotalVentas);
-            this.gbFiltros.Controls.Add(this.btnGenerar);
-            this.gbFiltros.Controls.Add(this.comboBox1);
-            this.gbFiltros.Controls.Add(this.lbMetodoPago);
-            this.gbFiltros.Controls.Add(this.dtpHasta);
-            this.gbFiltros.Controls.Add(this.dtpDesde);
-            this.gbFiltros.Controls.Add(this.lbHasta);
-            this.gbFiltros.Controls.Add(this.lbDesde);
-            this.gbFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbFiltros.Location = new System.Drawing.Point(12, 41);
-            this.gbFiltros.Name = "gbFiltros";
-            this.gbFiltros.Size = new System.Drawing.Size(776, 196);
-            this.gbFiltros.TabIndex = 0;
-            this.gbFiltros.TabStop = false;
-            this.gbFiltros.Text = "Filtros";
+            chartArea1.Name = "ChartArea1";
+            this.chartFinanzas.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartFinanzas.Legends.Add(legend1);
+            this.chartFinanzas.Location = new System.Drawing.Point(475, 80);
+            this.chartFinanzas.Name = "chartFinanzas";
+            this.chartFinanzas.Size = new System.Drawing.Size(455, 270);
+            this.chartFinanzas.TabIndex = 11;
+            this.chartFinanzas.Text = "chart1";
             // 
-            // lbTitulo
+            // panelAcumulado
             // 
-            this.lbTitulo.AutoSize = true;
-            this.lbTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTitulo.Location = new System.Drawing.Point(254, 9);
-            this.lbTitulo.Name = "lbTitulo";
-            this.lbTitulo.Size = new System.Drawing.Size(280, 31);
-            this.lbTitulo.TabIndex = 1;
-            this.lbTitulo.Text = "Reportes de Finanzas";
+            this.panelAcumulado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelAcumulado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(230)))));
+            this.panelAcumulado.Controls.Add(this.lblValorAcumulado);
+            this.panelAcumulado.Controls.Add(this.lblTituloAcumulado);
+            this.panelAcumulado.Location = new System.Drawing.Point(25, 365);
+            this.panelAcumulado.Name = "panelAcumulado";
+            this.panelAcumulado.Size = new System.Drawing.Size(290, 50);
+            this.panelAcumulado.TabIndex = 12;
             // 
-            // lbDesde
+            // lblTituloAcumulado
             // 
-            this.lbDesde.AutoSize = true;
-            this.lbDesde.Location = new System.Drawing.Point(49, 33);
-            this.lbDesde.Name = "lbDesde";
-            this.lbDesde.Size = new System.Drawing.Size(55, 18);
-            this.lbDesde.TabIndex = 0;
-            this.lbDesde.Text = "Desde:";
+            this.lblTituloAcumulado.AutoSize = true;
+            this.lblTituloAcumulado.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloAcumulado.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblTituloAcumulado.Location = new System.Drawing.Point(10, 8);
+            this.lblTituloAcumulado.Name = "lblTituloAcumulado";
+            this.lblTituloAcumulado.Size = new System.Drawing.Size(130, 13);
+            this.lblTituloAcumulado.TabIndex = 0;
+            this.lblTituloAcumulado.Text = "TOTAL PERÍODO 1";
             // 
-            // lbHasta
+            // lblValorAcumulado
             // 
-            this.lbHasta.AutoSize = true;
-            this.lbHasta.Location = new System.Drawing.Point(481, 33);
-            this.lbHasta.Name = "lbHasta";
-            this.lbHasta.Size = new System.Drawing.Size(51, 18);
-            this.lbHasta.TabIndex = 1;
-            this.lbHasta.Text = "Hasta:";
+            this.lblValorAcumulado.AutoSize = true;
+            this.lblValorAcumulado.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValorAcumulado.ForeColor = System.Drawing.Color.Green;
+            this.lblValorAcumulado.Location = new System.Drawing.Point(10, 25);
+            this.lblValorAcumulado.Name = "lblValorAcumulado";
+            this.lblValorAcumulado.Size = new System.Drawing.Size(44, 18);
+            this.lblValorAcumulado.TabIndex = 1;
+            this.lblValorAcumulado.Text = "$0,00";
             // 
-            // dtpDesde
+            // panelOperaciones
             // 
-            this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDesde.Location = new System.Drawing.Point(110, 33);
-            this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(200, 24);
-            this.dtpDesde.TabIndex = 2;
+            this.panelOperaciones.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelOperaciones.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(242)))), ((int)(((byte)(255)))));
+            this.panelOperaciones.Controls.Add(this.lblValorOperaciones);
+            this.panelOperaciones.Controls.Add(this.lblTituloOperaciones);
+            this.panelOperaciones.Location = new System.Drawing.Point(330, 365);
+            this.panelOperaciones.Name = "panelOperaciones";
+            this.panelOperaciones.Size = new System.Drawing.Size(290, 50);
+            this.panelOperaciones.TabIndex = 13;
             // 
-            // dtpHasta
+            // lblTituloOperaciones
             // 
-            this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHasta.Location = new System.Drawing.Point(538, 33);
-            this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(200, 24);
-            this.dtpHasta.TabIndex = 3;
+            this.lblTituloOperaciones.AutoSize = true;
+            this.lblTituloOperaciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloOperaciones.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.lblTituloOperaciones.Location = new System.Drawing.Point(10, 8);
+            this.lblTituloOperaciones.Name = "lblTituloOperaciones";
+            this.lblTituloOperaciones.Size = new System.Drawing.Size(130, 13);
+            this.lblTituloOperaciones.TabIndex = 0;
+            this.lblTituloOperaciones.Text = "TOTAL PERÍODO 2";
             // 
-            // lbMetodoPago
+            // lblValorOperaciones
             // 
-            this.lbMetodoPago.AutoSize = true;
-            this.lbMetodoPago.Location = new System.Drawing.Point(49, 88);
-            this.lbMetodoPago.Name = "lbMetodoPago";
-            this.lbMetodoPago.Size = new System.Drawing.Size(120, 18);
-            this.lbMetodoPago.TabIndex = 4;
-            this.lbMetodoPago.Text = "Metodo de pago:";
+            this.lblValorOperaciones.AutoSize = true;
+            this.lblValorOperaciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValorOperaciones.ForeColor = System.Drawing.Color.Navy;
+            this.lblValorOperaciones.Location = new System.Drawing.Point(10, 25);
+            this.lblValorOperaciones.Name = "lblValorOperaciones";
+            this.lblValorOperaciones.Size = new System.Drawing.Size(44, 18);
+            this.lblValorOperaciones.TabIndex = 1;
+            this.lblValorOperaciones.Text = "$0,00";
             // 
-            // comboBox1
+            // panelTicket
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(189, 85);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(162, 26);
-            this.comboBox1.TabIndex = 5;
-            // 
-            // btnGenerar
-            // 
-            this.btnGenerar.Location = new System.Drawing.Point(606, 75);
-            this.btnGenerar.Name = "btnGenerar";
-            this.btnGenerar.Size = new System.Drawing.Size(132, 45);
-            this.btnGenerar.TabIndex = 6;
-            this.btnGenerar.Text = "Generar Reporte";
-            this.btnGenerar.UseVisualStyleBackColor = true;
-            // 
-            // gbTotalVentas
-            // 
-            this.gbTotalVentas.Controls.Add(this.lbTotalVentas);
-            this.gbTotalVentas.Location = new System.Drawing.Point(34, 126);
-            this.gbTotalVentas.Name = "gbTotalVentas";
-            this.gbTotalVentas.Size = new System.Drawing.Size(164, 48);
-            this.gbTotalVentas.TabIndex = 7;
-            this.gbTotalVentas.TabStop = false;
-            this.gbTotalVentas.Text = "Total Ventas";
-            // 
-            // gbCantidadVentas
-            // 
-            this.gbCantidadVentas.Controls.Add(this.lbCantidadVentas);
-            this.gbCantidadVentas.Location = new System.Drawing.Point(222, 126);
-            this.gbCantidadVentas.Name = "gbCantidadVentas";
-            this.gbCantidadVentas.Size = new System.Drawing.Size(164, 48);
-            this.gbCantidadVentas.TabIndex = 8;
-            this.gbCantidadVentas.TabStop = false;
-            this.gbCantidadVentas.Text = "Cantidad de Ventas";
-            // 
-            // gbPromedio
-            // 
-            this.gbPromedio.Controls.Add(this.lbPromedioVentas);
-            this.gbPromedio.Location = new System.Drawing.Point(403, 126);
-            this.gbPromedio.Name = "gbPromedio";
-            this.gbPromedio.Size = new System.Drawing.Size(164, 48);
-            this.gbPromedio.TabIndex = 9;
-            this.gbPromedio.TabStop = false;
-            this.gbPromedio.Text = "Promedio de Ventas";
-            // 
-            // gbMayorVenta
-            // 
-            this.gbMayorVenta.Controls.Add(this.lbMayorVenta);
-            this.gbMayorVenta.Location = new System.Drawing.Point(588, 126);
-            this.gbMayorVenta.Name = "gbMayorVenta";
-            this.gbMayorVenta.Size = new System.Drawing.Size(164, 48);
-            this.gbMayorVenta.TabIndex = 10;
-            this.gbMayorVenta.TabStop = false;
-            this.gbMayorVenta.Text = "Mayor Venta";
-            // 
-            // lbTotalVentas
-            // 
-            this.lbTotalVentas.AutoSize = true;
-            this.lbTotalVentas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTotalVentas.Location = new System.Drawing.Point(6, 20);
-            this.lbTotalVentas.Name = "lbTotalVentas";
-            this.lbTotalVentas.Size = new System.Drawing.Size(20, 18);
-            this.lbTotalVentas.TabIndex = 0;
-            this.lbTotalVentas.Text = "...";
-            // 
-            // lbPromedioVentas
-            // 
-            this.lbPromedioVentas.AutoSize = true;
-            this.lbPromedioVentas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPromedioVentas.Location = new System.Drawing.Point(6, 20);
-            this.lbPromedioVentas.Name = "lbPromedioVentas";
-            this.lbPromedioVentas.Size = new System.Drawing.Size(20, 18);
-            this.lbPromedioVentas.TabIndex = 0;
-            this.lbPromedioVentas.Text = "...";
-            // 
-            // lbMayorVenta
-            // 
-            this.lbMayorVenta.AutoSize = true;
-            this.lbMayorVenta.Location = new System.Drawing.Point(6, 20);
-            this.lbMayorVenta.Name = "lbMayorVenta";
-            this.lbMayorVenta.Size = new System.Drawing.Size(20, 18);
-            this.lbMayorVenta.TabIndex = 0;
-            this.lbMayorVenta.Text = "...";
-            // 
-            // lbCantidadVentas
-            // 
-            this.lbCantidadVentas.AutoSize = true;
-            this.lbCantidadVentas.Location = new System.Drawing.Point(6, 20);
-            this.lbCantidadVentas.Name = "lbCantidadVentas";
-            this.lbCantidadVentas.Size = new System.Drawing.Size(20, 18);
-            this.lbCantidadVentas.TabIndex = 0;
-            this.lbCantidadVentas.Text = "...";
-            // 
-            // dtgReporteFinanzas
-            // 
-            this.dtgReporteFinanzas.AllowUserToAddRows = false;
-            this.dtgReporteFinanzas.AllowUserToDeleteRows = false;
-            this.dtgReporteFinanzas.AllowUserToResizeRows = false;
-            this.dtgReporteFinanzas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelTicket.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtgReporteFinanzas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dtgReporteFinanzas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dtgReporteFinanzas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colMes,
-            this.colVentas,
-            this.colTotal});
-            this.dtgReporteFinanzas.Location = new System.Drawing.Point(15, 243);
-            this.dtgReporteFinanzas.MultiSelect = false;
-            this.dtgReporteFinanzas.Name = "dtgReporteFinanzas";
-            this.dtgReporteFinanzas.ReadOnly = true;
-            this.dtgReporteFinanzas.RowHeadersVisible = false;
-            this.dtgReporteFinanzas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgReporteFinanzas.Size = new System.Drawing.Size(772, 160);
-            this.dtgReporteFinanzas.TabIndex = 2;
+            this.panelTicket.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(243)))), ((int)(((byte)(230)))));
+            this.panelTicket.Controls.Add(this.lblValorTicket);
+            this.panelTicket.Controls.Add(this.lblTituloTicket);
+            this.panelTicket.Location = new System.Drawing.Point(635, 365);
+            this.panelTicket.Name = "panelTicket";
+            this.panelTicket.Size = new System.Drawing.Size(295, 50);
+            this.panelTicket.TabIndex = 14;
             // 
-            // colMes
+            // lblTituloTicket
             // 
-            this.colMes.HeaderText = "Mes";
-            this.colMes.Name = "colMes";
-            this.colMes.ReadOnly = true;
+            this.lblTituloTicket.AutoSize = true;
+            this.lblTituloTicket.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloTicket.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblTituloTicket.Location = new System.Drawing.Point(10, 8);
+            this.lblTituloTicket.Name = "lblTituloTicket";
+            this.lblTituloTicket.Size = new System.Drawing.Size(140, 13);
+            this.lblTituloTicket.TabIndex = 0;
+            this.lblTituloTicket.Text = "VARIACIÓN / DIFERENCIA";
             // 
-            // colVentas
+            // lblValorTicket
             // 
-            this.colVentas.HeaderText = "Cantidad de Ventas";
-            this.colVentas.Name = "colVentas";
-            this.colVentas.ReadOnly = true;
+            this.lblValorTicket.AutoSize = true;
+            this.lblValorTicket.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValorTicket.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.lblValorTicket.Location = new System.Drawing.Point(10, 25);
+            this.lblValorTicket.Name = "lblValorTicket";
+            this.lblValorTicket.Size = new System.Drawing.Size(44, 18);
+            this.lblValorTicket.TabIndex = 1;
+            this.lblValorTicket.Text = "0%";
             // 
-            // colTotal
-            // 
-            this.colTotal.HeaderText = "Total";
-            this.colTotal.Name = "colTotal";
-            this.colTotal.ReadOnly = true;
-            // 
-            // btnExportar
-            // 
-            this.btnExportar.Location = new System.Drawing.Point(712, 409);
-            this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(75, 29);
-            this.btnExportar.TabIndex = 3;
-            this.btnExportar.Text = "Exportar";
-            this.btnExportar.UseVisualStyleBackColor = true;
-            // 
-            // FormReportesFinanzas
+            // FormReporteFinanzas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 454);
-            this.Controls.Add(this.btnExportar);
-            this.Controls.Add(this.dtgReporteFinanzas);
-            this.Controls.Add(this.lbTitulo);
-            this.Controls.Add(this.gbFiltros);
-            this.Name = "FormReportesFinanzas";
-            this.Text = "HardAdmin - Reportes de Finanzas";
-            this.gbFiltros.ResumeLayout(false);
-            this.gbFiltros.PerformLayout();
-            this.gbTotalVentas.ResumeLayout(false);
-            this.gbTotalVentas.PerformLayout();
-            this.gbCantidadVentas.ResumeLayout(false);
-            this.gbCantidadVentas.PerformLayout();
-            this.gbPromedio.ResumeLayout(false);
-            this.gbPromedio.PerformLayout();
-            this.gbMayorVenta.ResumeLayout(false);
-            this.gbMayorVenta.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgReporteFinanzas)).EndInit();
+            this.ClientSize = new System.Drawing.Size(950, 435);
+            this.Controls.Add(this.panelTicket);
+            this.Controls.Add(this.panelOperaciones);
+            this.Controls.Add(this.panelAcumulado);
+            this.Controls.Add(this.chartFinanzas);
+            this.Controls.Add(this.dgvFinanzas);
+            this.Controls.Add(this.btnCerrar);
+            this.Controls.Add(this.btnFiltrar);
+            this.Controls.Add(this.dtpHasta2);
+            this.Controls.Add(this.lblHasta2);
+            this.Controls.Add(this.dtpDesde2);
+            this.Controls.Add(this.lblDesde2);
+            this.Controls.Add(this.dtpHasta1);
+            this.Controls.Add(this.lblHasta1);
+            this.Controls.Add(this.dtpDesde1);
+            this.Controls.Add(this.lblDesde1);
+            this.Name = "FormReporteFinanzas";
+            this.Text = "Reporte Financiero - Comparativa de Períodos";
+            this.Load += new System.EventHandler(this.FormReporteFinanzas_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFinanzas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartFinanzas)).EndInit();
+            this.panelAcumulado.ResumeLayout(false);
+            this.panelAcumulado.PerformLayout();
+            this.panelOperaciones.ResumeLayout(false);
+            this.panelOperaciones.PerformLayout();
+            this.panelTicket.ResumeLayout(false);
+            this.panelTicket.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,27 +311,31 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox gbFiltros;
-        private System.Windows.Forms.Label lbTitulo;
-        private System.Windows.Forms.DateTimePicker dtpHasta;
-        private System.Windows.Forms.DateTimePicker dtpDesde;
-        private System.Windows.Forms.Label lbHasta;
-        private System.Windows.Forms.Label lbDesde;
-        private System.Windows.Forms.GroupBox gbPromedio;
-        private System.Windows.Forms.GroupBox gbCantidadVentas;
-        private System.Windows.Forms.GroupBox gbTotalVentas;
-        private System.Windows.Forms.Button btnGenerar;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label lbMetodoPago;
-        private System.Windows.Forms.GroupBox gbMayorVenta;
-        private System.Windows.Forms.Label lbMayorVenta;
-        private System.Windows.Forms.Label lbPromedioVentas;
-        private System.Windows.Forms.Label lbCantidadVentas;
-        private System.Windows.Forms.Label lbTotalVentas;
-        private System.Windows.Forms.DataGridView dtgReporteFinanzas;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVentas;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
-        private System.Windows.Forms.Button btnExportar;
+        private System.Windows.Forms.DateTimePicker dtpDesde1;
+        private System.Windows.Forms.DateTimePicker dtpHasta1;
+        private System.Windows.Forms.Label lblDesde1;
+        private System.Windows.Forms.Label lblHasta1;
+
+        private System.Windows.Forms.DateTimePicker dtpDesde2;
+        private System.Windows.Forms.DateTimePicker dtpHasta2;
+        private System.Windows.Forms.Label lblDesde2;
+        private System.Windows.Forms.Label lblHasta2;
+
+        private System.Windows.Forms.Button btnFiltrar;
+        private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.DataGridView dgvFinanzas;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartFinanzas;
+
+        private System.Windows.Forms.Panel panelAcumulado;
+        private System.Windows.Forms.Label lblTituloAcumulado;
+        private System.Windows.Forms.Label lblValorAcumulado;
+
+        private System.Windows.Forms.Panel panelOperaciones;
+        private System.Windows.Forms.Label lblTituloOperaciones;
+        private System.Windows.Forms.Label lblValorOperaciones;
+
+        private System.Windows.Forms.Panel panelTicket;
+        private System.Windows.Forms.Label lblTituloTicket;
+        private System.Windows.Forms.Label lblValorTicket;
     }
 }

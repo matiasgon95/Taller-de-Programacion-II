@@ -318,5 +318,61 @@ namespace HardAdmin.Datos
                 }
             }
         }
+
+        // Compara dos períodos de tiempo y devuelve un DataTable con las fechas y montos de cada período lado a lado.
+        public DataTable ObtenerComparativaFinanciera(DateTime desde1, DateTime hasta1, DateTime desde2, DateTime hasta2)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"WITH VentasPeriodo1 AS (
+                            SELECT 
+                                DATEDIFF(day, @desde1, CAST(fecha AS DATE)) AS dia_offset,
+                                CAST(fecha AS DATE) AS fecha_dia,
+                                SUM(total) AS total_dia
+                            FROM venta 
+                            WHERE fecha >= @desde1 AND fecha <= @hasta1
+                            GROUP BY CAST(fecha AS DATE)
+                        ),
+                        VentasPeriodo2 AS (
+                            SELECT 
+                                DATEDIFF(day, @desde2, CAST(fecha AS DATE)) AS dia_offset,
+                                CAST(fecha AS DATE) AS fecha_dia,
+                                SUM(total) AS total_dia
+                            FROM venta 
+                            WHERE fecha >= @desde2 AND fecha <= @hasta2
+                            GROUP BY CAST(fecha AS DATE)
+                        ),
+                        TodosLosOffsets AS (
+                            SELECT dia_offset FROM VentasPeriodo1
+                            UNION
+                            SELECT dia_offset FROM VentasPeriodo2
+                        )
+                        SELECT 
+                            ROW_NUMBER() OVER (ORDER BY t.dia_offset ASC) AS nro_orden,
+                            ISNULL(p1.fecha_dia, DATEADD(day, t.dia_offset, @desde1)) AS fecha_periodo1,
+                            ISNULL(p1.total_dia, 0) AS monto_periodo1,
+                            ISNULL(p2.fecha_dia, DATEADD(day, t.dia_offset, @desde2)) AS fecha_periodo2,
+                            ISNULL(p2.total_dia, 0) AS monto_periodo2
+                        FROM TodosLosOffsets t
+                        LEFT JOIN VentasPeriodo1 p1 ON t.dia_offset = p1.dia_offset
+                        LEFT JOIN VentasPeriodo2 p2 ON t.dia_offset = p2.dia_offset
+                        ORDER BY t.dia_offset ASC";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@desde1", desde1);
+                    cmd.Parameters.AddWithValue("@hasta1", hasta1);
+                    cmd.Parameters.AddWithValue("@desde2", desde2);
+                    cmd.Parameters.AddWithValue("@hasta2", hasta2);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
     }
 }

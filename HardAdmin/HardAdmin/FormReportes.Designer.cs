@@ -144,9 +144,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(33, 50);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(283, 16);
+            this.label2.Size = new System.Drawing.Size(377, 16);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Reportes asociados a las finanzas completas.";
+            this.label2.Text = "Reporte que muestra una comparativa de períodos de ventas.";
             // 
             // lbTitulo
             // 

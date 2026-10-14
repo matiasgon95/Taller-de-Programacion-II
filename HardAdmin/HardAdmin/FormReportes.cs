@@ -35,7 +35,10 @@ namespace HardAdmin
 
         private void btnFinanzas_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Módulo de finanzas en desarrollo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using (FormReporteFinanzas frm = new FormReporteFinanzas())
+            {
+                frm.ShowDialog();
+            }
         }
     }
 }
