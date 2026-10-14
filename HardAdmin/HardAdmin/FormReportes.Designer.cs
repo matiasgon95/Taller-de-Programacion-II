@@ -55,7 +55,7 @@
             this.gbVentas.Size = new System.Drawing.Size(633, 104);
             this.gbVentas.TabIndex = 0;
             this.gbVentas.TabStop = false;
-            this.gbVentas.Text = "Reportes de Ventas";
+            this.gbVentas.Text = "Reporte de Ventas";
             // 
             // btnVentas
             // 
@@ -64,7 +64,7 @@
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(143, 50);
             this.btnVentas.TabIndex = 1;
-            this.btnVentas.Text = "Ver reportes";
+            this.btnVentas.Text = "Ver reporte";
             this.btnVentas.UseVisualStyleBackColor = true;
             this.btnVentas.Click += new System.EventHandler(this.btnVentas_Click);
             // 
@@ -74,9 +74,9 @@
             this.lbVentasInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbVentasInfo.Location = new System.Drawing.Point(33, 48);
             this.lbVentasInfo.Name = "lbVentasInfo";
-            this.lbVentasInfo.Size = new System.Drawing.Size(274, 16);
+            this.lbVentasInfo.Size = new System.Drawing.Size(374, 16);
             this.lbVentasInfo.TabIndex = 0;
-            this.lbVentasInfo.Text = "Reportes asociados a las ventas realizadas.";
+            this.lbVentasInfo.Text = "Reporte asociado a las ventas realizadas por día, mes o año.";
             // 
             // gbProductos
             // 
@@ -90,7 +90,7 @@
             this.gbProductos.Size = new System.Drawing.Size(633, 111);
             this.gbProductos.TabIndex = 1;
             this.gbProductos.TabStop = false;
-            this.gbProductos.Text = "Reportes de Productos";
+            this.gbProductos.Text = "Reporte de Productos";
             // 
             // btnProductos
             // 
@@ -99,7 +99,7 @@
             this.btnProductos.Name = "btnProductos";
             this.btnProductos.Size = new System.Drawing.Size(143, 50);
             this.btnProductos.TabIndex = 1;
-            this.btnProductos.Text = "Ver reportes";
+            this.btnProductos.Text = "Ver reporte";
             this.btnProductos.UseVisualStyleBackColor = true;
             this.btnProductos.Click += new System.EventHandler(this.btnProductos_Click);
             // 
@@ -109,9 +109,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(33, 54);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(287, 16);
+            this.label1.Size = new System.Drawing.Size(223, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Reportes asociados a los productos vendidos.";
+            this.label1.Text = "Top de los productos más vendidos";
             // 
             // gbFinanzas
             // 
@@ -125,7 +125,7 @@
             this.gbFinanzas.Size = new System.Drawing.Size(633, 106);
             this.gbFinanzas.TabIndex = 2;
             this.gbFinanzas.TabStop = false;
-            this.gbFinanzas.Text = "Reportes de Finanzas";
+            this.gbFinanzas.Text = "Reporte de Finanzas";
             // 
             // btnFinanzas
             // 
@@ -134,7 +134,7 @@
             this.btnFinanzas.Name = "btnFinanzas";
             this.btnFinanzas.Size = new System.Drawing.Size(143, 50);
             this.btnFinanzas.TabIndex = 1;
-            this.btnFinanzas.Text = "Ver reportes";
+            this.btnFinanzas.Text = "Ver reporte";
             this.btnFinanzas.UseVisualStyleBackColor = true;
             this.btnFinanzas.Click += new System.EventHandler(this.btnFinanzas_Click);
             // 

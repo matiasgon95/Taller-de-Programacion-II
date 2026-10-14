@@ -19,20 +19,23 @@ namespace HardAdmin
 
         private void btnVentas_Click(object sender, EventArgs e)
         {
-            FormReportesVentas frm = new FormReportesVentas();
-            frm.ShowDialog();
+            using (FormReporteVentas frm = new FormReporteVentas())
+            {
+                frm.ShowDialog();
+            }
         }
 
         private void btnProductos_Click(object sender, EventArgs e)
         {
-            FormReportesProductos frm = new FormReportesProductos();
-            frm.ShowDialog();
+            using (FormReporteProductos frm = new FormReporteProductos())
+            {
+                frm.ShowDialog();
+            }
         }
 
         private void btnFinanzas_Click(object sender, EventArgs e)
         {
-            FormReportesFinanzas frm = new FormReportesFinanzas();
-            frm.ShowDialog();
+            MessageBox.Show("Módulo de finanzas en desarrollo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

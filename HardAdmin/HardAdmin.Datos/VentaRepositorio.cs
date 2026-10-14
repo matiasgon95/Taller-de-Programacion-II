@@ -265,5 +265,58 @@ namespace HardAdmin.Datos
                 }
             }
         }
+
+        // Trae la evolución de ventas entre dos fechas, agrupando por día y sumando totales.
+        public DataTable ObtenerEvolucionVentas(DateTime desde, DateTime hasta, string agrupacion)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "";
+
+                if (agrupacion == "Mes")
+                {
+                    query = @"SELECT FORMAT(fecha, 'yyyy-MM') AS periodo, 
+                            COUNT(id_venta) AS cantidad_ventas, 
+                            SUM(total) AS total_recaudado
+                      FROM Venta
+                      WHERE fecha >= @desde AND fecha <= @hasta
+                      GROUP BY FORMAT(fecha, 'yyyy-MM')
+                      ORDER BY periodo ASC";
+                }
+                else if (agrupacion == "Año")
+                {
+                    query = @"SELECT CAST(YEAR(fecha) AS VARCHAR(4)) AS periodo, 
+                            COUNT(id_venta) AS cantidad_ventas, 
+                            SUM(total) AS total_recaudado
+                      FROM Venta
+                      WHERE fecha >= @desde AND fecha <= @hasta
+                      GROUP BY YEAR(fecha)
+                      ORDER BY periodo ASC";
+                }
+                else // Por defecto: Día
+                {
+                    query = @"SELECT CONVERT(VARCHAR(10), fecha, 120) AS periodo, 
+                            COUNT(id_venta) AS cantidad_ventas, 
+                            SUM(total) AS total_recaudado
+                      FROM Venta
+                      WHERE fecha >= @desde AND fecha <= @hasta
+                      GROUP BY CONVERT(VARCHAR(10), fecha, 120)
+                      ORDER BY periodo ASC";
+                }
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@desde", desde);
+                    cmd.Parameters.AddWithValue("@hasta", hasta);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
     }
 }

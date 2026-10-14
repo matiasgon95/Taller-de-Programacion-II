@@ -358,5 +358,43 @@ namespace HardAdmin.Datos
             }
         }
 
+        // Obtiene los productos más vendidos en un rango de fechas y opcionalmente filtrados por categoría.
+        public DataTable ObtenerTopProductos(int topN, int idCategoria, DateTime desde, DateTime hasta)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = $@"SELECT TOP (@topN) 
+                                p.codigo,
+                                p.nombre_producto,
+                                c.nombre_categoria,
+                                SUM(dt.cantidad) AS unidades_vendidas,
+                                SUM(dt.subtotal) AS recaudacion_total,
+                                p.stock AS stock_actual
+                         FROM venta_detalle dt
+                         INNER JOIN producto p ON dt.id_producto = p.id_producto
+                         INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+                         INNER JOIN venta v ON dt.id_venta = v.id_venta
+                         WHERE v.fecha >= @desde AND v.fecha <= @hasta
+                           AND (@id_categoria = 0 OR p.id_categoria = @id_categoria)
+                         GROUP BY p.codigo, p.nombre_producto, c.nombre_categoria, p.stock
+                         ORDER BY unidades_vendidas DESC";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@topN", topN);
+                    cmd.Parameters.AddWithValue("@id_categoria", idCategoria);
+                    cmd.Parameters.AddWithValue("@desde", desde);
+                    cmd.Parameters.AddWithValue("@hasta", hasta);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
     }
 }

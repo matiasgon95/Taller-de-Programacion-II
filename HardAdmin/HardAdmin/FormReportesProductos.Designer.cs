@@ -1,16 +1,9 @@
 ﻿namespace HardAdmin
 {
-    partial class FormReportesProductos
+    partial class FormReporteProductos
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,263 +15,227 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.gbFiltros = new System.Windows.Forms.GroupBox();
-            this.btnGenerar = new System.Windows.Forms.Button();
-            this.rbInactivos = new System.Windows.Forms.RadioButton();
-            this.rbActivos = new System.Windows.Forms.RadioButton();
-            this.rbTodos = new System.Windows.Forms.RadioButton();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.cmbCategoria = new System.Windows.Forms.ComboBox();
-            this.lbEstado = new System.Windows.Forms.Label();
-            this.lbStock = new System.Windows.Forms.Label();
-            this.lbCodigo = new System.Windows.Forms.Label();
-            this.lbCategoria = new System.Windows.Forms.Label();
-            this.lbTitulo = new System.Windows.Forms.Label();
-            this.dtgReporteProductos = new System.Windows.Forms.DataGridView();
-            this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStock = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStockMinimo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnExportar = new System.Windows.Forms.Button();
-            this.gbFiltros.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgReporteProductos)).BeginInit();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            this.dtpDesde = new System.Windows.Forms.DateTimePicker();
+            this.dtpHasta = new System.Windows.Forms.DateTimePicker();
+            this.lblDesde = new System.Windows.Forms.Label();
+            this.lblHasta = new System.Windows.Forms.Label();
+            this.cmbCategorias = new System.Windows.Forms.ComboBox();
+            this.lblCategoria = new System.Windows.Forms.Label();
+            this.btnFiltrar = new System.Windows.Forms.Button();
+            this.btnCerrar = new System.Windows.Forms.Button();
+            this.dgvProductos = new System.Windows.Forms.DataGridView();
+            this.chartProductos = new System.Windows.Forms.DataVisualization.Charting.Chart();
+
+            // Tarjetas KPI inferiores
+            this.panelUnidades = new System.Windows.Forms.Panel();
+            this.lblTituloUnidades = new System.Windows.Forms.Label();
+            this.lblValorUnidades = new System.Windows.Forms.Label();
+
+            this.panelRecaudacion = new System.Windows.Forms.Panel();
+            this.lblTituloRecaudacion = new System.Windows.Forms.Label();
+            this.lblValorRecaudacion = new System.Windows.Forms.Label();
+
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProductos)).BeginInit();
+            this.panelUnidades.SuspendLayout();
+            this.panelRecaudacion.SuspendLayout();
             this.SuspendLayout();
             // 
-            // gbFiltros
+            // dtpDesde
             // 
-            this.gbFiltros.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDesde.Location = new System.Drawing.Point(70, 25);
+            this.dtpDesde.Name = "dtpDesde";
+            this.dtpDesde.Size = new System.Drawing.Size(100, 20);
+            this.dtpDesde.TabIndex = 0;
+            // 
+            // dtpHasta
+            // 
+            this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpHasta.Location = new System.Drawing.Point(225, 25);
+            this.dtpHasta.Name = "dtpHasta";
+            this.dtpHasta.Size = new System.Drawing.Size(100, 20);
+            this.dtpHasta.TabIndex = 1;
+            // 
+            // lblDesde
+            // 
+            this.lblDesde.AutoSize = true;
+            this.lblDesde.Location = new System.Drawing.Point(25, 28);
+            this.lblDesde.Name = "lblDesde";
+            this.lblDesde.Size = new System.Drawing.Size(41, 13);
+            this.lblDesde.TabIndex = 2;
+            this.lblDesde.Text = "Desde:";
+            // 
+            // lblHasta
+            // 
+            this.lblHasta.AutoSize = true;
+            this.lblHasta.Location = new System.Drawing.Point(185, 28);
+            this.lblHasta.Name = "lblHasta";
+            this.lblHasta.Size = new System.Drawing.Size(38, 13);
+            this.lblHasta.TabIndex = 3;
+            this.lblHasta.Text = "Hasta:";
+            // 
+            // cmbCategorias
+            // 
+            this.cmbCategorias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCategorias.FormattingEnabled = true;
+            this.cmbCategorias.Location = new System.Drawing.Point(395, 24);
+            this.cmbCategorias.Name = "cmbCategorias";
+            this.cmbCategorias.Size = new System.Drawing.Size(140, 21);
+            this.cmbCategorias.TabIndex = 4;
+            // 
+            // lblCategoria
+            // 
+            this.lblCategoria.AutoSize = true;
+            this.lblCategoria.Location = new System.Drawing.Point(340, 28);
+            this.lblCategoria.Name = "lblCategoria";
+            this.lblCategoria.Size = new System.Drawing.Size(55, 13);
+            this.lblCategoria.TabIndex = 5;
+            this.lblCategoria.Text = "Categoría:";
+            // 
+            // btnFiltrar
+            // 
+            this.btnFiltrar.Location = new System.Drawing.Point(550, 22);
+            this.btnFiltrar.Name = "btnFiltrar";
+            this.btnFiltrar.Size = new System.Drawing.Size(85, 24);
+            this.btnFiltrar.TabIndex = 6;
+            this.btnFiltrar.Text = "Filtrar";
+            this.btnFiltrar.UseVisualStyleBackColor = true;
+            this.btnFiltrar.Click += new System.EventHandler(this.btnFiltrar_Click);
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.Location = new System.Drawing.Point(845, 22);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(85, 24);
+            this.btnCerrar.TabIndex = 7;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
+            // dgvProductos
+            // 
+            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProductos.Location = new System.Drawing.Point(25, 70);
+            this.dgvProductos.Name = "dgvProductos";
+            this.dgvProductos.Size = new System.Drawing.Size(460, 280);
+            this.dgvProductos.TabIndex = 8;
+            // 
+            // chartProductos
+            // 
+            this.chartProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbFiltros.Controls.Add(this.btnGenerar);
-            this.gbFiltros.Controls.Add(this.rbInactivos);
-            this.gbFiltros.Controls.Add(this.rbActivos);
-            this.gbFiltros.Controls.Add(this.rbTodos);
-            this.gbFiltros.Controls.Add(this.numericUpDown1);
-            this.gbFiltros.Controls.Add(this.textBox1);
-            this.gbFiltros.Controls.Add(this.cmbCategoria);
-            this.gbFiltros.Controls.Add(this.lbEstado);
-            this.gbFiltros.Controls.Add(this.lbStock);
-            this.gbFiltros.Controls.Add(this.lbCodigo);
-            this.gbFiltros.Controls.Add(this.lbCategoria);
-            this.gbFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbFiltros.Location = new System.Drawing.Point(12, 51);
-            this.gbFiltros.Name = "gbFiltros";
-            this.gbFiltros.Size = new System.Drawing.Size(776, 181);
-            this.gbFiltros.TabIndex = 0;
-            this.gbFiltros.TabStop = false;
-            this.gbFiltros.Text = "Filtros";
+            chartArea1.Name = "ChartArea1";
+            this.chartProductos.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartProductos.Legends.Add(legend1);
+            this.chartProductos.Location = new System.Drawing.Point(505, 70);
+            this.chartProductos.Name = "chartProductos";
+            this.chartProductos.Size = new System.Drawing.Size(425, 280);
+            this.chartProductos.TabIndex = 9;
+            this.chartProductos.Text = "chart1";
             // 
-            // btnGenerar
+            // panelUnidades (Tarjeta azul suave)
             // 
-            this.btnGenerar.Location = new System.Drawing.Point(607, 131);
-            this.btnGenerar.Name = "btnGenerar";
-            this.btnGenerar.Size = new System.Drawing.Size(151, 46);
-            this.btnGenerar.TabIndex = 10;
-            this.btnGenerar.Text = "Generar Reporte";
-            this.btnGenerar.UseVisualStyleBackColor = true;
+            this.panelUnidades.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelUnidades.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(242)))), ((int)(((byte)(255)))));
+            this.panelUnidades.Controls.Add(this.lblValorUnidades);
+            this.panelUnidades.Controls.Add(this.lblTituloUnidades);
+            this.panelUnidades.Location = new System.Drawing.Point(25, 365);
+            this.panelUnidades.Name = "panelUnidades";
+            this.panelUnidades.Size = new System.Drawing.Size(220, 50);
+            this.panelUnidades.TabIndex = 10;
             // 
-            // rbInactivos
+            // lblTituloUnidades
             // 
-            this.rbInactivos.AutoSize = true;
-            this.rbInactivos.Location = new System.Drawing.Point(414, 91);
-            this.rbInactivos.Name = "rbInactivos";
-            this.rbInactivos.Size = new System.Drawing.Size(119, 22);
-            this.rbInactivos.TabIndex = 9;
-            this.rbInactivos.TabStop = true;
-            this.rbInactivos.Text = "Solo Inactivos";
-            this.rbInactivos.UseVisualStyleBackColor = true;
+            this.lblTituloUnidades.AutoSize = true;
+            this.lblTituloUnidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloUnidades.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.lblTituloUnidades.Location = new System.Drawing.Point(10, 8);
+            this.lblTituloUnidades.Name = "lblTituloUnidades";
+            this.lblTituloUnidades.Size = new System.Drawing.Size(125, 13);
+            this.lblTituloUnidades.TabIndex = 0;
+            this.lblTituloUnidades.Text = "UNIDADES VENDIDAS";
             // 
-            // rbActivos
+            // lblValorUnidades
             // 
-            this.rbActivos.AutoSize = true;
-            this.rbActivos.Location = new System.Drawing.Point(414, 63);
-            this.rbActivos.Name = "rbActivos";
-            this.rbActivos.Size = new System.Drawing.Size(109, 22);
-            this.rbActivos.TabIndex = 8;
-            this.rbActivos.TabStop = true;
-            this.rbActivos.Text = "Solo Activos";
-            this.rbActivos.UseVisualStyleBackColor = true;
+            this.lblValorUnidades.AutoSize = true;
+            this.lblValorUnidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValorUnidades.ForeColor = System.Drawing.Color.Navy;
+            this.lblValorUnidades.Location = new System.Drawing.Point(10, 25);
+            this.lblValorUnidades.Name = "lblValorUnidades";
+            this.lblValorUnidades.Size = new System.Drawing.Size(17, 18);
+            this.lblValorUnidades.TabIndex = 1;
+            this.lblValorUnidades.Text = "0";
             // 
-            // rbTodos
+            // panelRecaudacion (Tarjeta verde suave)
             // 
-            this.rbTodos.AutoSize = true;
-            this.rbTodos.Location = new System.Drawing.Point(414, 35);
-            this.rbTodos.Name = "rbTodos";
-            this.rbTodos.Size = new System.Drawing.Size(69, 22);
-            this.rbTodos.TabIndex = 7;
-            this.rbTodos.TabStop = true;
-            this.rbTodos.Text = "Todos";
-            this.rbTodos.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(129, 106);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            276447231,
-            23283,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(175, 24);
-            this.numericUpDown1.TabIndex = 6;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(129, 71);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(175, 24);
-            this.textBox1.TabIndex = 5;
-            // 
-            // cmbCategoria
-            // 
-            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCategoria.FormattingEnabled = true;
-            this.cmbCategoria.Location = new System.Drawing.Point(129, 34);
-            this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(175, 26);
-            this.cmbCategoria.TabIndex = 4;
-            // 
-            // lbEstado
-            // 
-            this.lbEstado.AutoSize = true;
-            this.lbEstado.Location = new System.Drawing.Point(334, 37);
-            this.lbEstado.Name = "lbEstado";
-            this.lbEstado.Size = new System.Drawing.Size(59, 18);
-            this.lbEstado.TabIndex = 3;
-            this.lbEstado.Text = "Estado:";
-            // 
-            // lbStock
-            // 
-            this.lbStock.AutoSize = true;
-            this.lbStock.Location = new System.Drawing.Point(33, 106);
-            this.lbStock.Name = "lbStock";
-            this.lbStock.Size = new System.Drawing.Size(51, 18);
-            this.lbStock.TabIndex = 2;
-            this.lbStock.Text = "Stock:";
-            // 
-            // lbCodigo
-            // 
-            this.lbCodigo.AutoSize = true;
-            this.lbCodigo.Location = new System.Drawing.Point(33, 74);
-            this.lbCodigo.Name = "lbCodigo";
-            this.lbCodigo.Size = new System.Drawing.Size(60, 18);
-            this.lbCodigo.TabIndex = 1;
-            this.lbCodigo.Text = "Codigo:";
-            // 
-            // lbCategoria
-            // 
-            this.lbCategoria.AutoSize = true;
-            this.lbCategoria.Location = new System.Drawing.Point(33, 37);
-            this.lbCategoria.Name = "lbCategoria";
-            this.lbCategoria.Size = new System.Drawing.Size(76, 18);
-            this.lbCategoria.TabIndex = 0;
-            this.lbCategoria.Text = "Categoria:";
-            // 
-            // lbTitulo
-            // 
-            this.lbTitulo.AutoSize = true;
-            this.lbTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTitulo.Location = new System.Drawing.Point(249, 17);
-            this.lbTitulo.Name = "lbTitulo";
-            this.lbTitulo.Size = new System.Drawing.Size(278, 31);
-            this.lbTitulo.TabIndex = 1;
-            this.lbTitulo.Text = "Reportes de Producto";
-            // 
-            // dtgReporteProductos
-            // 
-            this.dtgReporteProductos.AllowUserToAddRows = false;
-            this.dtgReporteProductos.AllowUserToDeleteRows = false;
-            this.dtgReporteProductos.AllowUserToResizeRows = false;
-            this.dtgReporteProductos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelRecaudacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtgReporteProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dtgReporteProductos.ColumnHeadersHeight = 34;
-            this.dtgReporteProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dtgReporteProductos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colCodigo,
-            this.colProducto,
-            this.colCategoria,
-            this.colStock,
-            this.colStockMinimo,
-            this.colEstado});
-            this.dtgReporteProductos.Location = new System.Drawing.Point(13, 238);
-            this.dtgReporteProductos.MultiSelect = false;
-            this.dtgReporteProductos.Name = "dtgReporteProductos";
-            this.dtgReporteProductos.ReadOnly = true;
-            this.dtgReporteProductos.RowHeadersVisible = false;
-            this.dtgReporteProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgReporteProductos.Size = new System.Drawing.Size(774, 160);
-            this.dtgReporteProductos.TabIndex = 3;
+            this.panelRecaudacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(230)))));
+            this.panelRecaudacion.Controls.Add(this.lblValorRecaudacion);
+            this.panelRecaudacion.Controls.Add(this.lblTituloRecaudacion);
+            this.panelRecaudacion.Location = new System.Drawing.Point(260, 365);
+            this.panelRecaudacion.Name = "panelRecaudacion";
+            this.panelRecaudacion.Size = new System.Drawing.Size(670, 50);
+            this.panelRecaudacion.TabIndex = 11;
             // 
-            // colCodigo
+            // lblTituloRecaudacion
             // 
-            this.colCodigo.HeaderText = "Codigo";
-            this.colCodigo.Name = "colCodigo";
-            this.colCodigo.ReadOnly = true;
+            this.lblTituloRecaudacion.AutoSize = true;
+            this.lblTituloRecaudacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloRecaudacion.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblTituloRecaudacion.Location = new System.Drawing.Point(10, 8);
+            this.lblTituloRecaudacion.Name = "lblTituloRecaudacion";
+            this.lblTituloRecaudacion.Size = new System.Drawing.Size(165, 13);
+            this.lblTituloRecaudacion.TabIndex = 0;
+            this.lblTituloRecaudacion.Text = "RECAUDACIÓN DEL TOP 10";
             // 
-            // colProducto
+            // lblValorRecaudacion
             // 
-            this.colProducto.HeaderText = "Producto";
-            this.colProducto.Name = "colProducto";
-            this.colProducto.ReadOnly = true;
+            this.lblValorRecaudacion.AutoSize = true;
+            this.lblValorRecaudacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValorRecaudacion.ForeColor = System.Drawing.Color.Green;
+            this.lblValorRecaudacion.Location = new System.Drawing.Point(10, 25);
+            this.lblValorRecaudacion.Name = "lblValorRecaudacion";
+            this.lblValorRecaudacion.Size = new System.Drawing.Size(44, 18);
+            this.lblValorRecaudacion.TabIndex = 1;
+            this.lblValorRecaudacion.Text = "$0,00";
             // 
-            // colCategoria
-            // 
-            this.colCategoria.HeaderText = "Categoria";
-            this.colCategoria.Name = "colCategoria";
-            this.colCategoria.ReadOnly = true;
-            // 
-            // colStock
-            // 
-            this.colStock.HeaderText = "Stock";
-            this.colStock.Name = "colStock";
-            this.colStock.ReadOnly = true;
-            // 
-            // colStockMinimo
-            // 
-            this.colStockMinimo.HeaderText = "Stock Minimo";
-            this.colStockMinimo.Name = "colStockMinimo";
-            this.colStockMinimo.ReadOnly = true;
-            // 
-            // colEstado
-            // 
-            this.colEstado.HeaderText = "Estado";
-            this.colEstado.Name = "colEstado";
-            this.colEstado.ReadOnly = true;
-            // 
-            // btnExportar
-            // 
-            this.btnExportar.Location = new System.Drawing.Point(712, 408);
-            this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(75, 30);
-            this.btnExportar.TabIndex = 4;
-            this.btnExportar.Text = "Exportar";
-            this.btnExportar.UseVisualStyleBackColor = true;
-            // 
-            // FormReportesProductos
+            // FormReporteProductos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnExportar);
-            this.Controls.Add(this.dtgReporteProductos);
-            this.Controls.Add(this.lbTitulo);
-            this.Controls.Add(this.gbFiltros);
-            this.Name = "FormReportesProductos";
-            this.Text = "HardAdmin - Reportes de Productos";
-            this.gbFiltros.ResumeLayout(false);
-            this.gbFiltros.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgReporteProductos)).EndInit();
+            this.ClientSize = new System.Drawing.Size(950, 435);
+            this.Controls.Add(this.panelRecaudacion);
+            this.Controls.Add(this.panelUnidades);
+            this.Controls.Add(this.chartProductos);
+            this.Controls.Add(this.dgvProductos);
+            this.Controls.Add(this.btnCerrar);
+            this.Controls.Add(this.btnFiltrar);
+            this.Controls.Add(this.lblCategoria);
+            this.Controls.Add(this.cmbCategorias);
+            this.Controls.Add(this.lblHasta);
+            this.Controls.Add(this.lblDesde);
+            this.Controls.Add(this.dtpHasta);
+            this.Controls.Add(this.dtpDesde);
+            this.Name = "FormReporteProductos";
+            this.Text = "Reporte de Productos Más Vendidos";
+            this.Load += new System.EventHandler(this.FormReporteProductos_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartProductos)).EndInit();
+            this.panelUnidades.ResumeLayout(false);
+            this.panelUnidades.PerformLayout();
+            this.panelRecaudacion.ResumeLayout(false);
+            this.panelRecaudacion.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,26 +243,23 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox gbFiltros;
-        private System.Windows.Forms.Label lbStock;
-        private System.Windows.Forms.Label lbCodigo;
-        private System.Windows.Forms.Label lbCategoria;
-        private System.Windows.Forms.Label lbTitulo;
-        private System.Windows.Forms.ComboBox cmbCategoria;
-        private System.Windows.Forms.Label lbEstado;
-        private System.Windows.Forms.RadioButton rbTodos;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button btnGenerar;
-        private System.Windows.Forms.RadioButton rbInactivos;
-        private System.Windows.Forms.RadioButton rbActivos;
-        private System.Windows.Forms.DataGridView dtgReporteProductos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCodigo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStock;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStockMinimo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colEstado;
-        private System.Windows.Forms.Button btnExportar;
+        private System.Windows.Forms.DateTimePicker dtpDesde;
+        private System.Windows.Forms.DateTimePicker dtpHasta;
+        private System.Windows.Forms.Label lblDesde;
+        private System.Windows.Forms.Label lblHasta;
+        private System.Windows.Forms.ComboBox cmbCategorias;
+        private System.Windows.Forms.Label lblCategoria;
+        private System.Windows.Forms.Button btnFiltrar;
+        private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.DataGridView dgvProductos;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartProductos;
+
+        private System.Windows.Forms.Panel panelUnidades;
+        private System.Windows.Forms.Label lblTituloUnidades;
+        private System.Windows.Forms.Label lblValorUnidades;
+
+        private System.Windows.Forms.Panel panelRecaudacion;
+        private System.Windows.Forms.Label lblTituloRecaudacion;
+        private System.Windows.Forms.Label lblValorRecaudacion;
     }
 }

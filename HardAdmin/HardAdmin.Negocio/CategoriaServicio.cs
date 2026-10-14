@@ -8,11 +8,11 @@ namespace HardAdmin.Negocio
 {
     public class CategoriaServicio
     {
-        private CategoriaRepositorio repo = new CategoriaRepositorio();
+        private CategoriaRepositorio repositorio = new CategoriaRepositorio();
 
         public DataTable ObtenerParaGrilla()
         {
-            return repo.ObtenerParaGrilla();
+            return repositorio.ObtenerParaGrilla();
         }
 
         public void GuardarCambios(List<Categoria> listaCategorias)
@@ -26,7 +26,7 @@ namespace HardAdmin.Negocio
                 }
 
                 // 2. Control de nombres duplicados
-                if (repo.ExisteNombreCategoria(cat.NombreCategoria, cat.IdCategoria))
+                if (repositorio.ExisteNombreCategoria(cat.NombreCategoria, cat.IdCategoria))
                 {
                     throw new Exception($"El nombre '{cat.NombreCategoria}' ya existe en otra categoría. Por favor, elegí otro.");
                 }
@@ -34,7 +34,7 @@ namespace HardAdmin.Negocio
                 // 3. Control de integridad al dar de baja
                 if (cat.Baja == 1 && cat.IdCategoria != 0)
                 {
-                    if (repo.TieneProductosActivos(cat.IdCategoria))
+                    if (repositorio.TieneProductosActivos(cat.IdCategoria))
                     {
                         throw new Exception($"No podés dar de baja la categoría '{cat.NombreCategoria}' porque tiene productos activos vinculados.");
                     }
@@ -42,7 +42,13 @@ namespace HardAdmin.Negocio
             }
 
             // Si pasó todos los controles sin lanzar errores, guardamos tranquilo.
-            repo.GuardarCambios(listaCategorias);
+            repositorio.GuardarCambios(listaCategorias);
         }
+
+        public DataTable ObtenerParaCombo()
+        {
+            return repositorio.ObtenerParaGrilla();
+        }
+
     }
 }

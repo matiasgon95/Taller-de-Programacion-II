@@ -122,5 +122,11 @@ namespace HardAdmin.Negocio
             return repositorio.ObtenerProductosParaSeleccion(filtro);
         }
 
+        // Obtiene los productos más vendidos en un rango de fechas, filtrando por categoría si se indica.
+        public DataTable ObtenerTopProductos(int topN, int idCategoria, DateTime desde, DateTime hasta)
+        {
+            return repositorio.ObtenerTopProductos(topN, idCategoria, desde, hasta);
+        }
+
     }
 }

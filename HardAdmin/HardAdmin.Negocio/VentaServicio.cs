@@ -75,5 +75,12 @@ namespace HardAdmin.Negocio
 
             return repositorio.InsertarVenta(venta, ID_TIPO_MOVIMIENTO_EGRESO_POR_VENTA);
         }
+
+        // Obtiene la evolución de ventas entre dos fechas, agrupadas por día.
+        public DataTable ObtenerEvolucionVentas(DateTime desde, DateTime hasta, string agrupacion)
+        {
+            return repositorio.ObtenerEvolucionVentas(desde, hasta, agrupacion);
+        }
+
     }
 }
