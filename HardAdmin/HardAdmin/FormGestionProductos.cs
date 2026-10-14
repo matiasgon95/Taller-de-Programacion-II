@@ -131,6 +131,8 @@ namespace HardAdmin
             {
                 //Obtenemos la grilla llamando al servicio de dicha capa.
                 dtProductos = servicio.ObtenerParaGrilla();
+                // este método prepara la columna de búsqueda para que el usuario pueda filtrar por código o nombre.
+                PrepararColumnaBusqueda();
 
                 // Esta propiedad en false es CLAVE: le dice a la grilla que no invente columnas nuevas 
                 // basándose en SQL, sino que acomode los datos en las columnas visuales que nosotros armamos.
@@ -287,6 +289,21 @@ namespace HardAdmin
             }
         }
 
+        // Agrega a la tabla una columna auxiliar (no se muestra) con código y nombre ya en
+        // minúsculas y sin acentos, porque el filtro del DataView no sabe ignorar acentos.
+        private void PrepararColumnaBusqueda()
+        {
+            if (!dtProductos.Columns.Contains("busqueda"))
+            {
+                dtProductos.Columns.Add("busqueda", typeof(string));
+            }
+
+            foreach (DataRow fila in dtProductos.Rows)
+            {
+                fila["busqueda"] = Busqueda.QuitarAcentos($"{fila["codigo"]} {fila["nombre_producto"]}");
+            }
+        }
+
         // Filtra los productos mostrados en la grilla según el texto ingresado en el buscador.
         private void FiltrarProductos()
         {
@@ -301,19 +318,12 @@ namespace HardAdmin
             // Si el buscador está vacío, mostramos todos los productos.
             if (!string.IsNullOrWhiteSpace(texto))
             {
-                // Escapamos caracteres especiales para evitar problemas
-                // al utilizar el texto dentro del filtro.
-                string textoFiltro = texto
-                    .Replace("'", "''")
-                    .Replace("[", "[[]")
-                    .Replace("%", "[%]")
-                    .Replace("*", "[*]");
+                // Normalizamos y escapamos el texto igual que la columna "busqueda",
+                // así "camara" encuentra "Cámara" y los caracteres especiales no rompen el filtro.
+                string textoFiltro = Busqueda.EscaparParaFiltro(Busqueda.QuitarAcentos(texto));
 
                 // Filtro por código o nombre.
-                filtros.Add(
-                    $"(codigo LIKE '%{textoFiltro}%' " +
-                    $"OR nombre_producto LIKE '%{textoFiltro}%')"
-                );
+                filtros.Add($"busqueda LIKE '%{textoFiltro}%'");
             }
 
             // Filtro por categoría.

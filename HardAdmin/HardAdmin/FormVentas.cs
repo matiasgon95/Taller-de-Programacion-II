@@ -52,6 +52,7 @@ namespace HardAdmin
             {
                 // La UI solo le pide los datos al servicio mandando el estado de la sesión
                 dtVentas = servicio.ObtenerVentasResumen(SesionActual.EsAdmin, SesionActual.IdUsuario);
+                PrepararColumnaBusqueda();
                 dgvVentas.DataSource = dtVentas;
 
                 ConfigurarColumnasGrid();
@@ -88,6 +89,22 @@ namespace HardAdmin
             }
         }
 
+        // Agrega a la tabla una columna auxiliar (no se muestra) con el texto buscable ya en
+        // minúsculas y sin acentos, porque el filtro del DataView no sabe ignorar acentos.
+        private void PrepararColumnaBusqueda()
+        {
+            if (!dtVentas.Columns.Contains("busqueda"))
+            {
+                dtVentas.Columns.Add("busqueda", typeof(string));
+            }
+
+            foreach (DataRow fila in dtVentas.Rows)
+            {
+                fila["busqueda"] = Busqueda.QuitarAcentos(
+                    $"{fila["nro_factura"]} {fila["cliente"]} {fila["medio_pago"]}");
+            }
+        }
+
         private void AplicarFiltros()
         {
             if (dtVentas == null) return;
@@ -98,10 +115,12 @@ namespace HardAdmin
             string fechaHasta = dtpHasta.Value.Date.ToString("MM/dd/yyyy 23:59:59", CultureInfo.InvariantCulture);
             filtros.Add($"fecha >= #{fechaDesde}# AND fecha <= #{fechaHasta}#");
 
-            string textoBuscar = txtBuscar.Text.Trim().Replace("'", "''");
+            string textoBuscar = txtBuscar.Text.Trim();
             if (!string.IsNullOrWhiteSpace(textoBuscar))
             {
-                filtros.Add($"(nro_factura LIKE '%{textoBuscar}%' OR cliente LIKE '%{textoBuscar}%' OR medio_pago LIKE '%{textoBuscar}%')");
+                // Normalizamos lo escrito igual que la columna "busqueda" para que "perez" encuentre "Pérez".
+                string textoFiltro = Busqueda.EscaparParaFiltro(Busqueda.QuitarAcentos(textoBuscar));
+                filtros.Add($"busqueda LIKE '%{textoFiltro}%'");
             }
 
             if (SesionActual.EsAdmin && cmbVendedores.SelectedIndex > 0)
@@ -132,6 +151,7 @@ namespace HardAdmin
 
             dgvVentas.Columns["id_venta"].Visible = false;
             dgvVentas.Columns["estado"].Visible = false;
+            dgvVentas.Columns["busqueda"].Visible = false; // columna auxiliar del buscador
 
             dgvVentas.Columns["nro_factura"].HeaderText = "Nro. Factura";
             dgvVentas.Columns["fecha"].HeaderText = "Fecha";

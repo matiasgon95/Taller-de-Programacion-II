@@ -16,6 +16,9 @@ namespace HardAdmin
         // Instanciamos el servicio en lugar de la cadena de conexión
         private UsuarioServicio servicio = new UsuarioServicio();
 
+        // Guardamos la tabla cargada para poder filtrarla desde el buscador sin volver a consultar la base.
+        private DataTable dtUsuarios;
+
         public FormGestionUsuarios()
         {
             InitializeComponent();
@@ -46,6 +49,55 @@ namespace HardAdmin
 
         private void dgvUsuarios_Scroll(object sender, ScrollEventArgs e)
         {
+        }
+
+        // ---------- BUSCADOR ----------
+
+        // Cada letra que se escribe vuelve a filtrar la grilla.
+        private void txtBuscarUsuario_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarUsuarios();
+        }
+
+        // Muestra solo los usuarios que coinciden con el texto en alguna de las columnas que
+        // el usuario espera poder buscar. Filtramos la vista de la tabla en memoria, así que
+        // no hace falta ir a la base de datos en cada tecla.
+        private void FiltrarUsuarios()
+        {
+            // Si todavía no se cargó la tabla, no hay nada que filtrar.
+            if (dtUsuarios == null)
+                return;
+
+            string texto = txtBuscarUsuario.Text.Trim();
+
+            // Con el buscador vacío mostramos todos los usuarios.
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                dtUsuarios.DefaultView.RowFilter = string.Empty;
+                return;
+            }
+
+            // Normalizamos lo escrito igual que la columna "busqueda", así "perez" encuentra "Pérez".
+            string textoFiltro = Busqueda.EscaparParaFiltro(Busqueda.QuitarAcentos(texto));
+
+            dtUsuarios.DefaultView.RowFilter = $"busqueda LIKE '%{textoFiltro}%'";
+        }
+
+        // Agrega a la tabla una columna que no se muestra en la grilla, con DNI, nombre, usuario y
+        // email juntos, en minúsculas y sin acentos. El DataView no sabe ignorar acentos al
+        // filtrar, por eso dejamos el texto ya normalizado y comparamos contra esa columna.
+        private void PrepararColumnaBusqueda()
+        {
+            if (!dtUsuarios.Columns.Contains("busqueda"))
+            {
+                dtUsuarios.Columns.Add("busqueda", typeof(string));
+            }
+
+            foreach (DataRow fila in dtUsuarios.Rows)
+            {
+                fila["busqueda"] = Busqueda.QuitarAcentos(
+                    $"{fila["dni"]} {fila["nombre_completo"]} {fila["nombre_usuario"]} {fila["email"]}");
+            }
         }
 
         // ---------- EVENTOS DE ACCIÓN (MODIFICAR) ----------
@@ -111,10 +163,15 @@ namespace HardAdmin
             try
             {
                 // Pedimos los datos a la capa de Negocio
-                DataTable dt = servicio.ObtenerParaGrilla();
+                dtUsuarios = servicio.ObtenerParaGrilla();
+                PrepararColumnaBusqueda();
 
                 dgvUsuarios.AutoGenerateColumns = false;
-                dgvUsuarios.DataSource = dt;
+                dgvUsuarios.DataSource = dtUsuarios;
+
+                // Si había algo escrito en el buscador (por ejemplo al volver de modificar un
+                // usuario), volvemos a aplicar el filtro sobre los datos recién cargados.
+                FiltrarUsuarios();
             }
             catch (Exception ex)
             {

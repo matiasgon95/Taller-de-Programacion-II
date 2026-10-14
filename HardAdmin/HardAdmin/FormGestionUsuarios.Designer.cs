@@ -40,6 +40,8 @@
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colActivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnModificarFila = new System.Windows.Forms.Button();
+            this.lbBuscar = new System.Windows.Forms.Label();
+            this.txtBuscarUsuario = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,11 +50,28 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(270, 20);
+            this.label1.Location = new System.Drawing.Point(270, 3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(273, 31);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Listado de Usuarios";
+            // 
+            // lbBuscar
+            // 
+            this.lbBuscar.AutoSize = true;
+            this.lbBuscar.Location = new System.Drawing.Point(35, 45);
+            this.lbBuscar.Name = "lbBuscar";
+            this.lbBuscar.Size = new System.Drawing.Size(212, 13);
+            this.lbBuscar.TabIndex = 1;
+            this.lbBuscar.Text = "Buscar (DNI, nombre, usuario o email):";
+            // 
+            // txtBuscarUsuario
+            // 
+            this.txtBuscarUsuario.Location = new System.Drawing.Point(255, 41);
+            this.txtBuscarUsuario.Name = "txtBuscarUsuario";
+            this.txtBuscarUsuario.Size = new System.Drawing.Size(300, 22);
+            this.txtBuscarUsuario.TabIndex = 2;
+            this.txtBuscarUsuario.TextChanged += new System.EventHandler(this.txtBuscarUsuario_TextChanged);
             // 
             // btnAgregarUsuario
             // 
@@ -60,7 +79,7 @@
             this.btnAgregarUsuario.Location = new System.Drawing.Point(35, 450);
             this.btnAgregarUsuario.Name = "btnAgregarUsuario";
             this.btnAgregarUsuario.Size = new System.Drawing.Size(120, 50);
-            this.btnAgregarUsuario.TabIndex = 2;
+            this.btnAgregarUsuario.TabIndex = 4;
             this.btnAgregarUsuario.Text = "Agregar Usuario";
             this.btnAgregarUsuario.UseVisualStyleBackColor = true;
             this.btnAgregarUsuario.Click += new System.EventHandler(this.btnAgregarUsuario_Click);
@@ -70,8 +89,8 @@
             this.dgvUsuarios.AllowUserToAddRows = false;
             this.dgvUsuarios.AllowUserToDeleteRows = false;
             this.dgvUsuarios.AllowUserToResizeRows = false;
-            this.dgvUsuarios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvUsuarios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUsuarios.ColumnHeadersHeight = 34;
@@ -161,7 +180,7 @@
             this.btnModificarFila.Location = new System.Drawing.Point(170, 450);
             this.btnModificarFila.Name = "btnModificarFila";
             this.btnModificarFila.Size = new System.Drawing.Size(120, 50);
-            this.btnModificarFila.TabIndex = 4;
+            this.btnModificarFila.TabIndex = 5;
             this.btnModificarFila.Text = "Modificar Usuario";
             this.btnModificarFila.UseVisualStyleBackColor = true;
             this.btnModificarFila.Click += new System.EventHandler(this.btnModificarFila_Click);
@@ -171,6 +190,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 511);
+            this.Controls.Add(this.txtBuscarUsuario);
+            this.Controls.Add(this.lbBuscar);
             this.Controls.Add(this.btnModificarFila);
             this.Controls.Add(this.dgvUsuarios);
             this.Controls.Add(this.btnAgregarUsuario);
@@ -199,5 +220,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFechaNac;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colActivo;
+        private System.Windows.Forms.Label lbBuscar;
+        private System.Windows.Forms.TextBox txtBuscarUsuario;
     }
 }
