@@ -37,7 +37,7 @@
             this.gbFinanzas = new System.Windows.Forms.GroupBox();
             this.btnFinanzas = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.lbTitulo = new System.Windows.Forms.Label();
+            this.lblTitulo = new System.Windows.Forms.Label();
             this.gbVentas.SuspendLayout();
             this.gbProductos.SuspendLayout();
             this.gbFinanzas.SuspendLayout();
@@ -49,8 +49,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbVentas.Controls.Add(this.btnVentas);
             this.gbVentas.Controls.Add(this.lbVentasInfo);
-            this.gbVentas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbVentas.Location = new System.Drawing.Point(74, 47);
+            this.gbVentas.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbVentas.Location = new System.Drawing.Point(100, 100);
             this.gbVentas.Name = "gbVentas";
             this.gbVentas.Size = new System.Drawing.Size(633, 104);
             this.gbVentas.TabIndex = 0;
@@ -84,8 +84,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbProductos.Controls.Add(this.btnProductos);
             this.gbProductos.Controls.Add(this.label1);
-            this.gbProductos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbProductos.Location = new System.Drawing.Point(74, 182);
+            this.gbProductos.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbProductos.Location = new System.Drawing.Point(100, 236);
             this.gbProductos.Name = "gbProductos";
             this.gbProductos.Size = new System.Drawing.Size(633, 111);
             this.gbProductos.TabIndex = 1;
@@ -119,8 +119,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbFinanzas.Controls.Add(this.btnFinanzas);
             this.gbFinanzas.Controls.Add(this.label2);
-            this.gbFinanzas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbFinanzas.Location = new System.Drawing.Point(74, 319);
+            this.gbFinanzas.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbFinanzas.Location = new System.Drawing.Point(100, 368);
             this.gbFinanzas.Name = "gbFinanzas";
             this.gbFinanzas.Size = new System.Drawing.Size(633, 106);
             this.gbFinanzas.TabIndex = 2;
@@ -148,26 +148,28 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Reporte que muestra una comparativa de períodos de ventas.";
             // 
-            // lbTitulo
+            // lblTitulo
             // 
-            this.lbTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbTitulo.AutoSize = true;
-            this.lbTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTitulo.Location = new System.Drawing.Point(332, 9);
-            this.lbTitulo.Name = "lbTitulo";
-            this.lbTitulo.Size = new System.Drawing.Size(125, 31);
-            this.lbTitulo.TabIndex = 3;
-            this.lbTitulo.Text = "Reportes";
+            this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(324, 25);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(307, 37);
+            this.lblTitulo.TabIndex = 2;
+            this.lblTitulo.Text = "HardAdmin - Reportes";
+            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormReportes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lbTitulo);
+            this.ClientSize = new System.Drawing.Size(800, 506);
+            this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.gbFinanzas);
             this.Controls.Add(this.gbProductos);
             this.Controls.Add(this.gbVentas);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormReportes";
             this.Text = "HardAmin - Reportes Estadisticos";
@@ -193,6 +195,6 @@
         private System.Windows.Forms.Button btnVentas;
         private System.Windows.Forms.Button btnProductos;
         private System.Windows.Forms.Button btnFinanzas;
-        private System.Windows.Forms.Label lbTitulo;
+        private System.Windows.Forms.Label lblTitulo;
     }
 }

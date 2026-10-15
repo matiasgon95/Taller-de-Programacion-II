@@ -262,7 +262,7 @@
             this.Controls.Add(this.dtpHasta);
             this.Controls.Add(this.dtpDesde);
             this.Name = "FormReporteVentas";
-            this.Text = "Reporte de Evolución de Ventas - HardAdmin";
+            this.Text = "HardAdmin - Reporte de Evolución de ventas";
             this.Load += new System.EventHandler(this.FormReporteVentas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartVentas)).EndInit();

@@ -29,16 +29,12 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.dgvProductos = new System.Windows.Forms.DataGridView();
             this.chartProductos = new System.Windows.Forms.DataVisualization.Charting.Chart();
-
-            // Tarjetas KPI inferiores
             this.panelUnidades = new System.Windows.Forms.Panel();
-            this.lblTituloUnidades = new System.Windows.Forms.Label();
             this.lblValorUnidades = new System.Windows.Forms.Label();
-
+            this.lblTituloUnidades = new System.Windows.Forms.Label();
             this.panelRecaudacion = new System.Windows.Forms.Panel();
-            this.lblTituloRecaudacion = new System.Windows.Forms.Label();
             this.lblValorRecaudacion = new System.Windows.Forms.Label();
-
+            this.lblTituloRecaudacion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartProductos)).BeginInit();
             this.panelUnidades.SuspendLayout();
@@ -93,7 +89,7 @@
             this.lblCategoria.AutoSize = true;
             this.lblCategoria.Location = new System.Drawing.Point(340, 28);
             this.lblCategoria.Name = "lblCategoria";
-            this.lblCategoria.Size = new System.Drawing.Size(55, 13);
+            this.lblCategoria.Size = new System.Drawing.Size(57, 13);
             this.lblCategoria.TabIndex = 5;
             this.lblCategoria.Text = "Categoría:";
             // 
@@ -120,7 +116,7 @@
             // 
             // dgvProductos
             // 
-            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProductos.Location = new System.Drawing.Point(25, 70);
@@ -130,8 +126,8 @@
             // 
             // chartProductos
             // 
-            this.chartProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.chartProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.Name = "ChartArea1";
             this.chartProductos.ChartAreas.Add(chartArea1);
@@ -143,7 +139,7 @@
             this.chartProductos.TabIndex = 9;
             this.chartProductos.Text = "chart1";
             // 
-            // panelUnidades (Tarjeta azul suave)
+            // panelUnidades
             // 
             this.panelUnidades.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panelUnidades.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(242)))), ((int)(((byte)(255)))));
@@ -153,17 +149,6 @@
             this.panelUnidades.Name = "panelUnidades";
             this.panelUnidades.Size = new System.Drawing.Size(220, 50);
             this.panelUnidades.TabIndex = 10;
-            // 
-            // lblTituloUnidades
-            // 
-            this.lblTituloUnidades.AutoSize = true;
-            this.lblTituloUnidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTituloUnidades.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.lblTituloUnidades.Location = new System.Drawing.Point(10, 8);
-            this.lblTituloUnidades.Name = "lblTituloUnidades";
-            this.lblTituloUnidades.Size = new System.Drawing.Size(125, 13);
-            this.lblTituloUnidades.TabIndex = 0;
-            this.lblTituloUnidades.Text = "UNIDADES VENDIDAS";
             // 
             // lblValorUnidades
             // 
@@ -176,9 +161,20 @@
             this.lblValorUnidades.TabIndex = 1;
             this.lblValorUnidades.Text = "0";
             // 
-            // panelRecaudacion (Tarjeta verde suave)
+            // lblTituloUnidades
             // 
-            this.panelRecaudacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.lblTituloUnidades.AutoSize = true;
+            this.lblTituloUnidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloUnidades.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.lblTituloUnidades.Location = new System.Drawing.Point(10, 8);
+            this.lblTituloUnidades.Name = "lblTituloUnidades";
+            this.lblTituloUnidades.Size = new System.Drawing.Size(138, 13);
+            this.lblTituloUnidades.TabIndex = 0;
+            this.lblTituloUnidades.Text = "UNIDADES VENDIDAS";
+            // 
+            // panelRecaudacion
+            // 
+            this.panelRecaudacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelRecaudacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(230)))));
             this.panelRecaudacion.Controls.Add(this.lblValorRecaudacion);
@@ -188,17 +184,6 @@
             this.panelRecaudacion.Size = new System.Drawing.Size(670, 50);
             this.panelRecaudacion.TabIndex = 11;
             // 
-            // lblTituloRecaudacion
-            // 
-            this.lblTituloRecaudacion.AutoSize = true;
-            this.lblTituloRecaudacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTituloRecaudacion.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblTituloRecaudacion.Location = new System.Drawing.Point(10, 8);
-            this.lblTituloRecaudacion.Name = "lblTituloRecaudacion";
-            this.lblTituloRecaudacion.Size = new System.Drawing.Size(165, 13);
-            this.lblTituloRecaudacion.TabIndex = 0;
-            this.lblTituloRecaudacion.Text = "RECAUDACIÓN DEL TOP 10";
-            // 
             // lblValorRecaudacion
             // 
             this.lblValorRecaudacion.AutoSize = true;
@@ -206,9 +191,20 @@
             this.lblValorRecaudacion.ForeColor = System.Drawing.Color.Green;
             this.lblValorRecaudacion.Location = new System.Drawing.Point(10, 25);
             this.lblValorRecaudacion.Name = "lblValorRecaudacion";
-            this.lblValorRecaudacion.Size = new System.Drawing.Size(44, 18);
+            this.lblValorRecaudacion.Size = new System.Drawing.Size(49, 18);
             this.lblValorRecaudacion.TabIndex = 1;
             this.lblValorRecaudacion.Text = "$0,00";
+            // 
+            // lblTituloRecaudacion
+            // 
+            this.lblTituloRecaudacion.AutoSize = true;
+            this.lblTituloRecaudacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloRecaudacion.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblTituloRecaudacion.Location = new System.Drawing.Point(10, 8);
+            this.lblTituloRecaudacion.Name = "lblTituloRecaudacion";
+            this.lblTituloRecaudacion.Size = new System.Drawing.Size(171, 13);
+            this.lblTituloRecaudacion.TabIndex = 0;
+            this.lblTituloRecaudacion.Text = "RECAUDACIÓN DEL TOP 10";
             // 
             // FormReporteProductos
             // 
@@ -228,7 +224,7 @@
             this.Controls.Add(this.dtpHasta);
             this.Controls.Add(this.dtpDesde);
             this.Name = "FormReporteProductos";
-            this.Text = "Reporte de Productos Más Vendidos";
+            this.Text = "HardAdmin - Reporte de Productos más vendidos";
             this.Load += new System.EventHandler(this.FormReporteProductos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartProductos)).EndInit();

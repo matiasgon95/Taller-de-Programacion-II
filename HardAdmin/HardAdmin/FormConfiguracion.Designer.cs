@@ -39,9 +39,9 @@
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.Location = new System.Drawing.Point(300, 25);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(198, 37);
+            this.lblTitulo.Size = new System.Drawing.Size(372, 37);
             this.lblTitulo.TabIndex = 0;
-            this.lblTitulo.Text = "Configuración";
+            this.lblTitulo.Text = "HardAdmin - Configuración";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gbCategorias
@@ -74,10 +74,10 @@
             // btnCategorias
             // 
             this.btnCategorias.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCategorias.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCategorias.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCategorias.Location = new System.Drawing.Point(440, 40);
             this.btnCategorias.Name = "btnCategorias";
-            this.btnCategorias.Size = new System.Drawing.Size(140, 40);
+            this.btnCategorias.Size = new System.Drawing.Size(154, 40);
             this.btnCategorias.TabIndex = 0;
             this.btnCategorias.Text = "Gestionar Categorías";
             this.btnCategorias.UseVisualStyleBackColor = true;
@@ -113,12 +113,12 @@
             // btnMetodosPago
             // 
             this.btnMetodosPago.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMetodosPago.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMetodosPago.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMetodosPago.Location = new System.Drawing.Point(440, 40);
             this.btnMetodosPago.Name = "btnMetodosPago";
-            this.btnMetodosPago.Size = new System.Drawing.Size(140, 40);
+            this.btnMetodosPago.Size = new System.Drawing.Size(154, 40);
             this.btnMetodosPago.TabIndex = 0;
-            this.btnMetodosPago.Text = "Gestionar Pagos";
+            this.btnMetodosPago.Text = "Gestionar M. Pagos";
             this.btnMetodosPago.UseVisualStyleBackColor = true;
             this.btnMetodosPago.Click += new System.EventHandler(this.btnMetodosPago_Click);
             // 
@@ -139,10 +139,10 @@
             // btnBackUps
             // 
             this.btnBackUps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBackUps.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.btnBackUps.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F);
             this.btnBackUps.Location = new System.Drawing.Point(440, 34);
             this.btnBackUps.Name = "btnBackUps";
-            this.btnBackUps.Size = new System.Drawing.Size(140, 40);
+            this.btnBackUps.Size = new System.Drawing.Size(153, 40);
             this.btnBackUps.TabIndex = 3;
             this.btnBackUps.Text = "Gestionar Backups";
             this.btnBackUps.UseVisualStyleBackColor = true;

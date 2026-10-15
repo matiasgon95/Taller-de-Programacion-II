@@ -69,7 +69,7 @@
             // 
             this.lblTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold);
-            this.lblTitulo.Location = new System.Drawing.Point(238, 3);
+            this.lblTitulo.Location = new System.Drawing.Point(254, 3);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(305, 35);
             this.lblTitulo.TabIndex = 1;
@@ -358,7 +358,7 @@
             this.lbBuscar.AutoSize = true;
             this.lbBuscar.Location = new System.Drawing.Point(32, 44);
             this.lbBuscar.Name = "lbBuscar";
-            this.lbBuscar.Size = new System.Drawing.Size(43, 13);
+            this.lbBuscar.Size = new System.Drawing.Size(44, 13);
             this.lbBuscar.TabIndex = 7;
             this.lbBuscar.Text = "Buscar:";
             // 

@@ -53,9 +53,10 @@
             // 
             // lbTitulo
             // 
+            this.lbTitulo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbTitulo.AutoSize = true;
             this.lbTitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTitulo.Location = new System.Drawing.Point(220, 28);
+            this.lbTitulo.Location = new System.Drawing.Point(245, 9);
             this.lbTitulo.Name = "lbTitulo";
             this.lbTitulo.Size = new System.Drawing.Size(303, 37);
             this.lbTitulo.TabIndex = 0;
@@ -63,6 +64,8 @@
             // 
             // gbDatosSeguimiento
             // 
+            this.gbDatosSeguimiento.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbDatosSeguimiento.Controls.Add(this.dtpFechaHasta);
             this.gbDatosSeguimiento.Controls.Add(this.dtpFechaDesde);
             this.gbDatosSeguimiento.Controls.Add(this.cmbProducto);
@@ -73,6 +76,7 @@
             this.gbDatosSeguimiento.Controls.Add(this.lbProducto);
             this.gbDatosSeguimiento.Controls.Add(this.lbCategoria);
             this.gbDatosSeguimiento.Controls.Add(this.lbFiltrar);
+            this.gbDatosSeguimiento.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbDatosSeguimiento.Location = new System.Drawing.Point(12, 62);
             this.gbDatosSeguimiento.Name = "gbDatosSeguimiento";
             this.gbDatosSeguimiento.Size = new System.Drawing.Size(750, 149);
@@ -84,9 +88,9 @@
             // 
             this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaHasta.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpFechaHasta.Location = new System.Drawing.Point(373, 110);
+            this.dtpFechaHasta.Location = new System.Drawing.Point(388, 110);
             this.dtpFechaHasta.Name = "dtpFechaHasta";
-            this.dtpFechaHasta.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaHasta.Size = new System.Drawing.Size(200, 23);
             this.dtpFechaHasta.TabIndex = 99;
             // 
             // dtpFechaDesde
@@ -95,7 +99,7 @@
             this.dtpFechaDesde.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.dtpFechaDesde.Location = new System.Drawing.Point(105, 110);
             this.dtpFechaDesde.Name = "dtpFechaDesde";
-            this.dtpFechaDesde.Size = new System.Drawing.Size(178, 20);
+            this.dtpFechaDesde.Size = new System.Drawing.Size(178, 23);
             this.dtpFechaDesde.TabIndex = 99;
             this.dtpFechaDesde.TabStop = false;
             // 
@@ -103,9 +107,9 @@
             // 
             this.cmbProducto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProducto.FormattingEnabled = true;
-            this.cmbProducto.Location = new System.Drawing.Point(480, 56);
+            this.cmbProducto.Location = new System.Drawing.Point(388, 56);
             this.cmbProducto.Name = "cmbProducto";
-            this.cmbProducto.Size = new System.Drawing.Size(236, 21);
+            this.cmbProducto.Size = new System.Drawing.Size(200, 23);
             this.cmbProducto.TabIndex = 7;
             // 
             // cmbCategoria
@@ -114,13 +118,14 @@
             this.cmbCategoria.FormattingEnabled = true;
             this.cmbCategoria.Location = new System.Drawing.Point(105, 56);
             this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(178, 21);
+            this.cmbCategoria.Size = new System.Drawing.Size(178, 23);
             this.cmbCategoria.TabIndex = 6;
             this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
             // 
             // btnMostrar
             // 
-            this.btnMostrar.Location = new System.Drawing.Point(641, 107);
+            this.btnMostrar.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.btnMostrar.Location = new System.Drawing.Point(642, 110);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(75, 23);
             this.btnMostrar.TabIndex = 5;
@@ -131,50 +136,50 @@
             // lbHasta
             // 
             this.lbHasta.AutoSize = true;
-            this.lbHasta.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbHasta.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbHasta.Location = new System.Drawing.Point(323, 109);
             this.lbHasta.Name = "lbHasta";
-            this.lbHasta.Size = new System.Drawing.Size(44, 17);
+            this.lbHasta.Size = new System.Drawing.Size(40, 15);
             this.lbHasta.TabIndex = 4;
             this.lbHasta.Text = "Hasta:";
             // 
             // lbFecha
             // 
             this.lbFecha.AutoSize = true;
-            this.lbFecha.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFecha.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbFecha.Location = new System.Drawing.Point(6, 109);
             this.lbFecha.Name = "lbFecha";
-            this.lbFecha.Size = new System.Drawing.Size(85, 17);
+            this.lbFecha.Size = new System.Drawing.Size(76, 15);
             this.lbFecha.TabIndex = 3;
             this.lbFecha.Text = "Fecha Desde:";
             // 
             // lbProducto
             // 
             this.lbProducto.AutoSize = true;
-            this.lbProducto.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbProducto.Location = new System.Drawing.Point(410, 56);
+            this.lbProducto.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbProducto.Location = new System.Drawing.Point(323, 56);
             this.lbProducto.Name = "lbProducto";
-            this.lbProducto.Size = new System.Drawing.Size(64, 17);
+            this.lbProducto.Size = new System.Drawing.Size(59, 15);
             this.lbProducto.TabIndex = 2;
             this.lbProducto.Text = "Producto:";
             // 
             // lbCategoria
             // 
             this.lbCategoria.AutoSize = true;
-            this.lbCategoria.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbCategoria.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbCategoria.Location = new System.Drawing.Point(6, 56);
             this.lbCategoria.Name = "lbCategoria";
-            this.lbCategoria.Size = new System.Drawing.Size(74, 17);
+            this.lbCategoria.Size = new System.Drawing.Size(66, 15);
             this.lbCategoria.TabIndex = 1;
             this.lbCategoria.Text = "Categorias:";
             // 
             // lbFiltrar
             // 
             this.lbFiltrar.AutoSize = true;
-            this.lbFiltrar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFiltrar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbFiltrar.Location = new System.Drawing.Point(6, 26);
             this.lbFiltrar.Name = "lbFiltrar";
-            this.lbFiltrar.Size = new System.Drawing.Size(69, 17);
+            this.lbFiltrar.Size = new System.Drawing.Size(61, 15);
             this.lbFiltrar.TabIndex = 0;
             this.lbFiltrar.Text = "Filtrar por:";
             // 
@@ -240,6 +245,7 @@
             // 
             // btnCerrar
             // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCerrar.Location = new System.Drawing.Point(674, 403);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(87, 35);
@@ -257,7 +263,9 @@
             this.Controls.Add(this.dgvMovimientos);
             this.Controls.Add(this.gbDatosSeguimiento);
             this.Controls.Add(this.lbTitulo);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "FormMovimientosStock";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Movimientos de Stock";
             this.Load += new System.EventHandler(this.FormMovimientosStock_Load);
             this.gbDatosSeguimiento.ResumeLayout(false);
