@@ -20,7 +20,8 @@ namespace HardAdmin.Datos
                                      v.id_venta,
                                      'F-' + RIGHT('00000000' + CAST(v.id_venta AS VARCHAR(8)), 8) AS nro_factura,
                                      v.fecha,
-                                     (c.apellido + ', ' + c.nombre) AS cliente,
+                                     CASE WHEN ISNULL(LTRIM(RTRIM(c.nombre)), '') = '' THEN c.apellido
+                                          ELSE c.apellido + ', ' + c.nombre END AS cliente,
                                      u.nombre_usuario AS vendedor,
                                      mp.nombre_metodo AS medio_pago,
                                      v.estado,

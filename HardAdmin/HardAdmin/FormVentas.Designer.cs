@@ -45,6 +45,8 @@
             this.dtpHasta = new System.Windows.Forms.DateTimePicker();
             this.dtpDesde = new System.Windows.Forms.DateTimePicker();
             this.pnlInferior = new System.Windows.Forms.Panel();
+            this.pnlTotal = new System.Windows.Forms.Panel();
+            this.lblTotalTitulo = new System.Windows.Forms.Label();
             this.lblTotalVentas = new System.Windows.Forms.Label();
             this.btnVerDetalle = new System.Windows.Forms.Button();
             this.btnNuevaVenta = new System.Windows.Forms.Button();
@@ -60,6 +62,7 @@
             this.pnlFiltros.SuspendLayout();
             this.gbFiltros.SuspendLayout();
             this.pnlInferior.SuspendLayout();
+            this.pnlTotal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -180,7 +183,7 @@
             // 
             // pnlInferior
             // 
-            this.pnlInferior.Controls.Add(this.lblTotalVentas);
+            this.pnlInferior.Controls.Add(this.pnlTotal);
             this.pnlInferior.Controls.Add(this.btnVerDetalle);
             this.pnlInferior.Controls.Add(this.btnNuevaVenta);
             this.pnlInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -189,16 +192,43 @@
             this.pnlInferior.Size = new System.Drawing.Size(804, 65);
             this.pnlInferior.TabIndex = 2;
             // 
+            // pnlTotal
+            // 
+            this.pnlTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlTotal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(248)))), ((int)(((byte)(240)))));
+            this.pnlTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTotal.Controls.Add(this.lblTotalVentas);
+            this.pnlTotal.Controls.Add(this.lblTotalTitulo);
+            this.pnlTotal.Location = new System.Drawing.Point(544, 6);
+            this.pnlTotal.Name = "pnlTotal";
+            this.pnlTotal.Size = new System.Drawing.Size(230, 52);
+            this.pnlTotal.TabIndex = 2;
+            // 
+            // lblTotalTitulo
+            // 
+            this.lblTotalTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotalTitulo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(110)))), ((int)(((byte)(80)))));
+            this.lblTotalTitulo.Location = new System.Drawing.Point(0, 3);
+            this.lblTotalTitulo.Name = "lblTotalTitulo";
+            this.lblTotalTitulo.Size = new System.Drawing.Size(228, 15);
+            this.lblTotalTitulo.TabIndex = 0;
+            this.lblTotalTitulo.Text = "TOTAL DE VENTAS";
+            this.lblTotalTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // lblTotalVentas
             // 
-            this.lblTotalVentas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTotalVentas.AutoSize = true;
-            this.lblTotalVentas.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalVentas.Location = new System.Drawing.Point(562, 19);
+            this.lblTotalVentas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotalVentas.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalVentas.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(100)))), ((int)(((byte)(0)))));
+            this.lblTotalVentas.Location = new System.Drawing.Point(0, 19);
             this.lblTotalVentas.Name = "lblTotalVentas";
-            this.lblTotalVentas.Size = new System.Drawing.Size(65, 21);
-            this.lblTotalVentas.TabIndex = 2;
-            this.lblTotalVentas.Text = "Total: $";
+            this.lblTotalVentas.Size = new System.Drawing.Size(228, 31);
+            this.lblTotalVentas.TabIndex = 1;
+            this.lblTotalVentas.Text = "$ 0,00";
+            this.lblTotalVentas.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnVerDetalle
             // 
@@ -225,8 +255,8 @@
             this.dgvVentas.AllowUserToAddRows = false;
             this.dgvVentas.AllowUserToDeleteRows = false;
             this.dgvVentas.AllowUserToResizeRows = false;
-            this.dgvVentas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvVentas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvVentas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvVentas.ColumnHeadersHeight = 34;
@@ -326,7 +356,7 @@
             this.gbFiltros.ResumeLayout(false);
             this.gbFiltros.PerformLayout();
             this.pnlInferior.ResumeLayout(false);
-            this.pnlInferior.PerformLayout();
+            this.pnlTotal.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).EndInit();
             this.ResumeLayout(false);
 
@@ -358,5 +388,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colVendedor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMedioPago;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
+        private System.Windows.Forms.Panel pnlTotal;
+        private System.Windows.Forms.Label lblTotalTitulo;
     }
 }

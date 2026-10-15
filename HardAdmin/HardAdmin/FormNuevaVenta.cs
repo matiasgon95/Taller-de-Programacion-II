@@ -20,11 +20,13 @@ namespace HardAdmin
         // se muestran en la grilla (columnas de texto, no numéricas).
         private static readonly CultureInfo CulturaMoneda = CultureInfo.GetCultureInfo("es-AR");
 
-        // id_cliente fijo para las ventas sin un cliente puntual asociado.
-        private const int ID_CLIENTE_CONSUMIDOR_FINAL = 1;
-
-        // Cliente elegido para la venta. Arranca en Consumidor Final hasta que se busca o se crea otro.
+        // Cliente real elegido para la venta. Queda en null cuando todavía no se eligió ninguno;
+        // las ventas a Consumidor Final no pasan por acá, se resuelven con el checkbox.
         private int? idClienteSeleccionado;
+
+        // Mientras cargamos un cliente por código (selector, DNI o alta) el TextChanged del DNI
+        // no tiene que interpretarlo como que el usuario está escribiendo el DNI a mano.
+        private bool asignandoCliente;
 
         // Producto que está cargado en el panel "Carga rápida", listo para agregarse a la grilla.
         private int? idProductoActual;
@@ -42,6 +44,9 @@ namespace HardAdmin
             txtDni.KeyPress += Validaciones.SoloNumeros_KeyPress;
             txtDni.MaxLength = 8;
             txtDni.Leave += txtDni_Leave;
+            txtDni.TextChanged += txtDni_TextChanged;
+
+            chkConsumidorFinal.CheckedChanged += chkConsumidorFinal_CheckedChanged;
 
             txtCodigo.Leave += txtCodigo_Leave;
 
@@ -66,7 +71,11 @@ namespace HardAdmin
         {
             CargarMetodosPago();
             CargarProximoComprobante();
-            CargarClienteConsumidorFinal();
+
+            // Toda venta arranca como Consumidor Final. Llamamos al método a mano porque, si el
+            // checkbox ya viene tildado desde el diseñador, no se dispara el evento CheckedChanged.
+            chkConsumidorFinal.Checked = true;
+            AplicarModoConsumidorFinal();
             ActualizarTotales();
         }
 
@@ -105,9 +114,48 @@ namespace HardAdmin
 
         // ---------- Cliente ----------
 
-        private void CargarClienteConsumidorFinal()
+        // Con el checkbox tildado la venta es a Consumidor Final: no se busca ni se da de alta
+        // ningún cliente. Destildado, hay que elegir un cliente real.
+        private void chkConsumidorFinal_CheckedChanged(object sender, EventArgs e)
         {
-            CargarClientePorId(ID_CLIENTE_CONSUMIDOR_FINAL);
+            AplicarModoConsumidorFinal();
+
+            if (!chkConsumidorFinal.Checked)
+            {
+                txtDni.Focus();
+            }
+        }
+
+        private void AplicarModoConsumidorFinal()
+        {
+            bool esConsumidorFinal = chkConsumidorFinal.Checked;
+
+            txtDni.Enabled = !esConsumidorFinal;
+            btnBuscarCliente.Enabled = !esConsumidorFinal;
+            btnNuevoCliente.Enabled = !esConsumidorFinal;
+
+            if (esConsumidorFinal)
+            {
+                AsignarCliente(ClienteServicio.ID_CLIENTE_CONSUMIDOR_FINAL, string.Empty, "Consumidor Final");
+            }
+            else
+            {
+                // Al destildar arrancamos sin cliente: hay que buscarlo por DNI, elegirlo o darlo de alta.
+                AsignarCliente(null, string.Empty, string.Empty);
+            }
+        }
+
+        // Es el único lugar donde se carga un cliente en pantalla, así el id guardado
+        // y lo que se ve (DNI y nombre) siempre coinciden.
+        private void AsignarCliente(int? idCliente, string dni, string nombreCompleto)
+        {
+            asignandoCliente = true;
+
+            idClienteSeleccionado = idCliente;
+            txtDni.Text = dni;
+            txtCliente.Text = nombreCompleto;
+
+            asignandoCliente = false;
         }
 
         private void CargarClientePorId(int idCliente)
@@ -118,9 +166,7 @@ namespace HardAdmin
                 if (dt.Rows.Count > 0)
                 {
                     DataRow fila = dt.Rows[0];
-                    idClienteSeleccionado = idCliente;
-                    txtCliente.Text = $"{fila["nombre"]} {fila["apellido"]}";
-                    txtDni.Text = fila["dni"].ToString();
+                    AsignarCliente(idCliente, fila["dni"].ToString(), $"{fila["nombre"]} {fila["apellido"]}".Trim());
                 }
             }
             catch (Exception ex)
@@ -135,9 +181,8 @@ namespace HardAdmin
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    idClienteSeleccionado = frm.IdClienteSeleccionado;
-                    txtDni.Text = frm.DniClienteSeleccionado;
-                    txtCliente.Text = $"{frm.NombreClienteSeleccionado} {frm.ApellidoClienteSeleccionado}";
+                    AsignarCliente(frm.IdClienteSeleccionado, frm.DniClienteSeleccionado,
+                        $"{frm.NombreClienteSeleccionado} {frm.ApellidoClienteSeleccionado}".Trim());
                 }
             }
         }
@@ -169,6 +214,16 @@ namespace HardAdmin
             }
         }
 
+        // Si el usuario modifica el DNI a mano, el cliente que estaba cargado deja de corresponder:
+        // lo limpiamos para no registrar la venta a un cliente distinto del DNI que se ve en pantalla.
+        private void txtDni_TextChanged(object sender, EventArgs e)
+        {
+            if (asignandoCliente) return;
+
+            idClienteSeleccionado = null;
+            txtCliente.Clear();
+        }
+
         private void txtDni_Leave(object sender, EventArgs e)
         {
             string dni = txtDni.Text.Trim();
@@ -184,8 +239,7 @@ namespace HardAdmin
                 if (dt.Rows.Count > 0)
                 {
                     DataRow fila = dt.Rows[0];
-                    idClienteSeleccionado = Convert.ToInt32(fila["id_cliente"]);
-                    txtCliente.Text = $"{fila["nombre"]} {fila["apellido"]}";
+                    AsignarCliente(Convert.ToInt32(fila["id_cliente"]), dni, $"{fila["nombre"]} {fila["apellido"]}".Trim());
                 }
                 else
                 {
@@ -395,12 +449,20 @@ namespace HardAdmin
                 return;
             }
 
+            // Si no es Consumidor Final, tiene que haber un cliente real elegido.
+            if (!chkConsumidorFinal.Checked && idClienteSeleccionado == null)
+            {
+                MessageBox.Show("Buscá un cliente por DNI, elegilo de la lista o marcá Consumidor Final.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDni.Focus();
+                return;
+            }
+
             // Armamos la entidad con lo que hay en pantalla. Los importes de la grilla son texto
             // formateado ("$ 1.234,56"), por eso se vuelven a parsear igual que en ActualizarTotales.
             // El subtotal y el total no los mandamos: los calcula la capa de Negocio.
             Venta venta = new Venta
             {
-                IdCliente = idClienteSeleccionado ?? ID_CLIENTE_CONSUMIDOR_FINAL,
+                IdCliente = chkConsumidorFinal.Checked ? ClienteServicio.ID_CLIENTE_CONSUMIDOR_FINAL : idClienteSeleccionado.Value,
                 IdUsuario = SesionActual.IdUsuario,
                 IdMetodoPago = Convert.ToInt32(cmbMetodoPago.SelectedValue)
             };

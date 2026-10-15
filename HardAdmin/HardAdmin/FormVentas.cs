@@ -177,7 +177,7 @@ namespace HardAdmin
             object suma = dtVentas.Compute("SUM(total)", dtVentas.DefaultView.RowFilter);
             decimal total = (suma != DBNull.Value && suma != null) ? Convert.ToDecimal(suma) : 0m;
 
-            lblTotalVentas.Text = $"Total de ventas: {total:C2}";
+            lblTotalVentas.Text = total.ToString("C2");
         }
 
         private void btnNuevaVenta_Click(object sender, EventArgs e)

@@ -10,6 +10,10 @@ namespace HardAdmin.Negocio
     {
         private ClienteRepositorio repositorio = new ClienteRepositorio();
 
+        // id_cliente del cliente genérico "Consumidor Final". Es un registro del sistema que necesitan
+        // las ventas sin cliente puntual (Venta.id_cliente no admite NULL). Se define una sola vez acá.
+        public const int ID_CLIENTE_CONSUMIDOR_FINAL = 1;
+
         public bool DniDisponible(string dni, int? idExcluir = null)
         {
             return !repositorio.ExisteDni(dni, idExcluir);
@@ -49,6 +53,12 @@ namespace HardAdmin.Negocio
 
         public void Modificar(Cliente cliente)
         {
+            // Si se modificara o se diera de baja, todas las ventas a Consumidor Final quedarían afectadas.
+            if (cliente.IdCliente == ID_CLIENTE_CONSUMIDOR_FINAL)
+            {
+                throw new InvalidOperationException("Consumidor Final es un registro del sistema y no se puede modificar.");
+            }
+
             try
             {
                 repositorio.Modificar(cliente);
@@ -64,17 +74,18 @@ namespace HardAdmin.Negocio
         }
 
         public DataTable ObtenerClientePorId(int id) => repositorio.ObtenerClientePorId(id);
-        public DataTable ObtenerClientePorDni(string dni) => repositorio.ObtenerClientePorDni(dni);
+        // Los buscadores de la venta no deben devolver al genérico, por eso lo excluimos.
+        public DataTable ObtenerClientePorDni(string dni) => repositorio.ObtenerClientePorDni(dni, ID_CLIENTE_CONSUMIDOR_FINAL);
         public int ObtenerUltimoId() => repositorio.ObtenerUltimoId();
 
         public DataTable ObtenerClientesParaSeleccion(string filtro = null)
         {
-            return repositorio.ObtenerClientesParaSeleccion(filtro);
+            return repositorio.ObtenerClientesParaSeleccion(filtro, ID_CLIENTE_CONSUMIDOR_FINAL);
         }
 
         public DataTable ObtenerParaGrilla()
         {
-            return repositorio.ObtenerParaGrilla();
+            return repositorio.ObtenerParaGrilla(ID_CLIENTE_CONSUMIDOR_FINAL);
         }
 
     }

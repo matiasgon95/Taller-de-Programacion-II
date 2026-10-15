@@ -191,14 +191,17 @@ namespace HardAdmin.Datos
             }
         }
 
-        public DataTable ObtenerClientePorDni(string dni)
+        public DataTable ObtenerClientePorDni(string dni, int? idExcluir = null)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT id_cliente, nombre, apellido FROM Cliente WHERE dni = @dni AND baja = 0";
+                if (idExcluir.HasValue) query += " AND id_cliente <> @idExcluir";
+
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@dni", dni);
+                    if (idExcluir.HasValue) cmd.Parameters.AddWithValue("@idExcluir", idExcluir.Value);
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         DataTable dt = new DataTable();
@@ -223,11 +226,16 @@ namespace HardAdmin.Datos
             }
         }
 
-        public DataTable ObtenerClientesParaSeleccion(string filtro = null)
+        public DataTable ObtenerClientesParaSeleccion(string filtro = null, int? idExcluir = null)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT id_cliente, nombre, apellido, dni, telefono FROM Cliente WHERE baja = 0";
+
+                if (idExcluir.HasValue)
+                {
+                    query += " AND id_cliente <> @idExcluir";
+                }
 
                 if (!string.IsNullOrWhiteSpace(filtro))
                 {
@@ -243,6 +251,11 @@ namespace HardAdmin.Datos
                         cmd.Parameters.AddWithValue("@filtro", "%" + filtro.Trim() + "%");
                     }
 
+                    if (idExcluir.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue("@idExcluir", idExcluir.Value);
+                    }
+
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         DataTable dt = new DataTable();
@@ -253,7 +266,7 @@ namespace HardAdmin.Datos
             }
         }
 
-        public DataTable ObtenerParaGrilla()
+        public DataTable ObtenerParaGrilla(int? idExcluir = null)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -267,11 +280,24 @@ namespace HardAdmin.Datos
                             CASE WHEN baja = 0 THEN 'Sí' ELSE 'No' END AS activo
                          FROM Cliente";
 
-                using (SqlDataAdapter da = new SqlDataAdapter(query, con))
+                if (idExcluir.HasValue)
                 {
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    return dt;
+                    query += " WHERE id_cliente <> @idExcluir";
+                }
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    if (idExcluir.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue("@idExcluir", idExcluir.Value);
+                    }
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
                 }
             }
         }
