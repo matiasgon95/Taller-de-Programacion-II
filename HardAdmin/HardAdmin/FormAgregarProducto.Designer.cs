@@ -60,7 +60,7 @@
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(183, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(253, 40);
@@ -192,7 +192,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 15);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Stock Minimo:";
+            this.label3.Text = "Stock Mínimo:";
             // 
             // label2
             // 
@@ -214,7 +214,7 @@
             this.LB_Categoria.Name = "LB_Categoria";
             this.LB_Categoria.Size = new System.Drawing.Size(61, 15);
             this.LB_Categoria.TabIndex = 3;
-            this.LB_Categoria.Text = "Categoria:";
+            this.LB_Categoria.Text = "Categoría:";
             // 
             // LB_
             // 
@@ -224,7 +224,7 @@
             this.LB_.Name = "LB_";
             this.LB_.Size = new System.Drawing.Size(113, 34);
             this.LB_.TabIndex = 2;
-            this.LB_.Text = "Descripcion (max 300 caracteres):";
+            this.LB_.Text = "Descripción (max 300 caracteres):";
             // 
             // LB_Codigo
             // 
@@ -235,7 +235,7 @@
             this.LB_Codigo.Name = "LB_Codigo";
             this.LB_Codigo.Size = new System.Drawing.Size(49, 15);
             this.LB_Codigo.TabIndex = 1;
-            this.LB_Codigo.Text = "Codigo:";
+            this.LB_Codigo.Text = "Código:";
             // 
             // LB_Nombre
             // 

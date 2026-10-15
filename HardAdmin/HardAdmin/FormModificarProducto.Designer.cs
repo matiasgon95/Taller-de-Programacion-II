@@ -68,10 +68,10 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(177, 9);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(221, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(268, 37);
+            this.label1.Size = new System.Drawing.Size(215, 30);
             this.label1.TabIndex = 0;
             this.label1.Text = "Modificar Producto";
             // 
@@ -228,7 +228,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(84, 15);
             this.label7.TabIndex = 5;
-            this.label7.Text = "Stock Minimo:";
+            this.label7.Text = "Stock Mínimo:";
             // 
             // label6
             // 
@@ -250,7 +250,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(61, 15);
             this.label5.TabIndex = 3;
-            this.label5.Text = "Categoria:";
+            this.label5.Text = "Categoría:";
             // 
             // label4
             // 
@@ -260,7 +260,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(118, 37);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Descripcion (max 300 caracteres):";
+            this.label4.Text = "Descripción (max 300 caracteres):";
             // 
             // label3
             // 
@@ -271,7 +271,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 15);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Codigo:";
+            this.label3.Text = "Código:";
             // 
             // label2
             // 
