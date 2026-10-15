@@ -175,98 +175,56 @@ namespace HardAdmin.Datos
             }
         }
 
-        // Guarda la cabecera, las líneas, el descuento de stock y su movimiento de stock
-        // como una sola operación. Usamos una transacción para que, si algo falla a mitad
-        // de camino (por ejemplo un producto sin stock), no quede una venta cargada a medias.
-        // El tipo de movimiento lo decide la capa de Negocio; acá solo se persiste.
+        // Registra la venta y sus detalles en la base de datos, usando un procedimiento almacenado.
         public int InsertarVenta(Venta venta, int idTipoMovimiento)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
 
-                using (SqlTransaction transaccion = con.BeginTransaction())
+                // Armamos el DataTable que coincide con el tipo DetalleVentaType de SQL Server
+                DataTable dtDetalles = new DataTable();
+                dtDetalles.Columns.Add("id_producto", typeof(int));
+                dtDetalles.Columns.Add("cantidad", typeof(int));
+                dtDetalles.Columns.Add("precio_unitario", typeof(decimal));
+                dtDetalles.Columns.Add("subtotal", typeof(decimal));
+
+                foreach (VentaDetalle detalle in venta.Detalles)
                 {
+                    dtDetalles.Rows.Add(detalle.IdProducto, detalle.Cantidad, detalle.PrecioUnitario, detalle.Subtotal);
+                }
+
+                using (SqlCommand cmd = new SqlCommand("sp_RegistrarVenta", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@fecha", venta.Fecha);
+                    cmd.Parameters.AddWithValue("@total", venta.Total);
+                    cmd.Parameters.AddWithValue("@estado", venta.Estado);
+                    cmd.Parameters.AddWithValue("@id_cliente", venta.IdCliente);
+                    cmd.Parameters.AddWithValue("@id_usuario", venta.IdUsuario);
+                    cmd.Parameters.AddWithValue("@id_metodo_pago", venta.IdMetodoPago);
+                    cmd.Parameters.AddWithValue("@id_tipo_movimiento", idTipoMovimiento);
+
+                    // Parámetro estructurado para enviar la lista de detalles
+                    SqlParameter tvpParam = cmd.Parameters.AddWithValue("@detalles", dtDetalles);
+                    tvpParam.SqlDbType = SqlDbType.Structured;
+                    tvpParam.TypeName = "dbo.DetalleVentaType";
+
+                    // Parámetro de salida para recuperar el id_venta generado
+                    SqlParameter outParam = new SqlParameter("@id_venta", SqlDbType.Int);
+                    outParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(outParam);
+
                     try
                     {
-                        // SCOPE_IDENTITY nos devuelve el id_venta recién generado, que necesitamos
-                        // para enlazar cada línea del detalle con su cabecera.
-                        string queryVenta = @"INSERT INTO Venta (fecha, total, estado, id_cliente, id_usuario, id_metodo_pago)
-                                              VALUES (@fecha, @total, @estado, @idCliente, @idUsuario, @idMetodoPago);
-                                              SELECT CAST(SCOPE_IDENTITY() AS INT);";
-
-                        int idVenta;
-                        using (SqlCommand cmd = new SqlCommand(queryVenta, con, transaccion))
-                        {
-                            cmd.Parameters.AddWithValue("@fecha", venta.Fecha);
-                            cmd.Parameters.AddWithValue("@total", venta.Total);
-                            cmd.Parameters.AddWithValue("@estado", venta.Estado);
-                            cmd.Parameters.AddWithValue("@idCliente", venta.IdCliente);
-                            cmd.Parameters.AddWithValue("@idUsuario", venta.IdUsuario);
-                            cmd.Parameters.AddWithValue("@idMetodoPago", venta.IdMetodoPago);
-
-                            idVenta = (int)cmd.ExecuteScalar();
-                        }
-
-                        string queryDetalle = @"INSERT INTO Venta_detalle (cantidad, precio_unitario, subtotal, id_venta, id_producto)
-                                                VALUES (@cantidad, @precioUnitario, @subtotal, @idVenta, @idProducto)";
-
-                        // La condición "stock >= @cantidad" hace que el descuento sea seguro aunque
-                        // otra venta haya consumido stock mientras armábamos esta: si no alcanza,
-                        // no se actualiza ninguna fila y cortamos con error.
-                        string queryStock = @"UPDATE Producto
-                                              SET stock = stock - @cantidad
-                                              WHERE id_producto = @idProducto AND stock >= @cantidad";
-
-                        // Dejamos registro en el historial de stock de cada producto que salió.
-                        string queryMovimiento = @"INSERT INTO Movimiento_stock (cantidad, fecha, id_producto, id_usuario, id_tipo_movimiento)
-                                                   VALUES (@cantidad, @fecha, @idProducto, @idUsuario, @idTipoMovimiento)";
-
-                        foreach (VentaDetalle detalle in venta.Detalles)
-                        {
-                            using (SqlCommand cmd = new SqlCommand(queryDetalle, con, transaccion))
-                            {
-                                cmd.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
-                                cmd.Parameters.AddWithValue("@precioUnitario", detalle.PrecioUnitario);
-                                cmd.Parameters.AddWithValue("@subtotal", detalle.Subtotal);
-                                cmd.Parameters.AddWithValue("@idVenta", idVenta);
-                                cmd.Parameters.AddWithValue("@idProducto", detalle.IdProducto);
-                                cmd.ExecuteNonQuery();
-                            }
-
-                            using (SqlCommand cmd = new SqlCommand(queryStock, con, transaccion))
-                            {
-                                cmd.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
-                                cmd.Parameters.AddWithValue("@idProducto", detalle.IdProducto);
-
-                                if (cmd.ExecuteNonQuery() == 0)
-                                {
-                                    throw new InvalidOperationException(
-                                        "No hay stock suficiente para uno de los productos de la venta. No se registró nada.");
-                                }
-                            }
-
-                            // La cantidad se guarda en positivo: que sea una salida lo indica el tipo de movimiento.
-                            using (SqlCommand cmd = new SqlCommand(queryMovimiento, con, transaccion))
-                            {
-                                cmd.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
-                                cmd.Parameters.AddWithValue("@fecha", venta.Fecha);
-                                cmd.Parameters.AddWithValue("@idProducto", detalle.IdProducto);
-                                cmd.Parameters.AddWithValue("@idUsuario", venta.IdUsuario);
-                                cmd.Parameters.AddWithValue("@idTipoMovimiento", idTipoMovimiento);
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-
-                        transaccion.Commit();
-                        return idVenta;
+                        cmd.ExecuteNonQuery();
+                        return (int)outParam.Value;
                     }
-                    catch
+                    catch (SqlException ex)
                     {
-                        // Deshacemos todo y relanzamos el error original para que la capa de
-                        // arriba lo muestre; no lo silenciamos.
-                        transaccion.Rollback();
-                        throw;
+                        // Si ocurre un error o falta stock, SQL hace el rollback y relanzamos la excepción
+                        throw new InvalidOperationException(ex.Message);
                     }
                 }
             }
