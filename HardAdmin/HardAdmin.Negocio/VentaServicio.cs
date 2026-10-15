@@ -18,12 +18,12 @@ namespace HardAdmin.Negocio
         // id_tipo_movimiento de "Egreso por Venta" en la tabla Tipo_movimiento.
         private const int ID_TIPO_MOVIMIENTO_EGRESO_POR_VENTA = 2;
 
-        public DataTable ObtenerVentasResumen(bool esAdmin, int idUsuario)
+        public DataTable ObtenerVentasResumen(DateTime desde, DateTime hasta, bool esAdmin, int idUsuario)
         {
             // Regla de negocio: Si es admin no filtramos (null), si es vendedor pasamos su ID
             int? parametroId = esAdmin ? (int?)null : idUsuario;
 
-            return repositorio.ObtenerVentas(parametroId);
+            return repositorio.ObtenerVentas(desde, hasta, parametroId);
         }
 
         public List<string> ObtenerVendedoresConVentas()
@@ -87,6 +87,5 @@ namespace HardAdmin.Negocio
         {
             return repositorio.ObtenerComparativaFinanciera(desde1, hasta1, desde2, hasta2);
         }
-
     }
 }

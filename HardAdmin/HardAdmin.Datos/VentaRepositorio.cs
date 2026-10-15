@@ -12,34 +12,39 @@ namespace HardAdmin.Datos
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
 
         // Trae la tabla con las ventas. Si le pasamos un ID, filtra; si le pasamos null, trae todas.
-        public DataTable ObtenerVentas(int? idUsuarioLogueado)
+        // Trae la tabla con las ventas filtrada por rango de fechas y opcionalmente por usuario.
+        public DataTable ObtenerVentas(DateTime desde, DateTime hasta, int? idUsuarioLogueado)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = @"SELECT 
-                                     v.id_venta,
-                                     'F-' + RIGHT('00000000' + CAST(v.id_venta AS VARCHAR(8)), 8) AS nro_factura,
-                                     v.fecha,
-                                     CASE WHEN ISNULL(LTRIM(RTRIM(c.nombre)), '') = '' THEN c.apellido
-                                          ELSE c.apellido + ', ' + c.nombre END AS cliente,
-                                     u.nombre_usuario AS vendedor,
-                                     mp.nombre_metodo AS medio_pago,
-                                     v.estado,
-                                     v.total
-                                 FROM Venta v
-                                 INNER JOIN Cliente c ON v.id_cliente = c.id_cliente
-                                 INNER JOIN Usuario u ON v.id_usuario = u.id_usuario
-                                 INNER JOIN Metodo_pago mp ON v.id_metodo_pago = mp.id_metodo_pago";
+                           v.id_venta,
+                           'F-' + RIGHT('00000000' + CAST(v.id_venta AS VARCHAR(8)), 8) AS nro_factura,
+                           v.fecha,
+                           CASE WHEN ISNULL(LTRIM(RTRIM(c.nombre)), '') = '' THEN c.apellido
+                                 ELSE c.apellido + ', ' + c.nombre END AS cliente,
+                           u.nombre_usuario AS vendedor,
+                           mp.nombre_metodo AS medio_pago,
+                           v.estado,
+                           v.total
+                       FROM Venta v
+                       INNER JOIN Cliente c ON v.id_cliente = c.id_cliente
+                       INNER JOIN Usuario u ON v.id_usuario = u.id_usuario
+                       INNER JOIN Metodo_pago mp ON v.id_metodo_pago = mp.id_metodo_pago
+                       WHERE v.fecha >= @desde AND v.fecha <= @hasta";
 
                 if (idUsuarioLogueado.HasValue)
                 {
-                    query += " WHERE v.id_usuario = @idUsuario";
+                    query += " AND v.id_usuario = @idUsuario";
                 }
 
                 query += " ORDER BY v.fecha DESC";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
+                    cmd.Parameters.AddWithValue("@desde", desde);
+                    cmd.Parameters.AddWithValue("@hasta", hasta);
+
                     if (idUsuarioLogueado.HasValue)
                     {
                         cmd.Parameters.AddWithValue("@idUsuario", idUsuarioLogueado.Value);

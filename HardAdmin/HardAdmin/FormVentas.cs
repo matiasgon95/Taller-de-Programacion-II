@@ -24,8 +24,8 @@ namespace HardAdmin
             dgvVentas.ReadOnly = true;
 
             txtBuscar.TextChanged += (s, e) => AplicarFiltros();
-            dtpDesde.ValueChanged += (s, e) => AplicarFiltros();
-            dtpHasta.ValueChanged += (s, e) => AplicarFiltros();
+            dtpDesde.ValueChanged += (s, e) => CargarVentas();
+            dtpHasta.ValueChanged += (s, e) => CargarVentas();
             cmbVendedores.SelectedIndexChanged += (s, e) => AplicarFiltros();
         }
 
@@ -50,8 +50,11 @@ namespace HardAdmin
         {
             try
             {
-                // La UI solo le pide los datos al servicio mandando el estado de la sesión
-                dtVentas = servicio.ObtenerVentasResumen(SesionActual.EsAdmin, SesionActual.IdUsuario);
+                DateTime desde = dtpDesde.Value.Date;
+                DateTime hasta = dtpHasta.Value.Date.AddDays(1).AddSeconds(-1);
+
+                // Pasamos las fechas, el estado de administración y el ID del usuario al servicio
+                dtVentas = servicio.ObtenerVentasResumen(desde, hasta, SesionActual.EsAdmin, SesionActual.IdUsuario);
                 PrepararColumnaBusqueda();
                 dgvVentas.DataSource = dtVentas;
 
