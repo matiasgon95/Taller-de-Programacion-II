@@ -77,9 +77,9 @@
             this.gbDatosSeguimiento.Controls.Add(this.lbCategoria);
             this.gbDatosSeguimiento.Controls.Add(this.lbFiltrar);
             this.gbDatosSeguimiento.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDatosSeguimiento.Location = new System.Drawing.Point(12, 62);
+            this.gbDatosSeguimiento.Location = new System.Drawing.Point(12, 49);
             this.gbDatosSeguimiento.Name = "gbDatosSeguimiento";
-            this.gbDatosSeguimiento.Size = new System.Drawing.Size(750, 149);
+            this.gbDatosSeguimiento.Size = new System.Drawing.Size(750, 142);
             this.gbDatosSeguimiento.TabIndex = 1;
             this.gbDatosSeguimiento.TabStop = false;
             this.gbDatosSeguimiento.Text = "Datos de Seguimiento";
@@ -88,7 +88,7 @@
             // 
             this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaHasta.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpFechaHasta.Location = new System.Drawing.Point(388, 110);
+            this.dtpFechaHasta.Location = new System.Drawing.Point(388, 92);
             this.dtpFechaHasta.Name = "dtpFechaHasta";
             this.dtpFechaHasta.Size = new System.Drawing.Size(200, 23);
             this.dtpFechaHasta.TabIndex = 99;
@@ -97,7 +97,7 @@
             // 
             this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaDesde.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpFechaDesde.Location = new System.Drawing.Point(105, 110);
+            this.dtpFechaDesde.Location = new System.Drawing.Point(105, 92);
             this.dtpFechaDesde.Name = "dtpFechaDesde";
             this.dtpFechaDesde.Size = new System.Drawing.Size(178, 23);
             this.dtpFechaDesde.TabIndex = 99;
@@ -125,7 +125,7 @@
             // btnMostrar
             // 
             this.btnMostrar.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.btnMostrar.Location = new System.Drawing.Point(642, 110);
+            this.btnMostrar.Location = new System.Drawing.Point(642, 92);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(75, 23);
             this.btnMostrar.TabIndex = 5;
@@ -137,7 +137,7 @@
             // 
             this.lbHasta.AutoSize = true;
             this.lbHasta.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHasta.Location = new System.Drawing.Point(323, 109);
+            this.lbHasta.Location = new System.Drawing.Point(323, 96);
             this.lbHasta.Name = "lbHasta";
             this.lbHasta.Size = new System.Drawing.Size(40, 15);
             this.lbHasta.TabIndex = 4;
@@ -147,7 +147,7 @@
             // 
             this.lbFecha.AutoSize = true;
             this.lbFecha.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFecha.Location = new System.Drawing.Point(6, 109);
+            this.lbFecha.Location = new System.Drawing.Point(6, 96);
             this.lbFecha.Name = "lbFecha";
             this.lbFecha.Size = new System.Drawing.Size(76, 15);
             this.lbFecha.TabIndex = 3;
@@ -157,7 +157,7 @@
             // 
             this.lbProducto.AutoSize = true;
             this.lbProducto.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbProducto.Location = new System.Drawing.Point(323, 56);
+            this.lbProducto.Location = new System.Drawing.Point(323, 59);
             this.lbProducto.Name = "lbProducto";
             this.lbProducto.Size = new System.Drawing.Size(59, 15);
             this.lbProducto.TabIndex = 2;
@@ -167,7 +167,7 @@
             // 
             this.lbCategoria.AutoSize = true;
             this.lbCategoria.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCategoria.Location = new System.Drawing.Point(6, 56);
+            this.lbCategoria.Location = new System.Drawing.Point(6, 59);
             this.lbCategoria.Name = "lbCategoria";
             this.lbCategoria.Size = new System.Drawing.Size(66, 15);
             this.lbCategoria.TabIndex = 1;
@@ -199,18 +199,19 @@
             this.colFecha,
             this.colUsuario,
             this.colTipoMovimiento});
-            this.dgvMovimientos.Location = new System.Drawing.Point(13, 224);
+            this.dgvMovimientos.Location = new System.Drawing.Point(13, 197);
             this.dgvMovimientos.MultiSelect = false;
             this.dgvMovimientos.Name = "dgvMovimientos";
             this.dgvMovimientos.ReadOnly = true;
             this.dgvMovimientos.RowHeadersVisible = false;
             this.dgvMovimientos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMovimientos.Size = new System.Drawing.Size(748, 173);
+            this.dgvMovimientos.Size = new System.Drawing.Size(748, 200);
             this.dgvMovimientos.TabIndex = 2;
             // 
             // colCategoria
             // 
             this.colCategoria.DataPropertyName = "Categoria";
+            this.colCategoria.FillWeight = 86.92892F;
             this.colCategoria.HeaderText = "Categoria";
             this.colCategoria.Name = "colCategoria";
             this.colCategoria.ReadOnly = true;
@@ -218,6 +219,7 @@
             // colProducto
             // 
             this.colProducto.DataPropertyName = "Producto";
+            this.colProducto.FillWeight = 152.2843F;
             this.colProducto.HeaderText = "Producto";
             this.colProducto.Name = "colProducto";
             this.colProducto.ReadOnly = true;
@@ -225,6 +227,7 @@
             // colFecha
             // 
             this.colFecha.DataPropertyName = "Fecha";
+            this.colFecha.FillWeight = 86.92892F;
             this.colFecha.HeaderText = "Fecha";
             this.colFecha.Name = "colFecha";
             this.colFecha.ReadOnly = true;
@@ -232,6 +235,7 @@
             // colUsuario
             // 
             this.colUsuario.DataPropertyName = "Usuario";
+            this.colUsuario.FillWeight = 86.92892F;
             this.colUsuario.HeaderText = "Usuario";
             this.colUsuario.Name = "colUsuario";
             this.colUsuario.ReadOnly = true;
@@ -239,6 +243,7 @@
             // colTipoMovimiento
             // 
             this.colTipoMovimiento.DataPropertyName = "TipoMovimiento";
+            this.colTipoMovimiento.FillWeight = 86.92892F;
             this.colTipoMovimiento.HeaderText = "Tipo de Movimiento";
             this.colTipoMovimiento.Name = "colTipoMovimiento";
             this.colTipoMovimiento.ReadOnly = true;

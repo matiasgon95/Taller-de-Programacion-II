@@ -90,6 +90,18 @@ namespace HardAdmin
 
             categoriasCombo.Rows.Add(filaTodas);
 
+            // Agrega la opción para consultar ventas con varias categorías.
+            DataRow filaVarios = categoriasCombo.NewRow();
+            filaVarios["id_categoria"] = -1;
+            filaVarios["nombre_categoria"] = "Varios";
+
+            if (categoriasCombo.Columns.Contains("activa"))
+            {
+                filaVarios["activa"] = true;
+            }
+
+            categoriasCombo.Rows.Add(filaVarios);
+
             // Copia las categorías existentes.
             foreach (DataRow fila in tablaCategorias.Rows)
             {
@@ -184,6 +196,17 @@ namespace HardAdmin
                 dtpFechaHasta.Value);
 
             dgvMovimientos.DataSource = movimientos;
+
+            // Permite mostrar los productos en varias líneas dentro de la celda.
+            if (colProducto != null)
+            {
+                colProducto.DefaultCellStyle.WrapMode =
+                    DataGridViewTriState.True;
+            }
+
+            // Ajusta la altura de cada fila al contenido.
+            dgvMovimientos.AutoSizeRowsMode =
+                DataGridViewAutoSizeRowsMode.AllCells;
 
             // Evita que quede una fila seleccionada automáticamente.
             dgvMovimientos.ClearSelection();

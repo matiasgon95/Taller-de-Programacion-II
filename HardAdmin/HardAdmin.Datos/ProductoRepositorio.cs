@@ -102,43 +102,171 @@ namespace HardAdmin.Datos
         }
 
 
-        // Actualiza los datos de un producto existente.
-        public void Modificar(Producto producto)
+        // Actualiza los datos de un producto existente y registra un ajuste de stock si la cantidad cambio.
+        // Ambas operaciones se ejecutan en una única transacción.
+        public void Modificar(Producto producto, int idUsuario)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = @"
-            UPDATE Producto
-            SET
-                codigo = @codigo,
-                nombre_producto = @nombre,
-                descripcion = @descripcion,
-                precio = @precio,
-                stock = @stock,
-                stock_minimo = @stockMinimo,
-                foto_producto = @foto,
-                baja = @baja,
-                id_categoria = @idCategoria
-            WHERE id_producto = @idProducto";
+                con.Open();
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlTransaction transaccion = con.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@codigo", producto.Codigo);
-                    cmd.Parameters.AddWithValue("@nombre", producto.NombreProducto);
-                    cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);
-                    cmd.Parameters.Add("@precio", SqlDbType.Decimal).Value = producto.Precio;
-                    cmd.Parameters.AddWithValue("@stock", producto.Stock);
-                    cmd.Parameters.AddWithValue("@stockMinimo", producto.StockMinimo);
-                    cmd.Parameters.AddWithValue("@foto",
-                        producto.FotoProducto == null
-                            ? (object)DBNull.Value
-                            : producto.FotoProducto);
-                    cmd.Parameters.AddWithValue("@baja", producto.Baja);
-                    cmd.Parameters.AddWithValue("@idCategoria", producto.IdCategoria);
-                    cmd.Parameters.AddWithValue("@idProducto", producto.IdProducto);
+                    try
+                    {
+                        // Recupera el stock anterior y bloquea la fila durante
+                        // la transacción para comparar valores consistentes.
+                        string consultaStock = @"
+                    SELECT stock
+                    FROM Producto WITH (UPDLOCK, HOLDLOCK)
+                    WHERE id_producto = @idProducto;";
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
+                        int stockAnterior;
+
+                        using (SqlCommand cmdStock = new SqlCommand(
+                            consultaStock, con, transaccion))
+                        {
+                            cmdStock.Parameters.Add(
+                                "@idProducto", SqlDbType.Int).Value =
+                                producto.IdProducto;
+
+                            object resultado = cmdStock.ExecuteScalar();
+
+                            if (resultado == null || resultado == DBNull.Value)
+                            {
+                                throw new Exception(
+                                    "No se encontró el producto que se desea modificar.");
+                            }
+
+                            stockAnterior = Convert.ToInt32(resultado);
+                        }
+
+                        // Actualiza los datos del producto.
+                        string consultaProducto = @"
+                    UPDATE Producto
+                    SET
+                        codigo = @codigo,
+                        nombre_producto = @nombre,
+                        descripcion = @descripcion,
+                        precio = @precio,
+                        stock = @stock,
+                        stock_minimo = @stockMinimo,
+                        foto_producto = @foto,
+                        baja = @baja,
+                        id_categoria = @idCategoria
+                    WHERE id_producto = @idProducto;";
+
+                        using (SqlCommand cmd = new SqlCommand(
+                            consultaProducto, con, transaccion))
+                        {
+                            cmd.Parameters.AddWithValue(
+                                "@codigo", producto.Codigo);
+
+                            cmd.Parameters.AddWithValue(
+                                "@nombre", producto.NombreProducto);
+
+                            cmd.Parameters.AddWithValue(
+                                "@descripcion", producto.Descripcion);
+
+                            cmd.Parameters.Add(
+                                "@precio", SqlDbType.Decimal).Value =
+                                producto.Precio;
+
+                            cmd.Parameters.AddWithValue(
+                                "@stock", producto.Stock);
+
+                            cmd.Parameters.AddWithValue(
+                                "@stockMinimo", producto.StockMinimo);
+
+                            cmd.Parameters.AddWithValue(
+                                "@foto",
+                                producto.FotoProducto == null
+                                    ? (object)DBNull.Value
+                                    : producto.FotoProducto);
+
+                            cmd.Parameters.AddWithValue(
+                                "@baja", producto.Baja);
+
+                            cmd.Parameters.AddWithValue(
+                                "@idCategoria", producto.IdCategoria);
+
+                            cmd.Parameters.AddWithValue(
+                                "@idProducto", producto.IdProducto);
+
+                            int filasAfectadas = cmd.ExecuteNonQuery();
+
+                            if (filasAfectadas == 0)
+                            {
+                                throw new Exception(
+                                    "No se pudo modificar el producto.");
+                            }
+                        }
+
+                        // Calcula la diferencia entre el stock nuevo y el anterior.
+                        int diferenciaStock = producto.Stock - stockAnterior;
+
+                        // Solo registra movimientos cuando el stock cambió.
+                        if (diferenciaStock != 0)
+                        {
+                            string consultaMovimiento = @"
+                        INSERT INTO Movimiento_stock
+                        (
+                            cantidad,
+                            fecha,
+                            id_producto,
+                            id_usuario,
+                            id_tipo_movimiento
+                        )
+                        VALUES
+                        (
+                            @cantidad,
+                            GETDATE(),
+                            @idProducto,
+                            @idUsuario,
+                            @idTipoMovimiento
+                        );";
+
+                            using (SqlCommand cmdMovimiento = new SqlCommand(
+                                consultaMovimiento, con, transaccion))
+                            {
+                                // Positivo si aumenta el stock y negativo si disminuye.
+                                cmdMovimiento.Parameters.Add(
+                                    "@cantidad", SqlDbType.Int).Value =
+                                    diferenciaStock;
+
+                                cmdMovimiento.Parameters.Add(
+                                    "@idProducto", SqlDbType.Int).Value =
+                                    producto.IdProducto;
+
+                                cmdMovimiento.Parameters.Add(
+                                    "@idUsuario", SqlDbType.Int).Value =
+                                    idUsuario;
+
+                                // Tipo 3: Ajuste de Inventario.
+                                cmdMovimiento.Parameters.Add(
+                                    "@idTipoMovimiento", SqlDbType.Int).Value = 3;
+
+                                cmdMovimiento.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Confirma tanto la modificación como el movimiento.
+                        transaccion.Commit();
+                    }
+                    catch
+                    {
+                        // Si falla alguna operación, se revierten los cambios.
+                        try
+                        {
+                            transaccion.Rollback();
+                        }
+                        catch
+                        {
+                            // Evita que un error de rollback oculte el error original.
+                        }
+
+                        throw;
+                    }
                 }
             }
         }

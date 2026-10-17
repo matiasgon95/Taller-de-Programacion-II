@@ -365,7 +365,7 @@ namespace HardAdmin
                 }
 
                 // Delegamos a la capa de Negocio
-                servicio.Modificar(producto);
+                servicio.Modificar(producto, SesionActual.IdUsuario);
 
                 MessageBox.Show("Producto modificado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;

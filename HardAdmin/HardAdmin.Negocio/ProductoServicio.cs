@@ -48,9 +48,18 @@ namespace HardAdmin.Negocio
                 throw new Exception("Debe seleccionar una categoría.");
         }
 
-        public void Modificar(Producto producto)
+        // Valida y modifica un producto, registrando el ajuste de stock
+        // cuando cambia la cantidad disponible.
+        public void Modificar(Producto producto, int idUsuario)
         {
             ValidarProducto(producto);
+
+            if (idUsuario <= 0)
+            {
+                throw new Exception(
+                    "No se pudo identificar al usuario que modifica el producto.");
+            }
+
 
             if (repositorio.ExisteProducto(producto.Codigo, producto.NombreProducto, producto.IdProducto))
             {
@@ -59,7 +68,7 @@ namespace HardAdmin.Negocio
 
             try
             {
-                repositorio.Modificar(producto);
+                repositorio.Modificar(producto, idUsuario);
             }
             catch (SqlException ex)
             {
