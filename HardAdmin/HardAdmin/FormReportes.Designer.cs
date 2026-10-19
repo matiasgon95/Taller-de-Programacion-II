@@ -155,9 +155,9 @@
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.Location = new System.Drawing.Point(324, 25);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(307, 37);
+            this.lblTitulo.Size = new System.Drawing.Size(133, 37);
             this.lblTitulo.TabIndex = 2;
-            this.lblTitulo.Text = "HardAdmin - Reportes";
+            this.lblTitulo.Text = "Reportes";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormReportes
@@ -170,7 +170,7 @@
             this.Controls.Add(this.gbProductos);
             this.Controls.Add(this.gbVentas);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormReportes";
             this.Text = "HardAmin - Reportes Estadisticos";
             this.gbVentas.ResumeLayout(false);

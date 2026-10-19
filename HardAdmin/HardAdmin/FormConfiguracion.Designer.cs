@@ -39,9 +39,9 @@
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.Location = new System.Drawing.Point(300, 25);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(372, 37);
+            this.lblTitulo.Size = new System.Drawing.Size(198, 37);
             this.lblTitulo.TabIndex = 0;
-            this.lblTitulo.Text = "HardAdmin - Configuración";
+            this.lblTitulo.Text = "Configuración";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gbCategorias
@@ -171,7 +171,7 @@
             this.Controls.Add(this.gbCategorias);
             this.Controls.Add(this.lblTitulo);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormConfiguracion";
             this.Text = "HardAdmin - Configuración";
             this.gbCategorias.ResumeLayout(false);
