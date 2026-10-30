@@ -42,7 +42,7 @@ namespace HardAdmin
                     string calle = fila["calle"] == DBNull.Value ? "" : fila["calle"].ToString();
                     string numero = fila["numero"] == DBNull.Value ? "" : fila["numero"].ToString();
                     string pisoDepto = fila["piso_depto"] == DBNull.Value ? "" : fila["piso_depto"].ToString();
-                    string ciudad = fila["ciudad"] == DBNull.Value ? "" : fila["ciudad"].ToString();
+                    string localidad = fila["localidad"] == DBNull.Value ? "" : fila["localidad"].ToString();
 
                     string vendedor = fila["vendedor"].ToString();
                     string medioPago = fila["medio_pago"].ToString();
@@ -55,7 +55,7 @@ namespace HardAdmin
                     lblDni.Text = "DNI: " + dni;
 
                     // Usamos nuestra función especial para armar la dirección completa
-                    lblDireccion.Text = "Dirección: " + ArmarDireccion(calle, numero, pisoDepto, ciudad);
+                    lblDireccion.Text = "Dirección: " + ArmarDireccion(calle, numero, pisoDepto, localidad);
                     lblVendedor.Text = "Vendedor: " + vendedor;
                     lblMetodoPago.Text = "Método de Pago: " + medioPago;
                 }
@@ -72,7 +72,7 @@ namespace HardAdmin
         }
 
         // Función auxiliar visual para concatenar la dirección
-        private string ArmarDireccion(string calle, string numero, string pisoDepto, string ciudad)
+        private string ArmarDireccion(string calle, string numero, string pisoDepto, string localidad)
         {
             string direccion = $"{calle} {numero}".Trim();
 
@@ -81,9 +81,9 @@ namespace HardAdmin
                 direccion += $" Dpto {pisoDepto}";
             }
 
-            if (!string.IsNullOrWhiteSpace(ciudad))
+            if (!string.IsNullOrWhiteSpace(localidad))
             {
-                direccion = direccion.Length > 0 ? direccion + $", {ciudad}" : ciudad;
+                direccion = direccion.Length > 0 ? direccion + $", {localidad}" : localidad;
             }
 
             return direccion;

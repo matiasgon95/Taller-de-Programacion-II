@@ -37,7 +37,7 @@ namespace HardAdmin.Negocio
                 TextoONulo(datos["calle"]),
                 TextoONulo(datos["numero"]),
                 TextoONulo(datos["piso_depto"]),
-                TextoONulo(datos["ciudad"]));
+                TextoONulo(datos["localidad"]));
 
             // El FileStream va en un using para que el archivo quede liberado aunque algo falle;
             // si no, el visor de PDF no podría abrirlo después.
