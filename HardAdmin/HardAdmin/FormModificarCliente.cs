@@ -27,6 +27,9 @@ namespace HardAdmin
             txtDireccion.ReadOnly = true;
             txtDireccion.TabStop = false;
 
+            txtCodigoPostal.ReadOnly = true;
+            txtCodigoPostal.TabStop = false;
+
             // Enganches de eventos Leave
             txtNombre.Leave += txtNombre_Leave;
             txtApellido.Leave += txtApellido_Leave;
@@ -35,28 +38,23 @@ namespace HardAdmin
             txtEmail.Leave += txtEmail_Leave;
             txtCalle.Leave += txtCalle_Leave;
             txtNumero.Leave += txtNumero_Leave;
-            txtCiudad.Leave += txtCiudad_Leave;
-            txtCodigoPostal.Leave += txtCodigoPostal_Leave;
+
+
 
             txtCalle.TextChanged += ActualizarDireccionCompleta;
             txtNumero.TextChanged += ActualizarDireccionCompleta;
             txtPisoDpto.TextChanged += ActualizarDireccionCompleta;
-            txtCiudad.TextChanged += ActualizarDireccionCompleta;
+            cmbLocalidad.SelectedIndexChanged += cmbLocalidad_SelectedIndexChanged;
 
             // Uso de la clase estática Validaciones
             txtNombre.KeyPress += Validaciones.SoloLetras_KeyPress;
             txtApellido.KeyPress += Validaciones.SoloLetras_KeyPress;
-            txtCiudad.KeyPress += Validaciones.SoloLetras_KeyPress;
             txtCalle.KeyPress += Validaciones.SoloLetras_KeyPress;
-
             txtDNI.KeyPress += Validaciones.SoloNumeros_KeyPress;
             txtTelefono.KeyPress += Validaciones.SoloNumeros_KeyPress;
             txtNumero.KeyPress += Validaciones.SoloNumeros_KeyPress;
-            txtCodigoPostal.KeyPress += Validaciones.SoloNumeros_KeyPress;
-
             txtNombre.Leave += Validaciones.CapitalizarTexto_Leave;
             txtApellido.Leave += Validaciones.CapitalizarTexto_Leave;
-            txtCiudad.Leave += Validaciones.CapitalizarTexto_Leave;
             txtCalle.Leave += Validaciones.CapitalizarTexto_Leave;
 
             this.Load += FormModificarCliente_Load;
@@ -64,7 +62,50 @@ namespace HardAdmin
 
         private void FormModificarCliente_Load(object sender, EventArgs e)
         {
+            CargarLocalidades();
+
+            // Si no se pudieron cargar las localidades, no continuamos.
+            if (cmbLocalidad.DataSource == null)
+            {
+                MessageBox.Show(
+                    "No se puede modificar el cliente porque no se cargaron las localidades.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                this.Close();
+                return;
+            }
+
             CargarDatosCliente();
+        }
+
+        private void CargarLocalidades()
+        {
+            try
+            {
+                // Obtenemos las localidades desde la capa de Negocio.
+                cmbLocalidad.DataSource = servicio.ObtenerLocalidades();
+
+                // Texto que verá el usuario.
+                cmbLocalidad.DisplayMember = "NombreLocalidad";
+
+                // ID que utilizaremos al guardar el cliente.
+                cmbLocalidad.ValueMember = "IdLocalidad";
+
+                cmbLocalidad.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                // Evitamos que aparezca una localidad seleccionada automáticamente.
+                cmbLocalidad.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudieron cargar las localidades.\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void CargarDatosCliente()
@@ -84,13 +125,35 @@ namespace HardAdmin
                     txtCalle.Text = cliente.Calle;
                     txtNumero.Text = cliente.Numero;
                     txtPisoDpto.Text = cliente.PisoDpto;
-                    txtCiudad.Text = cliente.Ciudad;
-                    txtCodigoPostal.Text = cliente.CodigoPostal;
+                    cmbLocalidad.SelectedValue = cliente.IdLocalidad;
+
+                    // Si la localidad existe, mostramos su código postal.
+                    Localidad localidadSeleccionada = cmbLocalidad.SelectedItem as Localidad;
+
+                    if (localidadSeleccionada != null)
+                    {
+                        txtCodigoPostal.Text =
+                            localidadSeleccionada.CodigoPostal.ToString();
+                    }
+                    else
+                    {
+                        txtCodigoPostal.Clear();
+
+                        MessageBox.Show(
+                            "La localidad guardada para este cliente no está disponible.",
+                            "Atención",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+
 
                     if (cliente.Baja == 1)
                         rbActivoNo.Checked = true;
                     else
                         rbActivoSi.Checked = true;
+
+                    // Actualizamos la dirección completa.
+                    ActualizarDireccionCompleta(null, EventArgs.Empty);
                 }
             }
             catch (Exception ex)
@@ -110,13 +173,13 @@ namespace HardAdmin
             string calle = txtCalle.Text.Trim();
             string numero = txtNumero.Text.Trim();
             string dpto = txtPisoDpto.Text.Trim();
-            string ciudad = txtCiudad.Text.Trim();
+            string localidad = cmbLocalidad.SelectedIndex >= 0 ? cmbLocalidad.Text : "";
 
             string direccion = $"{calle} {numero}".Trim();
             if (!string.IsNullOrWhiteSpace(dpto)) direccion += $" Dpto {dpto}";
-            if (!string.IsNullOrWhiteSpace(ciudad))
+            if (!string.IsNullOrWhiteSpace(localidad))
             {
-                direccion = direccion.Length > 0 ? direccion + $", {ciudad}" : ciudad;
+                direccion = direccion.Length > 0 ? direccion + $", {localidad}" : localidad;
             }
             txtDireccion.Text = direccion;
         }
@@ -141,6 +204,24 @@ namespace HardAdmin
             Control primero = controlesInvalidos.OrderBy(c => c.TabIndex).FirstOrDefault();
             primero?.Focus();
         }
+
+        private void cmbLocalidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Localidad localidadSeleccionada = cmbLocalidad.SelectedItem as Localidad;
+
+            if (localidadSeleccionada != null)
+            {
+                txtCodigoPostal.Text =
+                    localidadSeleccionada.CodigoPostal.ToString();
+            }
+            else
+            {
+                txtCodigoPostal.Clear();
+            }
+
+            ActualizarDireccionCompleta(sender, e);
+        }
+
 
         private bool ValidarNombre()
         {
@@ -220,17 +301,15 @@ namespace HardAdmin
             return ok;
         }
 
-        private bool ValidarCiudad()
+        private bool ValidarLocalidad()
         {
-            bool ok = !string.IsNullOrWhiteSpace(txtCiudad.Text.Trim());
-            Marcar(txtCiudad, ok, "Debe ingresar la ciudad.");
-            return ok;
-        }
+            bool ok = cmbLocalidad.SelectedIndex >= 0;
 
-        private bool ValidarCodigoPostal()
-        {
-            bool ok = !string.IsNullOrWhiteSpace(txtCodigoPostal.Text.Trim());
-            Marcar(txtCodigoPostal, ok, "Debe ingresar el código postal.");
+            Marcar(
+                cmbLocalidad,
+                ok,
+                "Debe seleccionar una localidad.");
+
             return ok;
         }
 
@@ -241,8 +320,7 @@ namespace HardAdmin
         private void txtEmail_Leave(object sender, EventArgs e) => ValidarEmail();
         private void txtCalle_Leave(object sender, EventArgs e) => ValidarCalle();
         private void txtNumero_Leave(object sender, EventArgs e) => ValidarNumero();
-        private void txtCiudad_Leave(object sender, EventArgs e) => ValidarCiudad();
-        private void txtCodigoPostal_Leave(object sender, EventArgs e) => ValidarCodigoPostal();
+
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -256,8 +334,7 @@ namespace HardAdmin
             ValidarEmail();
             ValidarCalle();
             ValidarNumero();
-            ValidarCiudad();
-            ValidarCodigoPostal();
+            ValidarLocalidad();
 
             if (!formularioValido)
             {
@@ -278,8 +355,7 @@ namespace HardAdmin
                     Calle = txtCalle.Text.Trim(),
                     Numero = txtNumero.Text.Trim(),
                     PisoDpto = txtPisoDpto.Text.Trim(),
-                    Ciudad = txtCiudad.Text.Trim(),
-                    CodigoPostal = txtCodigoPostal.Text.Trim(),
+                    IdLocalidad = Convert.ToInt32(cmbLocalidad.SelectedValue),
                     Baja = rbActivoSi.Checked ? 0 : 1
                 };
 
@@ -301,5 +377,6 @@ namespace HardAdmin
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
     }
 }

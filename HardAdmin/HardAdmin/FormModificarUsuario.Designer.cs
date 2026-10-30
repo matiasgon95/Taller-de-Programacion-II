@@ -45,7 +45,6 @@
             this.grpDireccion = new System.Windows.Forms.GroupBox();
             this.txtDireccionCompleta = new System.Windows.Forms.TextBox();
             this.lblDireccion = new System.Windows.Forms.Label();
-            this.txtLocalidad = new System.Windows.Forms.TextBox();
             this.txtDpto = new System.Windows.Forms.TextBox();
             this.txtAltura = new System.Windows.Forms.TextBox();
             this.txtCalle = new System.Windows.Forms.TextBox();
@@ -67,6 +66,9 @@
             this.lblUsuario = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.cmbLocalidad = new System.Windows.Forms.ComboBox();
+            this.txtCodigoPostal = new System.Windows.Forms.TextBox();
+            this.lblCodigoPostal = new System.Windows.Forms.Label();
             this.pnlTitulo.SuspendLayout();
             this.gbDatosPersonales.SuspendLayout();
             this.grpDireccion.SuspendLayout();
@@ -210,9 +212,11 @@
             // 
             // grpDireccion
             // 
+            this.grpDireccion.Controls.Add(this.lblCodigoPostal);
+            this.grpDireccion.Controls.Add(this.txtCodigoPostal);
+            this.grpDireccion.Controls.Add(this.cmbLocalidad);
             this.grpDireccion.Controls.Add(this.txtDireccionCompleta);
             this.grpDireccion.Controls.Add(this.lblDireccion);
-            this.grpDireccion.Controls.Add(this.txtLocalidad);
             this.grpDireccion.Controls.Add(this.txtDpto);
             this.grpDireccion.Controls.Add(this.txtAltura);
             this.grpDireccion.Controls.Add(this.txtCalle);
@@ -245,13 +249,6 @@
             this.lblDireccion.Size = new System.Drawing.Size(60, 15);
             this.lblDireccion.TabIndex = 4;
             this.lblDireccion.Text = "Dirección:";
-            // 
-            // txtLocalidad
-            // 
-            this.txtLocalidad.Location = new System.Drawing.Point(85, 70);
-            this.txtLocalidad.Name = "txtLocalidad";
-            this.txtLocalidad.Size = new System.Drawing.Size(220, 23);
-            this.txtLocalidad.TabIndex = 7;
             // 
             // txtDpto
             // 
@@ -457,6 +454,32 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // cmbLocalidad
+            // 
+            this.cmbLocalidad.FormattingEnabled = true;
+            this.cmbLocalidad.Location = new System.Drawing.Point(85, 70);
+            this.cmbLocalidad.Name = "cmbLocalidad";
+            this.cmbLocalidad.Size = new System.Drawing.Size(220, 23);
+            this.cmbLocalidad.TabIndex = 8;
+            this.cmbLocalidad.SelectedIndexChanged += new System.EventHandler(this.cmbLocalidad_SelectedIndexChanged);
+            this.cmbLocalidad.SelectionChangeCommitted += new System.EventHandler(this.cmbLocalidad_SelectionChangeCommitted);
+            // 
+            // txtCodigoPostal
+            // 
+            this.txtCodigoPostal.Location = new System.Drawing.Point(405, 70);
+            this.txtCodigoPostal.Name = "txtCodigoPostal";
+            this.txtCodigoPostal.Size = new System.Drawing.Size(100, 23);
+            this.txtCodigoPostal.TabIndex = 9;
+            // 
+            // lblCodigoPostal
+            // 
+            this.lblCodigoPostal.AutoSize = true;
+            this.lblCodigoPostal.Location = new System.Drawing.Point(374, 73);
+            this.lblCodigoPostal.Name = "lblCodigoPostal";
+            this.lblCodigoPostal.Size = new System.Drawing.Size(25, 15);
+            this.lblCodigoPostal.TabIndex = 10;
+            this.lblCodigoPostal.Text = "CP:";
+            // 
             // FormModificarUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -506,7 +529,6 @@
         private System.Windows.Forms.GroupBox grpDireccion;
         private System.Windows.Forms.TextBox txtDireccionCompleta;
         private System.Windows.Forms.Label lblDireccion;
-        private System.Windows.Forms.TextBox txtLocalidad;
         private System.Windows.Forms.TextBox txtDpto;
         private System.Windows.Forms.TextBox txtAltura;
         private System.Windows.Forms.TextBox txtCalle;
@@ -528,5 +550,8 @@
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.CheckBox chkCambiarClave;
+        private System.Windows.Forms.TextBox txtCodigoPostal;
+        private System.Windows.Forms.ComboBox cmbLocalidad;
+        private System.Windows.Forms.Label lblCodigoPostal;
     }
 }

@@ -63,11 +63,11 @@ namespace HardAdmin.Datos
             string query = @"INSERT INTO Usuario
                              (nombre_usuario, email, contrasena, id_rol, baja,
                               nombre, apellido, dni, fecha_nacimiento,
-                              calle, altura, dpto, localidad)
+                              calle, altura, dpto, id_localidad)
                              VALUES
                              (@usuario, @email, @contrasena, @idRol, 0,
                               @nombre, @apellido, @dni, @fechaNacimiento,
-                              @calle, @altura, @dpto, @localidad)";
+                              @calle, @altura, @dpto, @id_localidad)";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -85,7 +85,7 @@ namespace HardAdmin.Datos
                 cmd.Parameters.AddWithValue("@calle", usuario.Calle);
                 cmd.Parameters.AddWithValue("@altura", usuario.Altura);
                 cmd.Parameters.AddWithValue("@dpto", string.IsNullOrWhiteSpace(usuario.Dpto) ? (object)DBNull.Value : usuario.Dpto);
-                cmd.Parameters.AddWithValue("@localidad", usuario.Localidad);
+                cmd.Parameters.AddWithValue("@id_localidad", usuario.IdLocalidad);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -98,7 +98,7 @@ namespace HardAdmin.Datos
             {
                 string query = @"SELECT id_usuario, nombre_usuario, email, id_rol, baja, 
                                 nombre, apellido, dni, fecha_nacimiento, 
-                                calle, altura, dpto, localidad 
+                                calle, altura, dpto, id_localidad 
                          FROM Usuario WHERE id_usuario = @id";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -124,7 +124,7 @@ namespace HardAdmin.Datos
                                 Calle = reader["calle"].ToString(),
                                 Altura = reader["altura"].ToString(),
                                 Dpto = reader["dpto"].ToString(),
-                                Localidad = reader["localidad"].ToString()
+                                IdLocalidad = Convert.ToInt32(reader["id_localidad"])
                             };
                         }
                         return null;
@@ -149,7 +149,7 @@ namespace HardAdmin.Datos
                              calle = @calle, 
                              altura = @altura, 
                              dpto = @dpto, 
-                             localidad = @localidad";
+                             id_localidad = @id_localidad";
 
                 if (nuevaContrasenaHasheada != null)
                 {
@@ -172,7 +172,7 @@ namespace HardAdmin.Datos
                     cmd.Parameters.AddWithValue("@calle", obj.Calle);
                     cmd.Parameters.AddWithValue("@altura", obj.Altura);
                     cmd.Parameters.AddWithValue("@dpto", string.IsNullOrWhiteSpace(obj.Dpto) ? (object)DBNull.Value : obj.Dpto);
-                    cmd.Parameters.AddWithValue("@localidad", obj.Localidad);
+                    cmd.Parameters.AddWithValue("@id_localidad", obj.IdLocalidad);
 
                     if (nuevaContrasenaHasheada != null)
                     {
@@ -216,17 +216,30 @@ namespace HardAdmin.Datos
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = @"SELECT 
-                            u.id_usuario, 
-                            u.dni AS dni,
-                            u.apellido + ', ' + u.nombre AS nombre_completo,
-                            u.nombre_usuario, 
-                            u.email, 
-                            r.nombre_rol, 
-                            u.fecha_nacimiento AS fecha_nac,
-                            u.calle + ' ' + u.altura + ISNULL(' Dpto ' + u.dpto, '') + ', ' + u.localidad AS direccion,
-                            CASE WHEN u.baja = 0 THEN 'Sí' ELSE 'No' END AS activo
-                         FROM Usuario u
-                         INNER JOIN Rol r ON u.id_rol = r.id_rol";
+                                u.id_usuario,
+                                u.dni AS dni,
+                                u.apellido + ', ' + u.nombre AS nombre_completo,
+                                u.nombre_usuario,
+                                u.email,
+                                r.nombre_rol,
+                                u.fecha_nacimiento AS fecha_nac,
+
+                                u.calle + ' ' + u.altura
+                                    + ISNULL(' Dpto ' + u.dpto, '')
+                                    + ', ' + l.nombre_localidad
+                                    + ' (CP ' + CAST(l.codigo_postal AS VARCHAR(10)) + ')'
+                                    AS direccion,
+
+                                CASE
+                                    WHEN u.baja = 0 THEN 'Sí'
+                                    ELSE 'No'
+                                END AS activo
+
+                            FROM Usuario u
+                            INNER JOIN Rol r
+                                ON u.id_rol = r.id_rol
+                            INNER JOIN Localidad l
+                                ON u.id_localidad = l.id_localidad";
 
                 using (SqlDataAdapter da = new SqlDataAdapter(query, con))
                 {

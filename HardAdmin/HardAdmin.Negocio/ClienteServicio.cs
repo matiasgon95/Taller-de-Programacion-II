@@ -1,6 +1,7 @@
 ﻿using HardAdmin.Datos;
 using HardAdmin.Entidades;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -9,6 +10,8 @@ namespace HardAdmin.Negocio
     public class ClienteServicio
     {
         private ClienteRepositorio repositorio = new ClienteRepositorio();
+
+        private LocalidadRepositorio localidadRepositorio = new LocalidadRepositorio();
 
         // id_cliente del cliente genérico "Consumidor Final". Es un registro del sistema que necesitan
         // las ventas sin cliente puntual (Venta.id_cliente no admite NULL). Se define una sola vez acá.
@@ -88,5 +91,10 @@ namespace HardAdmin.Negocio
             return repositorio.ObtenerParaGrilla(ID_CLIENTE_CONSUMIDOR_FINAL);
         }
 
+        // Devuelve todas las localidades disponibles para los formularios.
+        public List<Localidad> ObtenerLocalidades()
+        {
+            return localidadRepositorio.ObtenerTodas();
+        }
     }
 }

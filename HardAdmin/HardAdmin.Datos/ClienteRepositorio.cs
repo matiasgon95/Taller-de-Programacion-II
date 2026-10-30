@@ -47,14 +47,15 @@ namespace HardAdmin.Datos
 
         public void Insertar(Cliente obj)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
+            
+            
                 string query = @"INSERT INTO Cliente 
-                                 (nombre, apellido, dni, email, telefono, calle, numero, piso_depto, ciudad, codigo_postal, baja)
+                                 (nombre, apellido, dni, email, telefono, calle, numero, piso_depto, id_localidad, baja)
                                  VALUES 
-                                 (@nombre, @apellido, @dni, @email, @telefono, @calle, @numero, @piso_depto, @ciudad, @codigo_postal, 0)";
+                                 (@nombre, @apellido, @dni, @email, @telefono, @calle, @numero, @piso_depto, @id_localidad, 0)";
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@nombre", obj.Nombre);
                     cmd.Parameters.AddWithValue("@apellido", obj.Apellido);
@@ -63,81 +64,88 @@ namespace HardAdmin.Datos
                     cmd.Parameters.AddWithValue("@telefono", obj.Telefono);
                     cmd.Parameters.AddWithValue("@calle", obj.Calle);
                     cmd.Parameters.AddWithValue("@numero", obj.Numero);
-                    cmd.Parameters.AddWithValue("@ciudad", obj.Ciudad);
-                    cmd.Parameters.AddWithValue("@codigo_postal", obj.CodigoPostal);
 
                     // Manejo seguro de nulos para la base de datos
                     cmd.Parameters.AddWithValue("@piso_depto", string.IsNullOrWhiteSpace(obj.PisoDpto) ? (object)DBNull.Value : obj.PisoDpto);
 
+                    cmd.Parameters.AddWithValue("@id_localidad", obj.IdLocalidad);
+
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
-            }
+            
         }
 
         public DataTable ObtenerTodos()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
                 string query = @"SELECT 
-                                    id_cliente, 
-                                    apellido + ', ' + nombre AS cliente,
-                                    dni, 
-                                    telefono,
-                                    email, 
-                                    calle + ' ' + numero + ISNULL(' Dpto ' + piso_depto, '') + ', ' + ciudad AS direccion,
-                                    CASE WHEN baja = 0 THEN 'Sí' ELSE 'No' END AS activo
-                                 FROM Cliente";
+                                 c.id_cliente,
+                                    c.apellido + ', ' + c.nombre AS cliente,
+                                    c.dni,
+                                    c.telefono,
+                                    c.email,
+                                    CONCAT(
+                                        c.calle, ' ', c.numero,
+                                        ISNULL(' Dpto ' + c.piso_depto, ''),
+                                        ', ', l.nombre_localidad,
+                                        ' (CP ', l.codigo_postal, ')'
+                                    ) AS direccion,
+                                    CASE WHEN c.baja = 0 THEN 'Sí' ELSE 'No' END AS activo
+                                FROM Cliente c
+                                INNER JOIN Localidad l
+                                    ON c.id_localidad = l.id_localidad";
 
-                using (SqlDataAdapter da = new SqlDataAdapter(query, con))
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlDataAdapter da = new SqlDataAdapter(query, con))
                 {
                     DataTable dt = new DataTable();
                     da.Fill(dt);
                     return dt;
                 }
-            }
+            
         }
 
         public Cliente ObtenerPorId(int id)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                string query = "SELECT * FROM Cliente WHERE id_cliente = @id";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    con.Open();
+            string query = @"
+                SELECT
+                    id_cliente, nombre, apellido, dni, email, telefono,
+                    calle, numero, piso_depto, id_localidad, baja
+                FROM Cliente
+                WHERE id_cliente = @id";
 
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            return new Cliente
-                            {
-                                IdCliente = Convert.ToInt32(reader["id_cliente"]),
-                                Nombre = reader["nombre"].ToString(),
-                                Apellido = reader["apellido"].ToString(),
-                                Dni = reader["dni"].ToString(),
-                                Email = reader["email"] != DBNull.Value ? reader["email"].ToString() : "",
-                                Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : "",
-                                Calle = reader["calle"] != DBNull.Value ? reader["calle"].ToString() : "",
-                                Numero = reader["numero"] != DBNull.Value ? reader["numero"].ToString() : "",
-                                PisoDpto = reader["piso_depto"] != DBNull.Value ? reader["piso_depto"].ToString() : "",
-                                Ciudad = reader["ciudad"] != DBNull.Value ? reader["ciudad"].ToString() : "",
-                                CodigoPostal = reader["codigo_postal"] != DBNull.Value ? reader["codigo_postal"].ToString() : "",
-                                Baja = reader["baja"] != DBNull.Value ? (Convert.ToBoolean(reader["baja"]) ? 1 : 0) : 0
-                            };
-                        }
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+
+                con.Open();
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (!reader.Read())
                         return null;
-                    }
+
+                    return new Cliente
+                    {
+                        IdCliente = Convert.ToInt32(reader["id_cliente"]),
+                        Nombre = reader["nombre"].ToString(),
+                        Apellido = reader["apellido"].ToString(),
+                        Dni = reader["dni"].ToString(),
+                        Email = reader["email"] != DBNull.Value ? reader["email"].ToString(): "",
+                        Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString(): "",
+                        Calle = reader["calle"] != DBNull.Value ? reader["calle"].ToString(): "",
+                        Numero = reader["numero"] != DBNull.Value ? reader["numero"].ToString(): "",
+                        PisoDpto = reader["piso_depto"] != DBNull.Value ? reader["piso_depto"].ToString(): "",
+                        IdLocalidad = Convert.ToInt32(reader["id_localidad"]),
+                        Baja = reader["baja"] != DBNull.Value ? (Convert.ToBoolean(reader["baja"]) ? 1 : 0): 0
+                    };
                 }
             }
         }
 
         public void Modificar(Cliente obj)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
+        {       
                 string query = @"UPDATE Cliente 
                          SET nombre = @nombre, 
                              apellido = @apellido, 
@@ -147,12 +155,12 @@ namespace HardAdmin.Datos
                              calle = @calle, 
                              numero = @numero, 
                              piso_depto = @piso_depto, 
-                             ciudad = @ciudad, 
-                             codigo_postal = @codigo_postal, 
+                             id_localidad = @id_localidad,
                              baja = @baja
                          WHERE id_cliente = @id";
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@id", obj.IdCliente);
                     cmd.Parameters.AddWithValue("@nombre", obj.Nombre);
@@ -163,14 +171,13 @@ namespace HardAdmin.Datos
                     cmd.Parameters.AddWithValue("@calle", obj.Calle);
                     cmd.Parameters.AddWithValue("@numero", obj.Numero);
                     cmd.Parameters.AddWithValue("@piso_depto", string.IsNullOrWhiteSpace(obj.PisoDpto) ? (object)DBNull.Value : obj.PisoDpto);
-                    cmd.Parameters.AddWithValue("@ciudad", obj.Ciudad);
-                    cmd.Parameters.AddWithValue("@codigo_postal", obj.CodigoPostal);
+                    cmd.Parameters.AddWithValue("@id_localidad", obj.IdLocalidad);
                     cmd.Parameters.AddWithValue("@baja", obj.Baja);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
-            }
+            
         }
 
         public DataTable ObtenerClientePorId(int id)
@@ -268,23 +275,29 @@ namespace HardAdmin.Datos
 
         public DataTable ObtenerParaGrilla(int? idExcluir = null)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
                 string query = @"SELECT 
-                            id_cliente, 
-                            apellido + ', ' + nombre AS cliente,
-                            dni, 
-                            telefono,
-                            email, 
-                            calle + ' ' + numero + ISNULL(' Dpto ' + piso_depto, '') + ', ' + ciudad AS direccion,
-                            CASE WHEN baja = 0 THEN 'Sí' ELSE 'No' END AS activo
-                         FROM Cliente";
+                            c.id_cliente,
+                            c.apellido + ', ' + c.nombre AS cliente,
+                            c.dni,
+                            c.telefono,
+                            c.email,
+                            CONCAT(
+                                c.calle, ' ', c.numero,
+                                ISNULL(' Dpto ' + c.piso_depto, ''),
+                                ', ', l.nombre_localidad,
+                                ' (CP ', l.codigo_postal, ')'
+                            ) AS direccion,
+                            CASE WHEN c.baja = 0 THEN 'Sí' ELSE 'No' END AS activo
+                        FROM Cliente c
+                        INNER JOIN Localidad l
+                            ON c.id_localidad = l.id_localidad";
 
                 if (idExcluir.HasValue)
                 {
                     query += " WHERE id_cliente <> @idExcluir";
                 }
 
+                using (SqlConnection con = new SqlConnection(connectionString))            
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     if (idExcluir.HasValue)
@@ -299,7 +312,7 @@ namespace HardAdmin.Datos
                         return dt;
                     }
                 }
-            }
+            
         }
 
     }

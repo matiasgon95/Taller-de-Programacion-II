@@ -25,6 +25,11 @@ namespace HardAdmin
             errorProvider.ContainerControl = this;
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
+            // El usuario debe seleccionar una localidad existente.
+            cmbLocalidad.DropDownStyle = ComboBoxStyle.DropDownList;
+            txtCodigoPostal.ReadOnly = true;
+            txtCodigoPostal.TabStop = false;
+
             txtNombre.KeyPress += Validaciones.SoloLetras_KeyPress;
             txtApellido.KeyPress += Validaciones.SoloLetras_KeyPress;
             txtNombre.Leave += Validaciones.CapitalizarTexto_Leave;
@@ -40,7 +45,6 @@ namespace HardAdmin
             txtApellido.MaxLength = 50;
             txtCalle.MaxLength = 100;
             txtDpto.MaxLength = 10;
-            txtLocalidad.MaxLength = 100;
             txtAltura.MaxLength = 20;
             txtUsuario.MaxLength = 50;
             txtEmail.MaxLength = 100;
@@ -48,7 +52,6 @@ namespace HardAdmin
             txtCalle.TextChanged += ActualizarDireccionCompleta;
             txtAltura.TextChanged += ActualizarDireccionCompleta;
             txtDpto.TextChanged += ActualizarDireccionCompleta;
-            txtLocalidad.TextChanged += ActualizarDireccionCompleta;
 
             chkCambiarClave.CheckedChanged += chkCambiarClave_CheckedChanged;
             chkVerClave.CheckedChanged += chkVerClave_CheckedChanged;
@@ -59,19 +62,48 @@ namespace HardAdmin
             dtpFechaNacimiento.ValueChanged += dtpFechaNacimiento_ValueChanged;
             txtCalle.Leave += txtCalle_Leave;
             txtAltura.Leave += txtAltura_Leave;
-            txtLocalidad.Leave += txtLocalidad_Leave;
             txtUsuario.Leave += txtNombreUsuario_Leave;
             txtEmail.Leave += txtEmail_Leave;
             txtContrasena.Leave += txtContrasena_Leave;
             txtConfirmarContrasena.Leave += txtConfirmarContrasena_Leave;
             cmbRol.SelectedIndexChanged += cmbRol_SelectedIndexChanged;
+            cmbLocalidad.SelectedIndexChanged += cmbLocalidad_SelectedIndexChanged;
+            cmbLocalidad.SelectionChangeCommitted += cmbLocalidad_SelectionChangeCommitted;
 
             txtContrasena.Enabled = false;
             txtConfirmarContrasena.Enabled = false;
             chkVerClave.Enabled = false;
 
             CargarRoles();
+            CargarLocalidades();
             CargarDatosUsuario();
+        }
+
+        private void CargarLocalidades()
+        {
+            try
+            {
+                List<Localidad> localidades = servicio.ObtenerLocalidades();
+
+                cmbLocalidad.DisplayMember = "NombreLocalidad";
+                cmbLocalidad.ValueMember = "IdLocalidad";
+                cmbLocalidad.DataSource = localidades;
+
+                // Evitamos que aparezca una localidad seleccionada automáticamente.
+                cmbLocalidad.SelectedIndex = -1;
+
+                // El código postal permanece vacío hasta seleccionar una localidad.
+                txtCodigoPostal.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al cargar localidades: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
 
         private void CargarRoles()
@@ -109,12 +141,34 @@ namespace HardAdmin
                     txtCalle.Text = usuario.Calle;
                     txtAltura.Text = usuario.Altura;
                     txtDpto.Text = usuario.Dpto;
-                    txtLocalidad.Text = usuario.Localidad;
+                    cmbLocalidad.SelectedValue = usuario.IdLocalidad;
+
+                    // Si la localidad existe, mostramos su código postal.
+                    Localidad localidadSeleccionada = cmbLocalidad.SelectedItem as Localidad;
+
+                    if (localidadSeleccionada != null)
+                    {
+                        txtCodigoPostal.Text =
+                            localidadSeleccionada.CodigoPostal.ToString();
+                    }
+                    else
+                    {
+                        txtCodigoPostal.Clear();
+
+                        MessageBox.Show(
+                            "La localidad guardada para este cliente no está disponible.",
+                            "Atención",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
 
                     if (usuario.Baja)
                         rbActivoNo.Checked = true;
                     else
                         rbActivoSi.Checked = true;
+
+                    // Actualizamos la dirección completa.
+                    ActualizarDireccionCompleta(null, EventArgs.Empty);
                 }
             }
             catch (Exception ex)
@@ -128,7 +182,12 @@ namespace HardAdmin
             string calle = txtCalle.Text.Trim();
             string altura = txtAltura.Text.Trim();
             string dpto = txtDpto.Text.Trim();
-            string localidad = txtLocalidad.Text.Trim();
+            string localidad = "";
+
+            if (cmbLocalidad.SelectedItem is Localidad localidadSeleccionada)
+            {
+                localidad = localidadSeleccionada.NombreLocalidad;
+            }
 
             string direccion = $"{calle} {altura}".Trim();
             if (!string.IsNullOrWhiteSpace(dpto)) direccion += $" Dpto {dpto}";
@@ -181,6 +240,20 @@ namespace HardAdmin
         {
             Control primero = controlesInvalidos.OrderBy(c => c.TabIndex).FirstOrDefault();
             primero?.Focus();
+        }
+
+        private void cmbLocalidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbLocalidad.SelectedItem is Localidad localidadSeleccionada)
+            {
+                txtCodigoPostal.Text = localidadSeleccionada.CodigoPostal.ToString();
+            }
+            else
+            {
+                txtCodigoPostal.Clear();
+            }
+
+            ActualizarDireccionCompleta(sender, e);
         }
 
         private bool ValidarNombre()
@@ -237,8 +310,11 @@ namespace HardAdmin
 
         private bool ValidarLocalidad()
         {
-            bool ok = servicio.EsLocalidadValida(txtLocalidad.Text.Trim());
-            Marcar(txtLocalidad, ok, "Debe ingresar la localidad.");
+            bool ok = cmbLocalidad.SelectedValue != null
+                      && int.TryParse(cmbLocalidad.SelectedValue.ToString(), out int idLocalidad)
+                      && servicio.EsLocalidadValida(idLocalidad);
+
+            Marcar(cmbLocalidad, ok, "Debe seleccionar una localidad.");
             return ok;
         }
 
@@ -301,7 +377,10 @@ namespace HardAdmin
         private void dtpFechaNacimiento_ValueChanged(object sender, EventArgs e) => ValidarFechaNacimiento();
         private void txtCalle_Leave(object sender, EventArgs e) => ValidarCalle();
         private void txtAltura_Leave(object sender, EventArgs e) => ValidarAltura();
-        private void txtLocalidad_Leave(object sender, EventArgs e) => ValidarLocalidad();
+        private void cmbLocalidad_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ValidarLocalidad();
+        }
         private void txtNombreUsuario_Leave(object sender, EventArgs e) => ValidarUsuario();
         private void txtEmail_Leave(object sender, EventArgs e) => ValidarEmail();
         private void cmbRol_SelectedIndexChanged(object sender, EventArgs e) => ValidarRol();
@@ -360,7 +439,7 @@ namespace HardAdmin
                     Calle = txtCalle.Text.Trim(),
                     Altura = txtAltura.Text.Trim(),
                     Dpto = txtDpto.Text.Trim(),
-                    Localidad = txtLocalidad.Text.Trim()
+                    IdLocalidad = Convert.ToInt32(cmbLocalidad.SelectedValue)
                 };
 
                 // Si no se marcó la casilla, enviamos null y la capa de negocio sabe que no debe actualizarla
@@ -383,5 +462,6 @@ namespace HardAdmin
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
     }
 }

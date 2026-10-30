@@ -17,6 +17,6 @@ namespace HardAdmin.Entidades
         public string Calle { get; set; }
         public string Altura { get; set; }
         public string Dpto { get; set; }
-        public string Localidad { get; set; }
+        public int IdLocalidad { get; set; }
     }
 }

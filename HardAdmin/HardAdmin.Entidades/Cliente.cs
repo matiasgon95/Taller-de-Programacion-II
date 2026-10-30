@@ -11,8 +11,9 @@
         public string Calle { get; set; }
         public string Numero { get; set; }
         public string PisoDpto { get; set; }
-        public string Ciudad { get; set; }
-        public string CodigoPostal { get; set; }
+        public int IdLocalidad { get; set; }
+        //public string Ciudad { get; set; }
+        //public string CodigoPostal { get; set; }
         public int Baja { get; set; }
     }
 }

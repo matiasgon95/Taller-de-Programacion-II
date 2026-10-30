@@ -22,7 +22,6 @@
             this.rbActivoNo = new System.Windows.Forms.RadioButton();
             this.rbActivoSi = new System.Windows.Forms.RadioButton();
             this.txtCodigoPostal = new System.Windows.Forms.TextBox();
-            this.txtCiudad = new System.Windows.Forms.TextBox();
             this.txtDireccion = new System.Windows.Forms.TextBox();
             this.txtPisoDpto = new System.Windows.Forms.TextBox();
             this.txtNumero = new System.Windows.Forms.TextBox();
@@ -34,7 +33,7 @@
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.labActivo = new System.Windows.Forms.Label();
             this.labCodigoPostal = new System.Windows.Forms.Label();
-            this.labCiudad = new System.Windows.Forms.Label();
+            this.labLocalidad = new System.Windows.Forms.Label();
             this.labDireccion = new System.Windows.Forms.Label();
             this.labPisoDpto = new System.Windows.Forms.Label();
             this.labNumero = new System.Windows.Forms.Label();
@@ -52,6 +51,7 @@
             this.gbContacto = new System.Windows.Forms.GroupBox();
             this.gbDireccion = new System.Windows.Forms.GroupBox();
             this.gbEstado = new System.Windows.Forms.GroupBox();
+            this.cmbLocalidad = new System.Windows.Forms.ComboBox();
             this.pnlTitulo.SuspendLayout();
             this.gbDatosPersonales.SuspendLayout();
             this.gbContacto.SuspendLayout();
@@ -106,14 +106,6 @@
             this.txtCodigoPostal.Name = "txtCodigoPostal";
             this.txtCodigoPostal.Size = new System.Drawing.Size(70, 23);
             this.txtCodigoPostal.TabIndex = 9;
-            // 
-            // txtCiudad
-            // 
-            this.txtCiudad.Location = new System.Drawing.Point(70, 110);
-            this.txtCiudad.MaxLength = 50;
-            this.txtCiudad.Name = "txtCiudad";
-            this.txtCiudad.Size = new System.Drawing.Size(200, 23);
-            this.txtCiudad.TabIndex = 8;
             // 
             // txtDireccion
             // 
@@ -208,14 +200,14 @@
             this.labCodigoPostal.TabIndex = 11;
             this.labCodigoPostal.Text = "CP:";
             // 
-            // labCiudad
+            // labLocalidad
             // 
-            this.labCiudad.AutoSize = true;
-            this.labCiudad.Location = new System.Drawing.Point(15, 113);
-            this.labCiudad.Name = "labCiudad";
-            this.labCiudad.Size = new System.Drawing.Size(48, 15);
-            this.labCiudad.TabIndex = 10;
-            this.labCiudad.Text = "Ciudad:";
+            this.labLocalidad.AutoSize = true;
+            this.labLocalidad.Location = new System.Drawing.Point(15, 113);
+            this.labLocalidad.Name = "labLocalidad";
+            this.labLocalidad.Size = new System.Drawing.Size(61, 15);
+            this.labLocalidad.TabIndex = 10;
+            this.labLocalidad.Text = "Localidad:";
             // 
             // labDireccion
             // 
@@ -269,7 +261,7 @@
             this.labTelefono.AutoSize = true;
             this.labTelefono.Location = new System.Drawing.Point(280, 33);
             this.labTelefono.Name = "labTelefono";
-            this.labTelefono.Size = new System.Drawing.Size(47, 15);
+            this.labTelefono.Size = new System.Drawing.Size(46, 15);
             this.labTelefono.TabIndex = 4;
             this.labTelefono.Text = "Tel/Cel:";
             // 
@@ -368,6 +360,7 @@
             // 
             // gbDireccion
             // 
+            this.gbDireccion.Controls.Add(this.cmbLocalidad);
             this.gbDireccion.Controls.Add(this.labCalle);
             this.gbDireccion.Controls.Add(this.txtCalle);
             this.gbDireccion.Controls.Add(this.labNumero);
@@ -376,8 +369,7 @@
             this.gbDireccion.Controls.Add(this.txtPisoDpto);
             this.gbDireccion.Controls.Add(this.labDireccion);
             this.gbDireccion.Controls.Add(this.txtDireccion);
-            this.gbDireccion.Controls.Add(this.labCiudad);
-            this.gbDireccion.Controls.Add(this.txtCiudad);
+            this.gbDireccion.Controls.Add(this.labLocalidad);
             this.gbDireccion.Controls.Add(this.labCodigoPostal);
             this.gbDireccion.Controls.Add(this.txtCodigoPostal);
             this.gbDireccion.Location = new System.Drawing.Point(15, 230);
@@ -398,6 +390,15 @@
             this.gbEstado.TabIndex = 3;
             this.gbEstado.TabStop = false;
             this.gbEstado.Text = "Estado";
+            // 
+            // cmbLocalidad
+            // 
+            this.cmbLocalidad.FormattingEnabled = true;
+            this.cmbLocalidad.Location = new System.Drawing.Point(82, 110);
+            this.cmbLocalidad.Name = "cmbLocalidad";
+            this.cmbLocalidad.Size = new System.Drawing.Size(178, 23);
+            this.cmbLocalidad.TabIndex = 100;
+            this.cmbLocalidad.SelectedIndexChanged += new System.EventHandler(this.cmbLocalidad_SelectedIndexChanged);
             // 
             // FormModificarCliente
             // 
@@ -460,10 +461,9 @@
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.Label labActivo;
         private System.Windows.Forms.Label labCodigoPostal;
-        private System.Windows.Forms.Label labCiudad;
+        private System.Windows.Forms.Label labLocalidad;
         private System.Windows.Forms.RadioButton rbActivoSi;
         private System.Windows.Forms.TextBox txtCodigoPostal;
-        private System.Windows.Forms.TextBox txtCiudad;
         private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.RadioButton rbActivoNo;
         private System.Windows.Forms.Button btnGuardar;
@@ -475,5 +475,6 @@
         private System.Windows.Forms.GroupBox gbContacto;
         private System.Windows.Forms.GroupBox gbDireccion;
         private System.Windows.Forms.GroupBox gbEstado;
+        private System.Windows.Forms.ComboBox cmbLocalidad;
     }
 }

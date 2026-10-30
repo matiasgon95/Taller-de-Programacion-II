@@ -57,9 +57,9 @@ namespace HardAdmin.Negocio
             return !string.IsNullOrWhiteSpace(valor) && Regex.IsMatch(valor, @"^\d+$");
         }
 
-        public bool EsLocalidadValida(string valor)
+        public bool EsLocalidadValida(int idLocalidad)
         {
-            return !string.IsNullOrWhiteSpace(valor);
+            return idLocalidad > 0;
         }
 
         public bool EsNombreUsuarioValido(string valor)
@@ -127,6 +127,14 @@ namespace HardAdmin.Negocio
             string hash = Seguridad.HashearContrasena(contrasenaPura);
 
             return repositorio.AutenticarLogin(usuario, hash);
+        }
+
+        // Devuelve todas las localidades disponibles para los formularios.
+        public System.Collections.Generic.List<Localidad> ObtenerLocalidades()
+        {
+            LocalidadRepositorio localidadRepositorio = new LocalidadRepositorio();
+
+            return localidadRepositorio.ObtenerTodas();
         }
 
         public DataTable ObtenerParaGrilla()
