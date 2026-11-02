@@ -11,7 +11,6 @@ namespace HardAdmin.Datos
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["HardAdminConnection"].ConnectionString;
 
-        // Trae la tabla con las ventas. Si le pasamos un ID, filtra; si le pasamos null, trae todas.
         // Trae la tabla con las ventas filtrada por rango de fechas y opcionalmente por usuario.
         public DataTable ObtenerVentas(DateTime desde, DateTime hasta, int? idUsuarioLogueado)
         {
@@ -27,11 +26,11 @@ namespace HardAdmin.Datos
                            mp.nombre_metodo AS medio_pago,
                            v.estado,
                            v.total
-                       FROM Venta v
-                       INNER JOIN Cliente c ON v.id_cliente = c.id_cliente
-                       INNER JOIN Usuario u ON v.id_usuario = u.id_usuario
-                       INNER JOIN Metodo_pago mp ON v.id_metodo_pago = mp.id_metodo_pago
-                       WHERE v.fecha >= @desde AND v.fecha <= @hasta";
+                        FROM Venta v
+                        INNER JOIN Cliente c ON v.id_cliente = c.id_cliente
+                        INNER JOIN Usuario u ON v.id_usuario = u.id_usuario
+                        INNER JOIN Metodo_pago mp ON v.id_metodo_pago = mp.id_metodo_pago
+                        WHERE v.fecha >= @desde AND v.fecha <= @hasta";
 
                 if (idUsuarioLogueado.HasValue)
                 {
@@ -183,7 +182,6 @@ namespace HardAdmin.Datos
             {
                 con.Open();
 
-                // Armamos el DataTable que coincide con el tipo DetalleVentaType de SQL Server
                 DataTable dtDetalles = new DataTable();
                 dtDetalles.Columns.Add("id_producto", typeof(int));
                 dtDetalles.Columns.Add("cantidad", typeof(int));
@@ -207,12 +205,10 @@ namespace HardAdmin.Datos
                     cmd.Parameters.AddWithValue("@id_metodo_pago", venta.IdMetodoPago);
                     cmd.Parameters.AddWithValue("@id_tipo_movimiento", idTipoMovimiento);
 
-                    // Parámetro estructurado para enviar la lista de detalles
                     SqlParameter tvpParam = cmd.Parameters.AddWithValue("@detalles", dtDetalles);
                     tvpParam.SqlDbType = SqlDbType.Structured;
                     tvpParam.TypeName = "dbo.DetalleVentaType";
 
-                    // Parámetro de salida para recuperar el id_venta generado
                     SqlParameter outParam = new SqlParameter("@id_venta", SqlDbType.Int);
                     outParam.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(outParam);
@@ -224,14 +220,13 @@ namespace HardAdmin.Datos
                     }
                     catch (SqlException ex)
                     {
-                        // Si ocurre un error o falta stock, SQL hace el rollback y relanzamos la excepción
                         throw new InvalidOperationException(ex.Message);
                     }
                 }
             }
         }
 
-        // Trae la evolución de ventas entre dos fechas, agrupando por día y sumando totales.
+        // Trae la evolución de ventas entre dos fechas, agrupando de forma optimizada.
         public DataTable ObtenerEvolucionVentas(DateTime desde, DateTime hasta, string agrupacion)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -240,12 +235,13 @@ namespace HardAdmin.Datos
 
                 if (agrupacion == "Mes")
                 {
-                    query = @"SELECT FORMAT(fecha, 'yyyy-MM') AS periodo, 
+                    // OPTIMIZADO: Evita el uso lento de FORMAT row-by-row y usa funciones nativas rápidas
+                    query = @"SELECT CAST(YEAR(fecha) AS VARCHAR(4)) + '-' + RIGHT('0' + CAST(MONTH(fecha) AS VARCHAR(2)), 2) AS periodo, 
                             COUNT(id_venta) AS cantidad_ventas, 
                             SUM(total) AS total_recaudado
                       FROM Venta
                       WHERE fecha >= @desde AND fecha <= @hasta
-                      GROUP BY FORMAT(fecha, 'yyyy-MM')
+                      GROUP BY YEAR(fecha), MONTH(fecha)
                       ORDER BY periodo ASC";
                 }
                 else if (agrupacion == "Año")

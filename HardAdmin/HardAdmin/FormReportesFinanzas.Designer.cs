@@ -284,6 +284,7 @@
             this.Controls.Add(this.dtpDesde1);
             this.Controls.Add(this.lblDesde1);
             this.Name = "FormReporteFinanzas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Reporte Financiero: Comparativa de Períodos";
             this.Load += new System.EventHandler(this.FormReporteFinanzas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFinanzas)).EndInit();

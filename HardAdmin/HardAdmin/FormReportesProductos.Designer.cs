@@ -224,6 +224,7 @@
             this.Controls.Add(this.dtpHasta);
             this.Controls.Add(this.dtpDesde);
             this.Name = "FormReporteProductos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Reporte de Productos más vendidos";
             this.Load += new System.EventHandler(this.FormReporteProductos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();

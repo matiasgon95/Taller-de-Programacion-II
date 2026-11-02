@@ -262,6 +262,7 @@
             this.Controls.Add(this.dtpHasta);
             this.Controls.Add(this.dtpDesde);
             this.Name = "FormReporteVentas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HardAdmin - Reporte de Evolución de ventas";
             this.Load += new System.EventHandler(this.FormReporteVentas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).EndInit();
