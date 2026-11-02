@@ -137,5 +137,10 @@ namespace HardAdmin.Negocio
             return repositorio.ObtenerTopProductos(topN, idCategoria, desde, hasta);
         }
 
+        public List<int> ObtenerAniosDisponibles()
+        {
+            return repositorio.ObtenerAniosDisponibles();
+        }
+
     }
 }

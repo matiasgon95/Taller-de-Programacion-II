@@ -1,5 +1,6 @@
 ﻿using HardAdmin.Negocio;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Windows.Forms;
@@ -28,10 +29,63 @@ namespace HardAdmin
 
         private void FormReporteProductos_Load(object sender, EventArgs e)
         {
-            dtpDesde.Value = DateTime.Today.AddDays(-30);
-            dtpHasta.Value = DateTime.Today;
+            // 1. Configuramos los límites de fechas según los datos reales de la BD
+            ConfigurarLimitesFechas();
+
             CargarCategorias();
             CargarReporte();
+        }
+
+        private void ConfigurarLimitesFechas()
+        {
+            try
+            {
+                // Obtenemos los años disponibles a través del servicio de productos
+                List<int> aniosDisponibles = productoServicio.ObtenerAniosDisponibles();
+
+                if (aniosDisponibles.Count > 0)
+                {
+                    int anioMin = aniosDisponibles[0];
+                    int anioMax = aniosDisponibles[aniosDisponibles.Count - 1];
+
+                    DateTime fechaMinimaBD = new DateTime(anioMin, 1, 1);
+
+                    // El tope máximo no puede superar el fin de año, y bajo ningún punto de vista puede ser mayor a la fecha de hoy
+                    DateTime fechaMaximaBD = new DateTime(anioMax, 12, 31);
+                    if (fechaMaximaBD > DateTime.Today)
+                    {
+                        fechaMaximaBD = DateTime.Today;
+                    }
+
+                    // Asignamos valores seguros PRIMERO para evitar conflictos de validación del control
+                    dtpDesde.Value = DateTime.Today.AddDays(-30) >= fechaMinimaBD ? DateTime.Today.AddDays(-30) : fechaMinimaBD;
+                    dtpHasta.Value = DateTime.Today <= fechaMaximaBD ? DateTime.Today : fechaMaximaBD;
+
+                    // Configuramos los topes permitidos en los calendarios
+                    dtpDesde.MinDate = fechaMinimaBD;
+                    dtpDesde.MaxDate = fechaMaximaBD;
+
+                    dtpHasta.MinDate = fechaMinimaBD;
+                    dtpHasta.MaxDate = fechaMaximaBD;
+                }
+                else
+                {
+                    // Fallback por si la tabla está completamente vacía
+                    dtpDesde.MinDate = new DateTime(2000, 1, 1);
+                    dtpDesde.MaxDate = DateTime.Today;
+                    dtpHasta.MinDate = new DateTime(2000, 1, 1);
+                    dtpHasta.MaxDate = DateTime.Today;
+
+                    dtpDesde.Value = DateTime.Today.AddDays(-30);
+                    dtpHasta.Value = DateTime.Today;
+                }
+            }
+            catch (Exception)
+            {
+                // Si ocurre algún error, dejamos valores por defecto seguros
+                dtpDesde.Value = DateTime.Today.AddDays(-30);
+                dtpHasta.Value = DateTime.Today;
+            }
         }
 
         private void CargarCategorias()
@@ -92,7 +146,6 @@ namespace HardAdmin
                 lblValorUnidades.Text = totalUnidades.ToString();
                 lblValorRecaudacion.Text = totalRecaudadoProductos.ToString("C2", CulturaMoneda);
 
-                // Configurar Gráfico de Barras Horizontales
                 // Configurar Gráfico de Pirámide
                 chartProductos.Series.Clear();
                 Series serie = new Series("Unidades")
@@ -113,7 +166,6 @@ namespace HardAdmin
                     string nombre = row["nombre_producto"].ToString();
                     int unidades = Convert.ToInt32(row["unidades_vendidas"]);
 
-                    // Le pasamos la etiqueta combinada para identificarlo al toque
                     int index = serie.Points.AddXY(nombre, unidades);
                     serie.Points[index].LegendText = nombre;
                 }

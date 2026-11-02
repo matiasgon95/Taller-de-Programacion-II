@@ -1,5 +1,6 @@
 ﻿using HardAdmin.Negocio;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -33,8 +34,8 @@ namespace HardAdmin
 
         private void FormReporteVentas_Load(object sender, EventArgs e)
         {
-            dtpDesde.Value = DateTime.Today.AddDays(-30);
-            dtpHasta.Value = DateTime.Today;
+            // 1. Configuramos los límites de fechas según la base de datos
+            ConfigurarLimitesFechas();
 
             if (cmbAgrupacion.Items.Count == 0)
             {
@@ -45,6 +46,57 @@ namespace HardAdmin
             }
 
             CargarReporte();
+        }
+
+        private void ConfigurarLimitesFechas()
+        {
+            try
+            {
+                List<int> aniosDisponibles = ventaServicio.ObtenerAniosDisponibles();
+
+                if (aniosDisponibles.Count > 0)
+                {
+                    int anioMin = aniosDisponibles[0];
+                    int anioMax = aniosDisponibles[aniosDisponibles.Count - 1];
+
+                    DateTime fechaMinimaBD = new DateTime(anioMin, 1, 1);
+
+                    // El tope máximo no puede superar el fin de año, y bajo ningún punto de vista puede ser mayor a la fecha de hoy
+                    DateTime fechaMaximaBD = new DateTime(anioMax, 12, 31);
+                    if (fechaMaximaBD > DateTime.Today)
+                    {
+                        fechaMaximaBD = DateTime.Today;
+                    }
+
+                    // Asignamos valores seguros PRIMERO para evitar conflictos de validación del control
+                    dtpDesde.Value = DateTime.Today.AddDays(-30) >= fechaMinimaBD ? DateTime.Today.AddDays(-30) : fechaMinimaBD;
+                    dtpHasta.Value = DateTime.Today <= fechaMaximaBD ? DateTime.Today : fechaMaximaBD;
+
+                    // Configuramos los topes permitidos en los calendarios
+                    dtpDesde.MinDate = fechaMinimaBD;
+                    dtpDesde.MaxDate = fechaMaximaBD;
+
+                    dtpHasta.MinDate = fechaMinimaBD;
+                    dtpHasta.MaxDate = fechaMaximaBD;
+                }
+                else
+                {
+                    // Fallback por si la tabla está completamente vacía
+                    dtpDesde.MinDate = new DateTime(2000, 1, 1);
+                    dtpDesde.MaxDate = DateTime.Today;
+                    dtpHasta.MinDate = new DateTime(2000, 1, 1);
+                    dtpHasta.MaxDate = DateTime.Today;
+
+                    dtpDesde.Value = DateTime.Today.AddDays(-30);
+                    dtpHasta.Value = DateTime.Today;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Si ocurre algún error con la BD, dejamos valores por defecto seguros
+                dtpDesde.Value = DateTime.Today.AddDays(-30);
+                dtpHasta.Value = DateTime.Today;
+            }
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)

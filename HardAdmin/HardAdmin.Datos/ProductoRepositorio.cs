@@ -524,5 +524,27 @@ namespace HardAdmin.Datos
             }
         }
 
+        // Obtiene los años distintos en los que hubo movimientos/ventas para los reportes de productos
+        public List<int> ObtenerAniosDisponibles()
+        {
+            List<int> anios = new List<int>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT DISTINCT YEAR(fecha) AS anio FROM Venta ORDER BY anio ASC";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            anios.Add(reader.GetInt32(0));
+                        }
+                    }
+                }
+            }
+            return anios;
+        }
+
     }
 }
