@@ -378,16 +378,18 @@ namespace HardAdmin
                 return;
             }
 
-            int cantidad = (int)nudCantidad.Value;
-            if (cantidad <= 0)
+            int cantidadNueva = (int)nudCantidad.Value;
+            if (cantidadNueva <= 0)
             {
                 MessageBox.Show("La cantidad a agregar debe ser mayor a 0.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 nudCantidad.Focus();
                 return;
             }
+
+            // Validamos el stock total acumulado (lo que ya estaba en la grilla + lo que se quiere agregar ahora)
             int cantidadYaCargada = CantidadYaCargada(idProductoActual.Value);
 
-            if (cantidadYaCargada + cantidad > stockProductoActual)
+            if (cantidadYaCargada + cantidadNueva > stockProductoActual)
             {
                 int disponible = stockProductoActual - cantidadYaCargada;
                 MessageBox.Show($"No hay stock suficiente. Solo quedan {Math.Max(disponible, 0)} unidad(es) disponibles.",
@@ -395,10 +397,39 @@ namespace HardAdmin
                 return;
             }
 
-            decimal subtotal = precioProductoActual * cantidad;
+            // Buscamos si el producto ya existe en la grilla
+            DataGridViewRow filaExistente = null;
+            foreach (DataGridViewRow fila in dgvDetalle.Rows)
+            {
+                if (fila.IsNewRow) continue;
 
-            dgvDetalle.Rows.Add(idProductoActual, txtCodigo.Text, lblNombreProducto.Text,
-                cantidad, precioProductoActual.ToString("C2", CulturaMoneda), subtotal.ToString("C2", CulturaMoneda));
+                int idProductoFila = Convert.ToInt32(fila.Cells["colIdProducto"].Value);
+                if (idProductoFila == idProductoActual.Value)
+                {
+                    filaExistente = fila;
+                    break;
+                }
+            }
+
+            if (filaExistente != null)
+            {
+                // Si ya existe, sumamos la cantidad y recalculamos el subtotal en esa misma fila
+                int cantidadActualFila = Convert.ToInt32(filaExistente.Cells["colCantidad"].Value);
+                int nuevaCantidadTotal = cantidadActualFila + cantidadNueva;
+
+                decimal subtotalNuevo = precioProductoActual * nuevaCantidadTotal;
+
+                filaExistente.Cells["colCantidad"].Value = nuevaCantidadTotal;
+                filaExistente.Cells["colSubtotal"].Value = subtotalNuevo.ToString("C2", CulturaMoneda);
+            }
+            else
+            {
+                // Si no existe, agregamos una fila nueva como siempre
+                decimal subtotal = precioProductoActual * cantidadNueva;
+
+                dgvDetalle.Rows.Add(idProductoActual, txtCodigo.Text, lblNombreProducto.Text,
+                    cantidadNueva, precioProductoActual.ToString("C2", CulturaMoneda), subtotal.ToString("C2", CulturaMoneda));
+            }
 
             ActualizarTotales();
             LimpiarPanelCargaRapida();
