@@ -35,7 +35,7 @@ namespace HardAdmin
 
         private void btnFinanzas_Click(object sender, EventArgs e)
         {
-            using (FormReporteFinanzas frm = new FormReporteFinanzas())
+            using (FormReportesFinanzas frm = new FormReportesFinanzas())
             {
                 frm.ShowDialog();
             }

@@ -280,51 +280,34 @@ namespace HardAdmin.Datos
             }
         }
 
-        // Compara dos períodos de tiempo y devuelve un DataTable con las fechas y montos de cada período lado a lado.
-        public DataTable ObtenerComparativaFinanciera(DateTime desde1, DateTime hasta1, DateTime desde2, DateTime hasta2)
+        // Trae el cierre financiero agrupado por mes con su respectivo mes anterior para comparar
+        public DataTable ObtenerCierreFinanciero(DateTime desde, DateTime hasta)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = @"WITH VentasPeriodo1 AS (
+                string query = @"WITH VentasMensuales AS (
                             SELECT 
-                                DATEDIFF(day, @desde1, CAST(fecha AS DATE)) AS dia_offset,
-                                CAST(fecha AS DATE) AS fecha_dia,
-                                SUM(total) AS total_dia
-                            FROM venta 
-                            WHERE fecha >= @desde1 AND fecha <= @hasta1
-                            GROUP BY CAST(fecha AS DATE)
-                        ),
-                        VentasPeriodo2 AS (
-                            SELECT 
-                                DATEDIFF(day, @desde2, CAST(fecha AS DATE)) AS dia_offset,
-                                CAST(fecha AS DATE) AS fecha_dia,
-                                SUM(total) AS total_dia
-                            FROM venta 
-                            WHERE fecha >= @desde2 AND fecha <= @hasta2
-                            GROUP BY CAST(fecha AS DATE)
-                        ),
-                        TodosLosOffsets AS (
-                            SELECT dia_offset FROM VentasPeriodo1
-                            UNION
-                            SELECT dia_offset FROM VentasPeriodo2
+                                YEAR(fecha) AS anio,
+                                MONTH(fecha) AS mes,
+                                COUNT(id_venta) AS cantidad_ventas,
+                                SUM(total) AS recaudacion_total
+                            FROM Venta
+                            WHERE fecha >= @desde AND fecha <= @hasta
+                            GROUP BY YEAR(fecha), MONTH(fecha)
                         )
                         SELECT 
-                            ROW_NUMBER() OVER (ORDER BY t.dia_offset ASC) AS nro_orden,
-                            ISNULL(p1.fecha_dia, DATEADD(day, t.dia_offset, @desde1)) AS fecha_periodo1,
-                            ISNULL(p1.total_dia, 0) AS monto_periodo1,
-                            ISNULL(p2.fecha_dia, DATEADD(day, t.dia_offset, @desde2)) AS fecha_periodo2,
-                            ISNULL(p2.total_dia, 0) AS monto_periodo2
-                        FROM TodosLosOffsets t
-                        LEFT JOIN VentasPeriodo1 p1 ON t.dia_offset = p1.dia_offset
-                        LEFT JOIN VentasPeriodo2 p2 ON t.dia_offset = p2.dia_offset
-                        ORDER BY t.dia_offset ASC";
+                            anio,
+                            mes,
+                            cantidad_ventas,
+                            recaudacion_total,
+                            LAG(recaudacion_total, 1) OVER (ORDER BY anio ASC, mes ASC) AS recaudacion_anterior
+                        FROM VentasMensuales
+                        ORDER BY anio ASC, mes ASC";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@desde1", desde1);
-                    cmd.Parameters.AddWithValue("@hasta1", hasta1);
-                    cmd.Parameters.AddWithValue("@desde2", desde2);
-                    cmd.Parameters.AddWithValue("@hasta2", hasta2);
+                    cmd.Parameters.AddWithValue("@desde", desde);
+                    cmd.Parameters.AddWithValue("@hasta", hasta);
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
@@ -334,6 +317,78 @@ namespace HardAdmin.Datos
                     }
                 }
             }
+        }
+
+        public DataTable ObtenerComparativaInteranual(int anio1, int anio2)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT 
+                            m.nro_mes,
+                            m.nombre_mes,
+                            ISNULL(v1.cantidad_ventas, 0) as ventas_anio1,
+                            ISNULL(v1.recaudacion, 0) AS recaudacion_anio1,
+                            ISNULL(v2.cantidad_ventas, 0) as ventas_anio2,
+                            ISNULL(v2.recaudacion, 0) AS recaudacion_anio2,
+                            CASE 
+                                WHEN ISNULL(v1.recaudacion, 0) > 0 
+                                THEN ((ISNULL(v2.recaudacion, 0) - v1.recaudacion) / v1.recaudacion) * 100 
+                                ELSE 0 
+                            END AS variacion_interanual
+                        FROM (
+                            VALUES (1, 'enero'), (2, 'febrero'), (3, 'marzo'), (4, 'abril'), 
+                                   (5, 'mayo'), (6, 'junio'), (7, 'julio'), (8, 'agosto'), 
+                                   (9, 'septiembre'), (10, 'octubre'), (11, 'noviembre'), (12, 'diciembre')
+                        ) AS m(nro_mes, nombre_mes)
+                        LEFT JOIN (
+                            SELECT MONTH(fecha) AS mes, COUNT(id_venta) AS cantidad_ventas, SUM(total) AS recaudacion
+                            FROM Venta
+                            WHERE YEAR(fecha) = @anio1
+                            GROUP BY MONTH(fecha)
+                        ) v1 ON m.nro_mes = v1.mes
+                        LEFT JOIN (
+                            SELECT MONTH(fecha) AS mes, COUNT(id_venta) AS cantidad_ventas, SUM(total) AS recaudacion
+                            FROM Venta
+                            WHERE YEAR(fecha) = @anio2
+                            GROUP BY MONTH(fecha)
+                        ) v2 ON m.nro_mes = v2.mes
+                        ORDER BY m.nro_mes;";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@anio1", anio1);
+                    cmd.Parameters.AddWithValue("@anio2", anio2);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
+        // Obtiene los años distintos en los que se registraron ventas, para poblar un ComboBox.
+        public List<int> ObtenerAniosDisponibles()
+        {
+            List<int> anios = new List<int>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT DISTINCT YEAR(fecha) AS anio FROM Venta ORDER BY anio ASC";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            anios.Add(reader.GetInt32(0));
+                        }
+                    }
+                }
+            }
+            return anios;
         }
     }
 }

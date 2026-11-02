@@ -144,9 +144,10 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(33, 50);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(377, 16);
+            this.label2.Size = new System.Drawing.Size(528, 16);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Reporte que muestra una comparativa de períodos de ventas.";
+            this.label2.Text = "Reporte que muestra una comparativa de períodos de ventas intermensual o interanu" +
+    "al.";
             // 
             // lblTitulo
             // 

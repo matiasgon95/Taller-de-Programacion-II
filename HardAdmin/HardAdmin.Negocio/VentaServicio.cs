@@ -82,10 +82,19 @@ namespace HardAdmin.Negocio
             return repositorio.ObtenerEvolucionVentas(desde, hasta, agrupacion);
         }
 
-        // Obtiene la comparativa financiera entre dos rangos de fechas.
-        public DataTable ObtenerComparativaFinanciera(DateTime desde1, DateTime hasta1, DateTime desde2, DateTime hasta2)
+        public DataTable ObtenerCierreFinanciero(DateTime desde, DateTime hasta)
         {
-            return repositorio.ObtenerComparativaFinanciera(desde1, hasta1, desde2, hasta2);
+            return repositorio.ObtenerCierreFinanciero(desde, hasta);
+        }
+
+        public DataTable ObtenerComparativaInteranual(int anio1, int anio2)
+        {
+            return repositorio.ObtenerComparativaInteranual(anio1, anio2);
+        }
+
+        public List<int> ObtenerAniosDisponibles()
+        {
+            return repositorio.ObtenerAniosDisponibles();
         }
     }
 }
