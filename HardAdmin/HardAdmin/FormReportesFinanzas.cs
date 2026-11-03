@@ -80,7 +80,6 @@ namespace HardAdmin
                     int anioMax = aniosDisponibles[aniosDisponibles.Count - 1];
                     DateTime mesTopeMaximo = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(-1);
 
-                    // Por defecto en el intermensual, seleccionamos SOLAMENTE el último año (desde enero hasta el último mes cerrado)
                     DateTime fechaInicioAnioUltimo = new DateTime(anioMax, 1, 1);
                     DateTime fechaFinUltimoCerrado = mesTopeMaximo.Year == anioMax ? mesTopeMaximo : new DateTime(anioMax, 12, 31);
 
@@ -205,6 +204,7 @@ namespace HardAdmin
             }
 
             dt.Columns.Add("periodo_formateado", typeof(string));
+            dt.Columns.Add("diferencia_intermensual", typeof(decimal)); // Nuevo campo en valor absoluto
             dt.Columns.Add("crecimiento_intermensual", typeof(decimal));
 
             CultureInfo culturaEs = CultureInfo.GetCultureInfo("es-AR");
@@ -222,9 +222,11 @@ namespace HardAdmin
                 if (row["recaudacion_anterior"] != DBNull.Value)
                 {
                     decimal recaudacionAnterior = Convert.ToDecimal(row["recaudacion_anterior"]);
+                    decimal diferencia = recaudacion - recaudacionAnterior;
+                    row["diferencia_intermensual"] = diferencia;
+
                     if (recaudacionAnterior > 0)
                     {
-                        decimal diferencia = recaudacion - recaudacionAnterior;
                         row["crecimiento_intermensual"] = (diferencia / recaudacionAnterior) * 100;
                     }
                     else
@@ -234,6 +236,7 @@ namespace HardAdmin
                 }
                 else
                 {
+                    row["diferencia_intermensual"] = DBNull.Value;
                     row["crecimiento_intermensual"] = DBNull.Value;
                 }
             }
@@ -241,7 +244,6 @@ namespace HardAdmin
             dgvFinanzas.DataSource = dt;
             ConfigurarColumnasGrillaIntermensual();
 
-            // Limpieza de etiquetas inferiores obsoletas
             lblValorAcumulado.Text = "";
             lblValorOperaciones.Text = "";
             lblValorTicket.Text = "";
@@ -267,6 +269,19 @@ namespace HardAdmin
                 }
             }
 
+            // Aseguramos la columna de diferencia absoluta interanual si no viniera creada de base
+            if (!dt.Columns.Contains("diferencia_interanual"))
+            {
+                dt.Columns.Add("diferencia_interanual", typeof(decimal));
+            }
+
+            foreach (DataRow row in dt.Rows)
+            {
+                decimal rec1 = Convert.ToDecimal(row["recaudacion_anio1"]);
+                decimal rec2 = Convert.ToDecimal(row["recaudacion_anio2"]);
+                row["diferencia_interanual"] = rec2 - rec1;
+            }
+
             dt.DefaultView.Sort = "nro_mes ASC";
             dt = dt.DefaultView.ToTable();
 
@@ -287,7 +302,7 @@ namespace HardAdmin
 
             lblValorAcumulado.Text = "";
             lblValorOperaciones.Text = "";
-            lblValorTicket.Text = "Variación Global: " + variacionGlobal.ToString("+0.0;-0.0;0.0") + "% (vs " + anio1 + ")";
+            lblValorTicket.Text = "Variación Global: " + variacionGlobal.ToString("+0.0;-0.0;0.0") + "% (" + diferenciaGlobal.ToString("C2", CulturaMoneda) + ")";
 
             ActualizarGraficoInteranual(dt, anio1, anio2);
         }
@@ -308,6 +323,11 @@ namespace HardAdmin
             {
                 dgvFinanzas.Columns["recaudacion_total"].HeaderText = "Recaudación Total";
                 dgvFinanzas.Columns["recaudacion_total"].DefaultCellStyle.Format = "C2";
+            }
+            if (dgvFinanzas.Columns.Contains("diferencia_intermensual"))
+            {
+                dgvFinanzas.Columns["diferencia_intermensual"].HeaderText = "Dif. Mes Anterior";
+                dgvFinanzas.Columns["diferencia_intermensual"].DefaultCellStyle.Format = "C2";
             }
             if (dgvFinanzas.Columns.Contains("crecimiento_intermensual"))
             {
@@ -333,6 +353,11 @@ namespace HardAdmin
                 dgvFinanzas.Columns["recaudacion_anio2"].HeaderText = "Recaudación (" + anio2 + ")";
                 dgvFinanzas.Columns["recaudacion_anio2"].DefaultCellStyle.Format = "C2";
             }
+            if (dgvFinanzas.Columns.Contains("diferencia_interanual"))
+            {
+                dgvFinanzas.Columns["diferencia_interanual"].HeaderText = "Dif. Absoluta";
+                dgvFinanzas.Columns["diferencia_interanual"].DefaultCellStyle.Format = "C2";
+            }
             if (dgvFinanzas.Columns.Contains("variacion_interanual"))
             {
                 dgvFinanzas.Columns["variacion_interanual"].HeaderText = "Var. Interanual";
@@ -344,8 +369,7 @@ namespace HardAdmin
         {
             chartFinanzas.Series.Clear();
             chartFinanzas.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-            chartFinanzas.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
-            chartFinanzas.ChartAreas[0].AxisY2.Enabled = AxisEnabled.False;
+            chartFinanzas.ChartAreas[0].AxisX2.Enabled = AxisEnabled.False;
 
             chartFinanzas.ChartAreas[0].AxisX.Interval = 1;
             chartFinanzas.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
@@ -355,27 +379,30 @@ namespace HardAdmin
             chartFinanzas.ChartAreas[0].AxisX.ScrollBar.Enabled = true;
             chartFinanzas.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;
 
-            Series serieArea = new Series("Recaudación Total")
-            {
-                ChartType = SeriesChartType.SplineArea,
-                BorderWidth = 3,
-                Color = Color.FromArgb(80, 70, 130, 180),
-                BorderColor = Color.SteelBlue,
-                IsValueShownAsLabel = true
-            };
-            serieArea.LabelFormat = "N0";
-
-            Series serieCrecimiento = new Series("Var. Intermensual (%)")
+            // Colores vibrantes de alto contraste
+            Series serieRecaudacion = new Series("Recaudación Total")
             {
                 ChartType = SeriesChartType.Spline,
-                YAxisType = AxisType.Secondary,
                 BorderWidth = 3,
-                Color = Color.DarkOrange,
+                Color = Color.FromArgb(79, 70, 229), // Índigo moderno
+                MarkerStyle = MarkerStyle.Circle,
+                MarkerSize = 6,
+                IsValueShownAsLabel = true
+            };
+            serieRecaudacion.LabelFormat = "N0";
+            serieRecaudacion.SmartLabelStyle.Enabled = true;
+
+            Series serieDiferencia = new Series("Diferencia Monetaria ($)")
+            {
+                ChartType = SeriesChartType.Spline,
+                BorderWidth = 3,
+                Color = Color.FromArgb(16, 185, 129), // Esmeralda brillante
                 MarkerStyle = MarkerStyle.Circle,
                 MarkerSize = 7,
                 IsValueShownAsLabel = true
             };
-            serieCrecimiento.LabelFormat = "+0.0;-0.0;0.0'%'";
+            serieDiferencia.LabelFormat = "N0";
+            serieDiferencia.SmartLabelStyle.Enabled = true;
 
             int index = 1;
             foreach (DataRow row in dt.Rows)
@@ -383,18 +410,21 @@ namespace HardAdmin
                 string periodo = row["periodo_formateado"].ToString();
                 decimal monto = Convert.ToDecimal(row["recaudacion_total"]);
 
-                serieArea.Points.AddXY(index, monto);
-                serieArea.Points[serieArea.Points.Count - 1].AxisLabel = periodo;
+                serieRecaudacion.Points.AddXY(index, monto);
+                serieRecaudacion.Points[serieRecaudacion.Points.Count - 1].AxisLabel = periodo;
 
-                decimal crecimiento = (row["crecimiento_intermensual"] != DBNull.Value) ? Convert.ToDecimal(row["crecimiento_intermensual"]) : 0m;
-                serieCrecimiento.Points.AddXY(index, crecimiento);
-                serieCrecimiento.Points[serieCrecimiento.Points.Count - 1].AxisLabel = periodo;
+                decimal diferencia = (row["diferencia_intermensual"] != DBNull.Value) ? Convert.ToDecimal(row["diferencia_intermensual"]) : 0m;
+                serieDiferencia.Points.AddXY(index, diferencia);
+                serieDiferencia.Points[serieDiferencia.Points.Count - 1].AxisLabel = periodo;
 
                 index++;
             }
 
-            chartFinanzas.Series.Add(serieArea);
-            chartFinanzas.Series.Add(serieCrecimiento);
+            chartFinanzas.Series.Add(serieRecaudacion);
+            chartFinanzas.Series.Add(serieDiferencia);
+
+            // CÁLCULO INTELIGENTE DE ESCALA Y MÁRGENES (Evita que los negativos choquen con el Eje X)
+            AplicarEscalaConMargenY();
 
             int totalPuntos = dt.Rows.Count;
             if (totalPuntos > 12)
@@ -412,7 +442,6 @@ namespace HardAdmin
         {
             chartFinanzas.Series.Clear();
             chartFinanzas.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-            chartFinanzas.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
 
             chartFinanzas.ChartAreas[0].AxisX.Interval = 1;
             chartFinanzas.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
@@ -422,27 +451,30 @@ namespace HardAdmin
             chartFinanzas.ChartAreas[0].AxisX.ScrollBar.Enabled = true;
             chartFinanzas.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;
 
+            // Colores vibrantes unificados
             Series serieAnio1 = new Series("Recaudación " + anio1)
             {
                 ChartType = SeriesChartType.Spline,
                 BorderWidth = 2,
-                Color = Color.Gray,
+                Color = Color.FromArgb(79, 70, 229), // Índigo moderno
                 MarkerStyle = MarkerStyle.Square,
-                MarkerSize = 5,
+                MarkerSize = 6,
                 IsValueShownAsLabel = true
             };
             serieAnio1.LabelFormat = "N0";
+            serieAnio1.SmartLabelStyle.Enabled = true;
 
             Series serieAnio2 = new Series("Recaudación " + anio2)
             {
                 ChartType = SeriesChartType.Spline,
                 BorderWidth = 3,
-                Color = Color.ForestGreen,
+                Color = Color.FromArgb(16, 185, 129), // Esmeralda brillante
                 MarkerStyle = MarkerStyle.Circle,
                 MarkerSize = 7,
                 IsValueShownAsLabel = true
             };
             serieAnio2.LabelFormat = "N0";
+            serieAnio2.SmartLabelStyle.Enabled = true;
 
             int index = 1;
             foreach (DataRow row in dt.Rows)
@@ -463,6 +495,9 @@ namespace HardAdmin
             chartFinanzas.Series.Add(serieAnio1);
             chartFinanzas.Series.Add(serieAnio2);
 
+            // CÁLCULO INTELIGENTE DE ESCALA Y MÁRGENES
+            AplicarEscalaConMargenY();
+
             int totalPuntos = dt.Rows.Count;
             if (totalPuntos > 12)
             {
@@ -472,6 +507,43 @@ namespace HardAdmin
             else
             {
                 chartFinanzas.ChartAreas[0].AxisX.ScaleView.Size = totalPuntos > 0 ? totalPuntos : 1;
+            }
+        }
+
+        // Método auxiliar para dar aire vertical al gráfico y evitar superposiciones con los ejes
+        private void AplicarEscalaConMargenY()
+        {
+            decimal minY = decimal.MaxValue;
+            decimal maxY = decimal.MinValue;
+
+            foreach (Series s in chartFinanzas.Series)
+            {
+                foreach (DataPoint pt in s.Points)
+                {
+                    foreach (double yVal in pt.YValues)
+                    {
+                        decimal val = (decimal)yVal;
+                        if (val < minY) minY = val;
+                        if (val > maxY) maxY = val;
+                    }
+                }
+            }
+
+            if (minY != decimal.MaxValue && maxY != decimal.MinValue)
+            {
+                decimal margen = (maxY - minY) * 0.25m; // 25% de margen superior e inferior
+                if (margen == 0) margen = Math.Abs(maxY) * 0.25m;
+                if (margen == 0) margen = 10000m;
+
+                chartFinanzas.ChartAreas[0].AxisY.Enabled = AxisEnabled.True;
+                chartFinanzas.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
+                chartFinanzas.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+                chartFinanzas.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;
+                chartFinanzas.ChartAreas[0].AxisY.LineColor = Color.Transparent;
+
+                // AQUÍ ESTABA EL ERROR: Faltaba el [0]
+                chartFinanzas.ChartAreas[0].AxisY.Minimum = (double)(minY - margen);
+                chartFinanzas.ChartAreas[0].AxisY.Maximum = (double)(maxY + margen);
             }
         }
     }

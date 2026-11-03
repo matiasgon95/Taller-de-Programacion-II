@@ -91,7 +91,7 @@ namespace HardAdmin
                     dtpHasta.Value = DateTime.Today;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Si ocurre algún error con la BD, dejamos valores por defecto seguros
                 dtpDesde.Value = DateTime.Today.AddDays(-30);
