@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -158,6 +159,27 @@ namespace HardAdmin
                 );
                 return false;
             }
+
+
+            // El código debe estar formado por bloques alfanuméricos
+            // separados por guiones.
+            bool formatoValido = Regex.IsMatch(
+                valor,
+                @"^[A-Z0-9]+-[A-Z0-9]+(?:-[A-Z0-9]+)*$" // [A-Z0-9] = Aceptá un carácter que sea una letra de A a Z o un número de 0 a 9. (No acepta Ñ o guiones bajos)
+                                                        // (?:-[A-Z0-9]+)* = Se conisdera como un grupo extra, es decir, el minimo de bloques ya cumple, pero puede haber mas.
+                                                        // $ = Significa fin de texto, obliga que la sintaxis sea correcta al final.
+            );
+
+            if (!formatoValido)
+            {
+                Marcar(
+                    txtCodigo,
+                    false,
+                    "El código debe tener el formato BLOQUE-BLOQUE. Ejemplo: CPU-R5-5600."
+                );
+                return false;
+            }
+
             bool disponible = !servicio.ExisteCodigo(valor, 0);
             Marcar(
                 txtCodigo,
@@ -220,6 +242,7 @@ namespace HardAdmin
 
         private void txtCodigo_Leave(object sender, EventArgs e)
         {
+            txtCodigo.Text = txtCodigo.Text.Trim().ToUpper();
             ValidarCodigo();
         }
 
