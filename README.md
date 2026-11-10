@@ -13,7 +13,9 @@ Creado por:
 HardAdmin es una aplicación de gestión de e-commerce dedicado a la venta de productos de Hardware de computadoras de escritorio; todo manejado por usuarios seleccionados.
 
 
+
 Los usuarios son de tres tipos:
+
 
 
 -Administrador
@@ -26,7 +28,9 @@ Los usuarios son de tres tipos:
 Cada uno controla diferentes funcionalidades del sistema.
 
 
+
 La aplicación cuenta con multiples funcionalidades para permitir lo siguiente:
+
 
 
 -El registro, modificación y control de usuarios que operan el sistema y clientes dedicados.
@@ -46,6 +50,7 @@ La aplicación cuenta con multiples funcionalidades para permitir lo siguiente:
 -Gestion de Copias de Seguridad
 
 -Gestión de Métodos de Pago
+
 
 
 Para mas detalles sobre la funcionalidad del sistema, lea el Manual de Usuario especifico de la aplicación, donde se expone con mas detalles como opera el sistema.
