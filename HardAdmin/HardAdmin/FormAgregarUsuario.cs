@@ -214,6 +214,13 @@ namespace HardAdmin
             string valor = txtNombre.Text.Trim();
             bool ok = servicio.EsNombreValido(valor);
             Marcar(txtNombre, ok, "El nombre es obligatorio y solo puede contener letras.");
+
+            if (ok && txtNombre.Text.Trim().Equals(txtApellido.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+            {
+                Marcar(txtNombre, false, "El nombre y el apellido no pueden ser iguales.");
+                return false;
+            }
+
             return ok;
         }
 
