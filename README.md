@@ -15,6 +15,7 @@ HardAdmin es una aplicación de gestión de e-commerce dedicado a la venta de pr
 
 Los usuarios son de tres tipos:
 
+
 -Administrador
 
 -Operador
@@ -39,8 +40,12 @@ La aplicación cuenta con multiples funcionalidades para permitir lo siguiente:
 -Acceso a detalles de las ventas.
 
 -Gestion de Movimientos de Stock
+
 -Generación y acceso a reportes de tres tipos: Ventas, Productos y Finanzas.
+
 -Gestion de Copias de Seguridad
+
 -Gestión de Métodos de Pago
+
 
 Para mas detalles sobre la funcionalidad del sistema, lea el Manual de Usuario especifico de la aplicación, donde se expone con mas detalles como opera el sistema.
